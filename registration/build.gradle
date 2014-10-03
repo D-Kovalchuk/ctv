@@ -7,6 +7,6 @@ repositories {
 }
 
 dependencies {
-    compile "org.springframework.session:spring-session-data-redis:1.0.0.BUILD-SNAPSHOT",
-            "org.springframework.session:spring-session:1.0.0.BUILD-SNAPSHOT"
+    compile "org.springframework.session:spring-session-data-redis:${springSessionVersion}"
+    compile "org.springframework.session:spring-session:${springSessionVersion}"
 }
