@@ -1,3 +1,4 @@
 rootProject.name = 'ctv'
 
-include 'registration'
+include 'registration',
+        'conference'

@@ -10,3 +10,13 @@ dependencies {
     compile "org.springframework.session:spring-session-data-redis:${springSessionVersion}"
     compile "org.springframework.session:spring-session:${springSessionVersion}"
 }
+
+
+jettyRun.httpPort = 8080
+//    jettyRun.daemon = true
+
+jettyStop.stopPort = 8081
+jettyStop.stopKey = 'stopKey'
+
+jettyRun.contextPath = '/';
+
