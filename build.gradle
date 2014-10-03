@@ -39,7 +39,7 @@ subprojects {
     dependencies {
         compile "org.springframework.data:spring-data-redis:${springDataRedisVersion}"
         compile "redis.clients:jedis:${jedisVersion}"
-        compile "org.apache.commons:commons-pool2:2.2"
+        compile "org.apache.commons:commons-pool2:${commonsPoolVersion}"
     }
 
     /* Test */
@@ -54,7 +54,6 @@ subprojects {
         compile "ch.qos.logback:logback-classic:${logbackVersion}"
         compile "ch.qos.logback:logback-core:${logbackVersion}"
         compile "org.slf4j:slf4j-api:${slf4jVersion}"
-
     }
 
 }
