@@ -1,0 +1,56 @@
+subprojects {
+    apply plugin: 'java'
+
+    sourceCompatibility = javaVersion
+    version = applicationVersion
+
+    repositories {
+        mavenCentral()
+    }
+
+    configurations {
+        provided
+        compile.extendsFrom provided
+    }
+
+    /* Web dependencies */
+    dependencies {
+        compile "org.springframework:spring-webmvc:${springVersion}"
+        compile "org.springframework:spring-web:${springVersion}"
+        provided "javax.servlet:javax.servlet-api:${servletApiVersion}"
+    }
+
+    /* Spring security */
+    dependencies {
+        compile "org.springframework.security:spring-security-core:${springSecurityVersion}"
+        compile "org.springframework.security:spring-security-web:${springSecurityVersion}"
+        compile "org.springframework.security:spring-security-config:${springSecurityVersion}"
+    }
+
+    /* Spring core */
+    dependencies {
+        compile "org.springframework:spring-core:${springVersion}"
+        compile "org.springframework:spring-beans:${springVersion}"
+        compile "org.springframework:spring-context:${springVersion}"
+        compile "org.springframework:spring-context-support:${springVersion}"
+    }
+
+    /* Data access */
+    dependencies {
+        compile "org.springframework.data:spring-data-redis:${springDataRedisVersion}"
+        compile "redis.clients:jedis:${jedisVersion}"
+        compile "org.apache.commons:commons-pool2:2.2"
+    }
+
+    /* Test */
+    dependencies {
+        testCompile "junit:junit:${junitVersion}"
+        testCompile "org.spockframework:spock-core:${spockVersion}"
+    }
+
+    /* Other */
+    dependencies {
+        compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
+    }
+
+}

@@ -1,0 +1,12 @@
+apply plugin: 'jetty'
+
+repositories {
+    maven {
+        url 'http://maven.springframework.org/snapshot'
+    }
+}
+
+dependencies {
+    compile "org.springframework.session:spring-session-data-redis:1.0.0.BUILD-SNAPSHOT",
+            "org.springframework.session:spring-session:1.0.0.BUILD-SNAPSHOT"
+}
