@@ -7,7 +7,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.devnexus.ting.core.dao">
+    <logger name="com.ctv">
         <level value="INFO"/>
     </logger>
 

@@ -15,7 +15,7 @@ import org.springframework.session.data.redis.RedisOperationsSessionRepository;
  * @author Dmitry Kovalchuk
  */
 @Configuration
-public class RedisConfig {
+public class SessionConfig {
 
     @Value("${redis.maxInactiveInterval}")
     private int maxInterval;
