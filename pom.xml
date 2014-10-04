@@ -15,25 +15,36 @@
 
 
     <properties>
-        <jdk.version>1.8</jdk.version>
-
         <application.version>1.0</application.version>
+
         <spring.version>4.1.1.RELEASE</spring.version>
         <spring.security.version>3.2.5.RELEASE</spring.security.version>
-        <groovy.version>1.8.0</groovy.version>
-        <junit.version>4.11</junit.version>
-        <spock.version>0.7-groovy-2.0</spock.version>
-        <jedis.version>2.6.0</jedis.version>
         <spring.data.redis.version>1.4.0.RELEASE</spring.data.redis.version>
-        <servlet.api.version>3.1.0</servlet.api.version>
-        <logback.version>1.1.2</logback.version>
-        <slf4j.version>1.7.7</slf4j.version>
-        <commons.pool.version>2.2</commons.pool.version>
-        <jackson.version>2.4.2</jackson.version>
         <spring.session.version>1.0.0.BUILD-SNAPSHOT</spring.session.version>
 
-        <groovy-eclipse-compiler.version>2.8.0-01</groovy-eclipse-compiler.version>
-        <groovy-eclipse-batch.version>2.1.8-01</groovy-eclipse-batch.version>
+        <groovy.version>1.8.0</groovy.version>
+
+        <!--Test-->
+        <junit.version>4.11</junit.version>
+        <spock.version>0.7-groovy-2.0</spock.version>
+
+        <jedis.version>2.6.0</jedis.version>
+        <servlet.api.version>3.1.0</servlet.api.version>
+        <commons.pool.version>2.2</commons.pool.version>
+
+        <jackson.version>2.4.2</jackson.version>
+
+        <!--Log-->
+        <logback.version>1.1.2</logback.version>
+        <slf4j.version>1.7.7</slf4j.version>
+
+        <!--Maven plugins-->
+        <jdk.version>1.8</jdk.version>
+        <groovy.eclipse.compiler.version>2.9.0-01</groovy.eclipse.compiler.version>
+        <groovy.eclipse.batch.version>2.3.4-01</groovy.eclipse.batch.version>
+        <maven.compiler.plugin>3.1</maven.compiler.plugin>
+        <jetty.maven.plugin.version>9.3.0.M0</jetty.maven.plugin.version>
+        <maven.war.plugin.version>2.4</maven.war.plugin.version>
     </properties>
 
     <dependencies>
@@ -168,17 +179,17 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>2.3.2</version>
+                    <version>${maven.compiler.plugin}</version>
                     <configuration>
-                        <source>1.7</source>
-                        <target>1.7</target>
+                        <source>${jdk.version}</source>
+                        <target>${jdk.version}</target>
                         <compilerId>groovy-eclipse-compiler</compilerId>
                     </configuration>
                     <dependencies>
                         <dependency>
                             <groupId>org.codehaus.groovy</groupId>
                             <artifactId>groovy-eclipse-compiler</artifactId>
-                            <version>2.5.1-M3</version>
+                            <version>${groovy.eclipse.compiler.version}</version>
                             <exclusions>
                                 <exclusion>
                                     <groupId>org.codehaus.groovy</groupId>
@@ -189,7 +200,7 @@
                         <dependency>
                             <groupId>org.codehaus.groovy</groupId>
                             <artifactId>groovy-eclipse-batch</artifactId>
-                            <version>1.8.0-03</version>
+                            <version>${groovy.eclipse.batch.version}</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -201,11 +212,11 @@
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>9.2.3.v20140905</version>
+                <version>${jetty.maven.plugin.version}</version>
             </plugin>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.4</version>
+                <version>${maven.war.plugin.version}</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
