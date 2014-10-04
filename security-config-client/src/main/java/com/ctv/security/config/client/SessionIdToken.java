@@ -1,4 +1,4 @@
-package com.ctv.registration.config;
+package com.ctv.security.config.client;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

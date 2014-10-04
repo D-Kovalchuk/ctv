@@ -1,4 +1,6 @@
 rootProject.name = 'ctv'
 
 include 'registration',
-        'conference'
+        'conference',
+        'security-config-client'
+
