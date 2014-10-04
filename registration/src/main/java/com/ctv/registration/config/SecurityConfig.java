@@ -26,7 +26,7 @@ import org.springframework.session.web.http.SessionRepositoryFilter;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private SessionRepository<? extends ExpiringSession> sessionRepository;
+    private SessionRepositoryFilter<? extends ExpiringSession> sessionRepositoryFilter;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -38,7 +38,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        final SessionRepositoryFilter sessionRepositoryFilter = new SessionRepositoryFilter<>(sessionRepository);
         sessionRepositoryFilter.setHttpSessionStrategy(new HeaderHttpSessionStrategy());
         http
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -11,11 +11,13 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.session.ExpiringSession;
 import org.springframework.session.data.redis.RedisOperationsSessionRepository;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 /**
  * @author Dmitry Kovalchuk
  */
 @Configuration
+@EnableRedisHttpSession
 @PropertySource("classpath:registration-default.properties")
 public class SessionConfig {
 
@@ -28,24 +30,9 @@ public class SessionConfig {
     }
 
     @Bean
-    public RedisTemplate<String, ExpiringSession> redisTemplate(RedisConnectionFactory connectionFactory) {
-        final RedisTemplate<String, ExpiringSession> template = new RedisTemplate<>();
-        template.setKeySerializer(new StringRedisSerializer());
-        template.setHashKeySerializer(new StringRedisSerializer());
-        template.setConnectionFactory(connectionFactory);
-        return template;
-    }
-
-    @Bean
-    public RedisOperationsSessionRepository sessionRepository(RedisTemplate<String, ExpiringSession> redisTemplate) {
-        final RedisOperationsSessionRepository redisOperationsSessionRepository = new RedisOperationsSessionRepository(redisTemplate);
-        redisOperationsSessionRepository.setDefaultMaxInactiveInterval(maxInterval);
-        return redisOperationsSessionRepository;
-    }
-
-    @Bean
     public static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
+    //todo HGET spring-security-sessions:87ab745c-ac02-4efa-bbf4-861a1fb4dc26 sessionAttr:SPRING_SECURITY_CONTEXT
 }

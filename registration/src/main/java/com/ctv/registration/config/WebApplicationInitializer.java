@@ -2,20 +2,20 @@ package com.ctv.registration.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class Initializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class WebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class<?>[]{
-                SessionConfig.class
+                SessionConfig.class,
+                SecurityConfig.class
         };
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class<?>[]{
-                MvcConfig.class,
-                SecurityConfig.class
+                MvcConfig.class
         };
     }
 
