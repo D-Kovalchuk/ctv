@@ -5,12 +5,18 @@
     <artifactId>conference</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-
     <parent>
         <artifactId>ctv</artifactId>
         <groupId>com.ctv</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.ctv</groupId>
+            <artifactId>security-config-client</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 </project>

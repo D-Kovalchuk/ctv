@@ -4,10 +4,6 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 public class Initializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
-    {
-        System.out.println("sdfdsf");
-    }
-
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class<?>[]{
