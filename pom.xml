@@ -16,7 +16,7 @@
 
     <properties>
         <application.version>1.0</application.version>
-        <groovy.version>1.8.0</groovy.version>
+        <groovy.version>2.3.7</groovy.version>
 
         <!--Spring-->
         <spring.version>4.1.1.RELEASE</spring.version>
@@ -167,6 +167,7 @@
             <version>${json.path.version}</version>
             <scope>test</scope>
         </dependency>
+
 
 
         <!--Data access-->

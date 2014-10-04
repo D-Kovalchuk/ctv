@@ -2,9 +2,11 @@ package com.ctv.registration.controller;
 
 import com.ctv.registration.dto.AuthenticationRequest;
 import com.ctv.registration.dto.AuthenticationToken;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
@@ -14,13 +16,19 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 @RestController
-@RequestMapping("token")
+@RequestMapping("/token")
 public class AuthenticationController {
 
     private AuthenticationManager authenticationManager;
@@ -30,7 +38,6 @@ public class AuthenticationController {
         this.authenticationManager = authenticationManager;
         this.sessionRepository = sessionRepository;
     }
-
     @ResponseStatus(CREATED)
     @RequestMapping(method = POST)
     public AuthenticationToken authenticate(
@@ -40,10 +47,17 @@ public class AuthenticationController {
         Authentication authentication = this.authenticationManager.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         HttpSession session = request.getSession(true);
-        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+        session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+        return createTokenResponse(authentication, session);
+    }
 
+    public AuthenticationToken createTokenResponse(Authentication authentication, HttpSession session) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return new AuthenticationToken(userDetails.getUsername(), userDetails.getAuthorities(), session.getId());
+        List<String> authorities = userDetails.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(toList());
+        return new AuthenticationToken(userDetails.getUsername(), authorities, session.getId());
     }
 
     @ResponseStatus(OK)
