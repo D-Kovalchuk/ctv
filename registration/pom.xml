@@ -28,6 +28,13 @@
             <artifactId>spring-session</artifactId>
             <version>${spring.session.version}</version>
         </dependency>
+
+        <!--User dependencies-->
+        <dependency>
+            <groupId>com.ctv</groupId>
+            <artifactId>security-config</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 

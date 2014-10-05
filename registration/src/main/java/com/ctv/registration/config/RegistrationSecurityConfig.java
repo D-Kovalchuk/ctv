@@ -1,5 +1,6 @@
 package com.ctv.registration.config;
 
+import com.ctv.security.config.client.SecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,12 +22,7 @@ import org.springframework.session.web.http.SessionRepositoryFilter;
  * @author Dmitry Kovalchuk
  */
 @Configuration
-@EnableWebMvcSecurity
-@EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Autowired
-    private SessionRepositoryFilter<? extends ExpiringSession> sessionRepositoryFilter;
+public class RegistrationSecurityConfig extends SecurityConfig {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -35,28 +31,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .password("pass")
                 .roles("USER");
     }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        sessionRepositoryFilter.setHttpSessionStrategy(new HeaderHttpSessionStrategy());
-        http
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .addFilterBefore(sessionRepositoryFilter, ChannelProcessingFilter.class)
-            .csrf().disable();
-    }
-
-    @Bean
-    @Override
-    public UserDetailsService userDetailsServiceBean() throws Exception {
-        return super.userDetailsServiceBean();
-    }
-
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
 
 }

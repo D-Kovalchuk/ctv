@@ -8,7 +8,7 @@ public class WebApplicationInitializer extends AbstractAnnotationConfigDispatche
     protected Class<?>[] getRootConfigClasses() {
         return new Class<?>[]{
                 SessionConfig.class,
-                SecurityConfig.class
+                RegistrationSecurityConfig.class
         };
     }
 
