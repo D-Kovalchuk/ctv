@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>conference</artifactId>
+    <artifactId>security-config</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <parent>
@@ -11,12 +11,23 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        <jetty.port>8085</jetty.port>
+    </properties>
+
     <dependencies>
+        <!--Spring session-->
         <dependency>
-            <groupId>com.ctv</groupId>
-            <artifactId>security-config</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+            <version>${spring.session.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session</artifactId>
+            <version>${spring.session.version}</version>
         </dependency>
     </dependencies>
+
 
 </project>

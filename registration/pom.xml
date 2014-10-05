@@ -13,6 +13,7 @@
 
     <properties>
         <spring.session.version>1.0.0.BUILD-SNAPSHOT</spring.session.version>
+        <jetty.port>8086</jetty.port>
     </properties>
 
     <dependencies>
@@ -28,5 +29,6 @@
             <version>${spring.session.version}</version>
         </dependency>
     </dependencies>
+
 
 </project>
