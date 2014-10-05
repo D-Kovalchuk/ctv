@@ -16,7 +16,7 @@
 
     <properties>
         <application.version>1.0</application.version>
-        <groovy.version>2.3.7</groovy.version>
+        <groovy.version>2.3.6</groovy.version>
 
         <!--Spring-->
         <spring.version>4.1.1.RELEASE</spring.version>

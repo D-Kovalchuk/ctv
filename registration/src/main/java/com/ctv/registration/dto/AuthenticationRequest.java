@@ -1,5 +1,6 @@
 package com.ctv.registration.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -7,16 +8,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 */
 public class AuthenticationRequest {
 
-    @JsonProperty("userName")
     private String username;
-
-    @JsonProperty("password")
     private String password;
 
-    public AuthenticationRequest() {
-    }
-
-    public AuthenticationRequest(String username, String password) {
+    @JsonCreator
+    public AuthenticationRequest(@JsonProperty("userName") String username,
+                                 @JsonProperty("password") String password) {
         this.username = username;
         this.password = password;
     }
