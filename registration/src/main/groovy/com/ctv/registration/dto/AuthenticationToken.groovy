@@ -1,4 +1,4 @@
-package com.ctv.registration.config.dto
+package com.ctv.registration.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import groovy.transform.Immutable

@@ -52,9 +52,6 @@
         <maven.compiler.plugin>3.1</maven.compiler.plugin>
         <jetty.maven.plugin.version>9.3.0.M0</jetty.maven.plugin.version>
         <maven.war.plugin.version>2.4</maven.war.plugin.version>
-        <build-helper-maven-plugin.version>1.5</build-helper-maven-plugin.version>
-        <grovvy-src-dir>src/main/groovy</grovvy-src-dir>
-        <groovy-test-dir>src/test/groovy</groovy-test-dir>
         <jetty-stop-port>8081</jetty-stop-port>
         <jetty-stop-key>stop</jetty-stop-key>
     </properties>
@@ -174,7 +171,6 @@
         </dependency>
 
 
-
         <!--Data access-->
         <dependency>
             <groupId>org.springframework.data</groupId>
@@ -224,37 +220,6 @@
                             <version>${groovy.eclipse.batch.version}</version>
                         </dependency>
                     </dependencies>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>${build-helper-maven-plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <id>add-source</id>
-                            <phase>generate-sources</phase>
-                            <goals>
-                                <goal>add-source</goal>
-                            </goals>
-                            <configuration>
-                                <sources>
-                                    <source>${grovvy-src-dir}</source>
-                                </sources>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>add-test-source</id>
-                            <phase>generate-test-sources</phase>
-                            <goals>
-                                <goal>add-test-source</goal>
-                            </goals>
-                            <configuration>
-                                <sources>
-                                    <source>${groovy-test-dir}</source>
-                                </sources>
-                            </configuration>
-                        </execution>
-                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>

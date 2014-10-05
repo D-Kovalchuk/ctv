@@ -1,7 +1,7 @@
 package com.ctv.registration.controller;
 
-import com.ctv.registration.config.dto.AuthenticationToken;
 import com.ctv.registration.dto.AuthenticationRequest;
+import com.ctv.registration.dto.AuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

@@ -6,8 +6,7 @@ import spock.lang.Specification
 /**
  * @author Dmitry Kovalchuk
  */
-class AuthenticationRequestTest extends Specification {
-
+class AuthenticationTokenTest extends Specification {
     def "sdf"() {
         given:
         def mapper = new ObjectMapper()
