@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @author Dmitry Kovalchuk
  */
-public class AuthenticationToken {
+public class AuthenticationTokenJava {
 
     @JsonProperty("userName")
     private String userName;
@@ -18,10 +18,10 @@ public class AuthenticationToken {
     @JsonProperty("sessionId")
     private String sessionId;
 
-    public AuthenticationToken() {
+    public AuthenticationTokenJava() {
     }
 
-    public AuthenticationToken(String userName, List<String> authorities, String sessionId) {
+    public AuthenticationTokenJava(String userName, List<String> authorities, String sessionId) {
         this.userName = userName;
         this.authorities = authorities;
         this.sessionId = sessionId;

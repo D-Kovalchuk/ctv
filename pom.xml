@@ -229,6 +229,10 @@
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>${jetty.maven.plugin.version}</version>
+                <configuration>
+                    <stopPort>8081</stopPort>
+                    <stopKey>stop</stopKey>
+                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
