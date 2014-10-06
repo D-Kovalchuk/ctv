@@ -27,12 +27,12 @@ public class RegistrationController {
 //        registrationMvcAdapter.update(user);
 //    }
 //
-//    @RequestMapping(value = "/{id}", method = DELETE)
+//    @RequestMapping(vo = "/{id}", method = DELETE)
 //    public void deleteUser(@PathVariable Integer id) {
 //        registrationMvcAdapter.delete(id);
 //    }
 //
-//    @RequestMapping(value = "/{id}", method = GET)
+//    @RequestMapping(vo = "/{id}", method = GET)
 //    public void findUser(@PathVariable Integer id) {
 //        registrationMvcAdapter.findUser(id);
 //    }

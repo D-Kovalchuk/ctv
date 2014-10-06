@@ -1,4 +1,4 @@
-package com.ctv.registration.config.value;
+package com.ctv.registration.config.vo;
 
 import java.util.Properties;
 
