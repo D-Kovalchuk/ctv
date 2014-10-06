@@ -55,6 +55,7 @@
         <jetty-stop-port>8081</jetty-stop-port>
         <jetty-stop-key>stop</jetty-stop-key>
         <jetty.port>8080</jetty.port>
+        <spring.mvc.logger.version>0.2</spring.mvc.logger.version>
     </properties>
 
     <dependencies>
@@ -78,7 +79,7 @@
         <dependency>
             <groupId>com.github.isrsal</groupId>
             <artifactId>spring-mvc-logger</artifactId>
-            <version>0.2</version>
+            <version>${spring.mvc.logger.version}</version>
         </dependency>
 
         <!--Data binding-->
