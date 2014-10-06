@@ -2,27 +2,30 @@ package com.ctv.registration.persistence.adapter.model;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 /**
  * @author Timur Yarosh
  */
 @Entity
+@Table(name = Account.TABLE_NAME)
 public class Account {
 
+    public static final String TABLE_NAME = "users";
     @NotBlank
     @Id
+    @Column(name = "username")
     private String username;
     @NotBlank
+    @Column(name = "password")
     private String password;
     @NotNull
+    @Column(name = "enabled")
     private Boolean enabled;
-    @OneToMany
-    private List<Authority> authorities;
 
     public String getUsername() {
         return username;
@@ -48,11 +51,4 @@ public class Account {
         this.enabled = enabled;
     }
 
-    public List<Authority> getAuthorities() {
-        return authorities;
-    }
-
-    public void setAuthorities(List<Authority> authorities) {
-        this.authorities = authorities;
-    }
 }
