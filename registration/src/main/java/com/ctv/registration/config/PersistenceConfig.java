@@ -12,38 +12,41 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.lang.reflect.Field;
+import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Stream;
 
-import static java.util.AbstractMap.SimpleImmutableEntry;
-import static java.util.Map.Entry;
+import static java.util.stream.Collectors.toMap;
 import static org.springframework.security.util.FieldUtils.getFieldValue;
 
 /**
  * @author Timur Yarosh
  */
 @Configuration
-@PropertySource("classpath:" + PersistenceConfig.PERSISTENCE_PROPERTIES)
+@PropertySource("classpath:" + PersistenceConfig.PERSISTENCE_DEFAULT_PROPERTIES)
 @PropertySource(value = "file:${user.home}/.config/ctv/" + PersistenceConfig.PERSISTENCE_PROPERTIES, ignoreResourceNotFound = true)
 @EnableJpaRepositories(PersistenceConfig.PERSISTENCE_PACKAGE)
 public class PersistenceConfig {
 
+    public static final String PERSISTENCE_DEFAULT_PROPERTIES = "persistence-default.properties";
     public static final String PERSISTENCE_PROPERTIES = "persistence.properties";
     public static final String PERSISTENCE_PACKAGE = "com.ctv.registration.persistence";
 
     @Bean
     public DataSource dataSource() {
-        HikariConfig config = new HikariConfig(dataSourcePropertiesHolder().toProperties());
-//        config.setDataSourceClassName(dataSourcePropertiesHolder().dataSourceClassName);
+        Properties dataSourceProperties = dataSourcePropertiesHolder().toProperties();
+        HikariConfig config = new HikariConfig(dataSourceProperties);
         return new HikariDataSource(config);
     }
 
     @Bean
     public JpaTransactionManager jpaTransactionManager() {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+        EntityManagerFactory entityManagerFactory = entityManagerFactory().getObject();
+        transactionManager.setEntityManagerFactory(entityManagerFactory);
         return transactionManager;
     }
 
@@ -53,7 +56,8 @@ public class PersistenceConfig {
         entityManagerFactoryBean.setDataSource(dataSource());
         entityManagerFactoryBean.setPackagesToScan(PERSISTENCE_PACKAGE);
         entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
-        entityManagerFactoryBean.setJpaProperties(hibernatePropertiesHolder().toProperties());
+        Properties jpaProperties = hibernatePropertiesHolder().toProperties();
+        entityManagerFactoryBean.setJpaProperties(jpaProperties);
         return entityManagerFactoryBean;
     }
 
@@ -111,25 +115,35 @@ public class PersistenceConfig {
     }
 
     private class PropertiesHolder {
+
         public Properties toProperties() {
             Properties properties = new Properties();
             Field[] declaredFields = getClass().getDeclaredFields();
-            Stream.of(declaredFields)
-                    .filter(f -> f.isAnnotationPresent(Value.class))
-                    .map(this::toEntry)
-                    .forEach(e -> properties.put(e.getKey(), e.getValue()));
+
+            Map<String, String> propertiesMap = Stream.of(declaredFields)
+                    .filter(this::isProperty)
+                    .collect(toMap(this::getKey, this::getValue));
+
+            properties.putAll(propertiesMap);
             return properties;
         }
 
-        private Entry toEntry(Field field) {
+        private boolean isProperty(Field field) {
+            return field.isAnnotationPresent(Value.class);
+        }
+
+        private String getKey(Field field) {
+            Value annotation = field.getAnnotation(Value.class);
+            return annotation.value().replaceAll("[\\$\\{\\}]", "");
+        }
+
+        private String getValue(Field field) {
             try {
-                Value annotation = field.getAnnotation(Value.class);
-                String propertyName = annotation.value().replaceAll("[\\$\\{\\}]", "");
-                String propertyValue = String.valueOf(getFieldValue(this, field.getName()));
-                return new SimpleImmutableEntry<>(propertyName, propertyValue);
+                return String.valueOf(getFieldValue(this, field.getName()));
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
         }
     }
+
 }
