@@ -1,11 +1,11 @@
-package com.ctv.registration.config.properties
+package com.ctv.config
 
 import org.springframework.beans.factory.annotation.Value
 import spock.lang.Specification
 import spock.lang.Unroll
 
 /**
- * @author Timur Yarosh
+ * @author Dmitry Kovalchuk
  */
 class ToPropertiesTest extends Specification {
 

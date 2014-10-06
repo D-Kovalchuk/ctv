@@ -1,5 +1,6 @@
 package com.ctv.registration.config;
 
+import com.ctv.config.EnablePropertySource;
 import com.ctv.registration.config.properties.DataSourcePropertiesHolder;
 import com.ctv.registration.config.properties.HibernatePropertiesHolder;
 import com.zaxxer.hikari.HikariConfig;
@@ -21,6 +22,7 @@ import java.util.Properties;
  * @author Timur Yarosh
  */
 @Configuration
+@EnablePropertySource
 @PropertySource("classpath:" + PersistenceConfig.PERSISTENCE_DEFAULT_PROPERTIES)
 @PropertySource(value = "file:${user.home}/.config/ctv/" + PersistenceConfig.PERSISTENCE_PROPERTIES, ignoreResourceNotFound = true)
 @EnableJpaRepositories(PersistenceConfig.PERSISTENCE_PACKAGE)
@@ -54,11 +56,6 @@ public class PersistenceConfig {
         Properties jpaProperties = hibernatePropertiesHolder().toProperties();
         entityManagerFactoryBean.setJpaProperties(jpaProperties);
         return entityManagerFactoryBean;
-    }
-
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
     }
 
     @Bean

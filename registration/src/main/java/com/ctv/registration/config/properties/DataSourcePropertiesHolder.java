@@ -1,5 +1,6 @@
 package com.ctv.registration.config.properties;
 
+import com.ctv.config.ToProperties;
 import org.springframework.beans.factory.annotation.Value;
 
 /**

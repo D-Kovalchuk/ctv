@@ -1,6 +1,10 @@
-package com.ctv.registration.config.properties;
+package com.ctv.config;
 
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.ClassUtils;
+import org.springframework.util.ObjectUtils;
+import sun.reflect.misc.FieldUtil;
 
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -8,7 +12,8 @@ import java.util.Properties;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toMap;
-import static org.springframework.security.util.FieldUtils.getFieldValue;
+import static org.apache.commons.lang3.reflect.FieldUtils.getAllFieldsList;
+import static org.apache.commons.lang3.reflect.FieldUtils.readField;
 
 /**
  * @author Timur Yarosh
@@ -18,8 +23,7 @@ public class ToProperties {
     public static final String PROPERTY_REGEXP = "[\\$\\{\\}]";
 
     public Properties toProperties() {
-        Field[] fields = getClass().getDeclaredFields();
-        Map<String, String> propertiesMap = Stream.of(fields)
+        Map<String, String> propertiesMap = getAllFieldsList(getClass()).stream()
                 .filter(this::isProperty)
                 .collect(toMap(this::getKey, this::getValue));
         return asProperties(propertiesMap);
@@ -42,7 +46,7 @@ public class ToProperties {
 
     private String getValue(Field field) {
         try {
-            return String.valueOf(getFieldValue(this, field.getName()));
+            return String.valueOf(readField(field, this, true));
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }

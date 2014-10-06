@@ -11,6 +11,7 @@
         <module>conference</module>
         <module>registration</module>
         <module>security-config</module>
+        <module>config-utils</module>
     </modules>
 
 
@@ -44,6 +45,7 @@
         <!--Log-->
         <logback.version>1.1.2</logback.version>
         <slf4j.version>1.7.7</slf4j.version>
+        <spring.mvc.logger.version>0.2</spring.mvc.logger.version>
 
         <!--Maven plugins-->
         <jdk.version>1.8</jdk.version>
@@ -55,7 +57,6 @@
         <jetty-stop-port>8081</jetty-stop-port>
         <jetty-stop-key>stop</jetty-stop-key>
         <jetty.port>8080</jetty.port>
-        <spring.mvc.logger.version>0.2</spring.mvc.logger.version>
     </properties>
 
     <dependencies>
@@ -64,6 +65,13 @@
             <artifactId>groovy-all</artifactId>
             <version>${groovy.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons.lang3.version}</version>
+        </dependency>
+
 
         <!--Logging-->
         <dependency>
@@ -131,23 +139,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
             <version>${spring.version}</version>
-        </dependency>
-
-        <!--Security-->
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <version>${spring.security.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-            <version>${spring.security.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-            <version>${spring.security.version}</version>
         </dependency>
 
         <!--Test-->
