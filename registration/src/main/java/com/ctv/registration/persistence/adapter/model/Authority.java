@@ -35,6 +35,14 @@ public class Authority {
         this.username = username;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public enum Role {
         ROLE_WATCHER
     }
