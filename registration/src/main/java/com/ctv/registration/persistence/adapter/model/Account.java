@@ -16,7 +16,6 @@ import javax.validation.constraints.NotNull;
 public class Account {
 
     public static final String TABLE_NAME = "users";
-    @NotBlank
     @Id
     @Column(name = "username")
     private String username;
