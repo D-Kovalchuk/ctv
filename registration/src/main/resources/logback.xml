@@ -8,11 +8,14 @@
     </appender>
 
     <logger name="com.ctv">
-        <level value="INFO"/>
+        <level value="DEBUG"/>
+    </logger>
+    <logger name="com.github.isrsal.logging">
+        <level value="DEBUG"/>
     </logger>
 
     <root>
-        <level value="WARN"/>
+        <level value="INFO"/>
         <appender-ref ref="CONSOLE"/>
     </root>
 </configuration>

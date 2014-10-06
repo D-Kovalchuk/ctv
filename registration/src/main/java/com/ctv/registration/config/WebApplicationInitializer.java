@@ -1,6 +1,9 @@
 package com.ctv.registration.config;
 
+import com.github.isrsal.logging.LoggingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+import javax.servlet.Filter;
 
 public class WebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
@@ -9,6 +12,13 @@ public class WebApplicationInitializer extends AbstractAnnotationConfigDispatche
         return new Class<?>[]{
                 SessionConfig.class,
                 RegistrationSecurityConfig.class
+        };
+    }
+
+    @Override
+    protected Filter[] getServletFilters() {
+        return new Filter[]{
+                new LoggingFilter()
         };
     }
 
