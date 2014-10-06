@@ -1,6 +1,6 @@
 package com.ctv.registration.core;
 
-import com.ctv.registration.core.port.inner.RegistrationPersistenceAdapter;
+import com.ctv.registration.core.port.in.RegistrationPersistenceAdapter;
 
 /**
  * @author Dmitry Kovalchuk

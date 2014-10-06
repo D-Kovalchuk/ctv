@@ -1,4 +1,4 @@
-package com.ctv.registration.core.port.inner;
+package com.ctv.registration.core.port.in;
 
 /**
  * @author Dmitry Kovalchuk
