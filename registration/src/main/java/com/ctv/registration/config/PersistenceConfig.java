@@ -36,7 +36,7 @@ public class PersistenceConfig {
     @Bean
     public DataSource dataSource() {
         HikariConfig config = new HikariConfig(dataSourcePropertiesHolder().toProperties());
-        config.setDataSourceClassName(dataSourcePropertiesHolder().dataSourceClassName);
+//        config.setDataSourceClassName(dataSourcePropertiesHolder().dataSourceClassName);
         return new HikariDataSource(config);
     }
 
