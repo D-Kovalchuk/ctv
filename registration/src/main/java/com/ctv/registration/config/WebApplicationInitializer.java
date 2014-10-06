@@ -1,5 +1,6 @@
 package com.ctv.registration.config;
 
+import com.ctv.registration.mvc.infrostructure.MvcConfig;
 import com.github.isrsal.logging.LoggingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -16,16 +17,16 @@ public class WebApplicationInitializer extends AbstractAnnotationConfigDispatche
     }
 
     @Override
-    protected Filter[] getServletFilters() {
-        return new Filter[]{
-                new LoggingFilter()
+    protected Class<?>[] getServletConfigClasses() {
+        return new Class<?>[]{
+                MvcConfig.class
         };
     }
 
     @Override
-    protected Class<?>[] getServletConfigClasses() {
-        return new Class<?>[]{
-                MvcConfig.class
+    protected Filter[] getServletFilters() {
+        return new Filter[]{
+                new LoggingFilter()
         };
     }
 

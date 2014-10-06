@@ -1,7 +1,7 @@
-package com.ctv.registration.controller;
+package com.ctv.registration.mvc.infrostructure;
 
-import com.ctv.registration.dto.AuthenticationRequest;
-import com.ctv.registration.dto.AuthenticationToken;
+import com.ctv.registration.mvc.adapter.dto.AuthenticationRequest;
+import com.ctv.registration.mvc.adapter.dto.AuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -36,15 +36,19 @@ public class AuthenticationController {
 
     @ResponseStatus(CREATED)
     @RequestMapping(method = POST)
-    public AuthenticationToken authenticate(
-            @RequestBody AuthenticationRequest authenticationRequest,
-            HttpServletRequest request) {
+    public AuthenticationToken authenticate(@RequestBody AuthenticationRequest authenticationRequest, HttpServletRequest request) {
         UsernamePasswordAuthenticationToken token = createUserPasswordToken(authenticationRequest);
         Authentication authentication = this.authenticationManager.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         HttpSession session = request.getSession(true);
         session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
         return createTokenResponse(authentication, session);
+    }
+
+    @ResponseStatus(OK)
+    @RequestMapping(method = DELETE, headers = "x-auth-token")
+    public void logout(@RequestHeader("x-auth-token") String token) {
+        sessionRepository.delete(token);
     }
 
     public AuthenticationToken createTokenResponse(Authentication authentication, HttpSession session) {
@@ -54,12 +58,6 @@ public class AuthenticationController {
                 .map(GrantedAuthority::getAuthority)
                 .collect(toList());
         return new AuthenticationToken(userDetails.getUsername(), authorities, session.getId());
-    }
-
-    @ResponseStatus(OK)
-    @RequestMapping(method = DELETE, headers = "x-auth-token")
-    public void logout(@RequestHeader("x-auth-token") String token) {
-        sessionRepository.delete(token);
     }
 
     private UsernamePasswordAuthenticationToken createUserPasswordToken(AuthenticationRequest authenticationRequest) {
