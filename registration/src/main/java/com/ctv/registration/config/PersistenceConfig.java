@@ -1,9 +1,10 @@
 package com.ctv.registration.config;
 
+import com.ctv.registration.config.value.DataSourcePropertiesHolder;
+import com.ctv.registration.config.value.HibernatePropertiesHolder;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.hibernate.jpa.HibernatePersistenceProvider;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -14,13 +15,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.lang.reflect.Field;
-import java.util.Map;
 import java.util.Properties;
-import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toMap;
-import static org.springframework.security.util.FieldUtils.getFieldValue;
 
 /**
  * @author Timur Yarosh
@@ -74,76 +69,6 @@ public class PersistenceConfig {
     @Bean
     public HibernatePropertiesHolder hibernatePropertiesHolder() {
         return new HibernatePropertiesHolder();
-    }
-
-    private class DataSourcePropertiesHolder extends PropertiesHolder {
-
-        @Value("${connectionTestQuery}")
-        private String connectionTestQuery;
-
-        @Value("${maximumPoolSize}")
-        private String maximumPoolSize;
-
-        @Value("${dataSource.user}")
-        private String jdbcUser;
-
-        @Value("${dataSource.password}")
-        private String jdbcPassword;
-
-        @Value("${dataSource.databaseName}")
-        private String databaseName;
-
-        @Value("${dataSource.serverName}")
-        private String host;
-
-        @Value("${dataSourceClassName}")
-        private String dataSourceClassName;
-
-    }
-
-    private class HibernatePropertiesHolder extends PropertiesHolder {
-
-        @Value("${hibernate.dialect}")
-        private String hibernateDialect;
-
-        @Value("${hibernate.hbm2ddl.auto}")
-        private String hbm2ddl;
-
-        @Value("${hibernate.show_sql}")
-        private String showSql;
-
-    }
-
-    private class PropertiesHolder {
-
-        public Properties toProperties() {
-            Properties properties = new Properties();
-            Field[] declaredFields = getClass().getDeclaredFields();
-
-            Map<String, String> propertiesMap = Stream.of(declaredFields)
-                    .filter(this::isProperty)
-                    .collect(toMap(this::getKey, this::getValue));
-
-            properties.putAll(propertiesMap);
-            return properties;
-        }
-
-        private boolean isProperty(Field field) {
-            return field.isAnnotationPresent(Value.class);
-        }
-
-        private String getKey(Field field) {
-            Value annotation = field.getAnnotation(Value.class);
-            return annotation.value().replaceAll("[\\$\\{\\}]", "");
-        }
-
-        private String getValue(Field field) {
-            try {
-                return String.valueOf(getFieldValue(this, field.getName()));
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-        }
     }
 
 }
