@@ -1,13 +1,11 @@
-package com.ctv.registration.config.vo;
+package com.ctv.registration.config.properties;
 
 import org.springframework.beans.factory.annotation.Value;
-
-import java.util.Properties;
 
 /**
  * @author Timur Yarosh
  */
-public class DataSourcePropertiesHolder implements PropertiesHolder {
+public class DataSourcePropertiesHolder extends ToProperties {
 
     @Value("${connectionTestQuery}")
     private String connectionTestQuery;
@@ -30,8 +28,4 @@ public class DataSourcePropertiesHolder implements PropertiesHolder {
     @Value("${dataSourceClassName}")
     private String dataSourceClassName;
 
-    @Override
-    public Properties toProperties() {
-        return new ToPropertiesBuilder(this).toProperties();
-    }
 }

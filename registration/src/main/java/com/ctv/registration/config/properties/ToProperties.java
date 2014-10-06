@@ -1,4 +1,4 @@
-package com.ctv.registration.config.vo;
+package com.ctv.registration.config.properties;
 
 import org.springframework.beans.factory.annotation.Value;
 
@@ -13,23 +13,20 @@ import static org.springframework.security.util.FieldUtils.getFieldValue;
 /**
  * @author Timur Yarosh
  */
-public class ToPropertiesBuilder implements PropertiesHolder {
+public class ToProperties {
 
-    private Object propertiesHolder;
+    public static final String PROPERTY_REGEXP = "[\\$\\{\\}]";
 
-    public ToPropertiesBuilder(Object propertiesHolder) {
-        this.propertiesHolder = propertiesHolder;
-    }
-
-    @Override
     public Properties toProperties() {
-        Properties properties = new Properties();
-        Field[] declaredFields = propertiesHolder.getClass().getDeclaredFields();
-
-        Map<String, String> propertiesMap = Stream.of(declaredFields)
+        Field[] fields = getClass().getDeclaredFields();
+        Map<String, String> propertiesMap = Stream.of(fields)
                 .filter(this::isProperty)
                 .collect(toMap(this::getKey, this::getValue));
+        return asProperties(propertiesMap);
+    }
 
+    private Properties asProperties(Map<String, String> propertiesMap) {
+        Properties properties = new Properties();
         properties.putAll(propertiesMap);
         return properties;
     }
@@ -40,14 +37,15 @@ public class ToPropertiesBuilder implements PropertiesHolder {
 
     private String getKey(Field field) {
         Value annotation = field.getAnnotation(Value.class);
-        return annotation.value().replaceAll("[\\$\\{\\}]", "");
+        return annotation.value().replaceAll(PROPERTY_REGEXP, "");
     }
 
     private String getValue(Field field) {
         try {
-            return String.valueOf(getFieldValue(propertiesHolder, field.getName()));
+            return String.valueOf(getFieldValue(this, field.getName()));
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
+
 }

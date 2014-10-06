@@ -1,7 +1,7 @@
 package com.ctv.registration.config;
 
-import com.ctv.registration.config.vo.DataSourcePropertiesHolder;
-import com.ctv.registration.config.vo.HibernatePropertiesHolder;
+import com.ctv.registration.config.properties.DataSourcePropertiesHolder;
+import com.ctv.registration.config.properties.HibernatePropertiesHolder;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.hibernate.jpa.HibernatePersistenceProvider;
