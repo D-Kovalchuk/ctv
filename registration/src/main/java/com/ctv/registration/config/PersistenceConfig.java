@@ -25,12 +25,11 @@ import java.util.Properties;
 @EnablePropertySource
 @PropertySource("classpath:" + PersistenceConfig.PERSISTENCE_DEFAULT_PROPERTIES)
 @PropertySource(value = "file:${user.home}/.config/ctv/" + PersistenceConfig.PERSISTENCE_PROPERTIES, ignoreResourceNotFound = true)
-@EnableJpaRepositories(PersistenceConfig.PERSISTENCE_PACKAGE)
 public class PersistenceConfig {
 
     public static final String PERSISTENCE_DEFAULT_PROPERTIES = "persistence-default.properties";
     public static final String PERSISTENCE_PROPERTIES = "persistence.properties";
-    public static final String PERSISTENCE_PACKAGE = "com.ctv.registration.persistence";
+    public static final String ENTITIES_LOCATION = "com.ctv.registration.persistence.adapter.model";
 
     @Bean
     public DataSource dataSource() {
@@ -51,7 +50,7 @@ public class PersistenceConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource());
-        entityManagerFactoryBean.setPackagesToScan(PERSISTENCE_PACKAGE);
+        entityManagerFactoryBean.setPackagesToScan(ENTITIES_LOCATION);
         entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
         Properties jpaProperties = hibernatePropertiesHolder().toProperties();
         entityManagerFactoryBean.setJpaProperties(jpaProperties);

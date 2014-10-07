@@ -10,21 +10,24 @@ import javax.persistence.*;
 public class Authority {
 
     public static final String TABLE_NAME = "authorities";
+
     @Id
     @GeneratedValue
     private Integer id;
+
     @ManyToOne(targetEntity = Account.class)
     @JoinColumn(name = "username", referencedColumnName = "username")
     private String username;
-    @Column(name = "authority")
-    private Role roles;
 
-    public Role getRoles() {
-        return roles;
+    @Column(name = "authority")
+    private Role role;
+
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(Role roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public String getUsername() {
@@ -44,7 +47,9 @@ public class Authority {
     }
 
     public enum Role {
-        ROLE_WATCHER
+        ROLE_WATCHER,
+        ROLE_ORGANIZER,
+        ROLE_SPEAKER
     }
 
 }
