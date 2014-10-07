@@ -1,4 +1,4 @@
-package com.ctv.registration.mvc.adapter.dto;
+package com.ctv.registration.web.adapter.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

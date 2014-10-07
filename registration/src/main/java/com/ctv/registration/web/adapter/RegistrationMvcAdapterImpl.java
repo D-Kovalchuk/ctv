@@ -1,4 +1,4 @@
-package com.ctv.registration.mvc.adapter;
+package com.ctv.registration.web.adapter;
 
 import com.ctv.registration.core.port.out.RegistrationMvcAdapter;
 

@@ -1,7 +1,7 @@
-package com.ctv.registration.mvc.rest;
+package com.ctv.registration.web.rest;
 
-import com.ctv.registration.mvc.adapter.dto.AuthenticationRequest;
-import com.ctv.registration.mvc.adapter.dto.AuthenticationToken;
+import com.ctv.registration.web.adapter.dto.AuthenticationRequest;
+import com.ctv.registration.web.adapter.dto.AuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
