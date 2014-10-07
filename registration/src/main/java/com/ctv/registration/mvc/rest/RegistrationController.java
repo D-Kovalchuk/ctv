@@ -1,4 +1,4 @@
-package com.ctv.registration.mvc.infrastructure;
+package com.ctv.registration.mvc.rest;
 
 import com.ctv.registration.core.port.out.RegistrationMvcAdapter;
 import org.springframework.web.bind.annotation.RequestMapping;
