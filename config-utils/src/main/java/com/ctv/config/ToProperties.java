@@ -1,17 +1,13 @@
 package com.ctv.config;
 
-import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.util.ClassUtils;
-import org.springframework.util.ObjectUtils;
-import sun.reflect.misc.FieldUtil;
 
 import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Properties;
-import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toMap;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.reflect.FieldUtils.getAllFieldsList;
 import static org.apache.commons.lang3.reflect.FieldUtils.readField;
 
@@ -41,7 +37,7 @@ public class ToProperties {
 
     private String getKey(Field field) {
         Value annotation = field.getAnnotation(Value.class);
-        return annotation.value().replaceAll(PROPERTY_REGEXP, "");
+        return annotation.value().replaceAll(PROPERTY_REGEXP, EMPTY);
     }
 
     private String getValue(Field field) {
