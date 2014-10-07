@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <users id="1" username="user" password="pass" email="email@company.com" type="watcher" site="http://site.com" enabled="false" />
+</dataset>

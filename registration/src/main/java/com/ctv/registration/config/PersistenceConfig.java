@@ -9,10 +9,9 @@ import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -22,6 +21,7 @@ import java.util.Properties;
  * @author Timur Yarosh
  */
 @Configuration
+@EnableTransactionManagement
 @EnablePropertySource
 @PropertySource("classpath:" + PersistenceConfig.PERSISTENCE_DEFAULT_PROPERTIES)
 @PropertySource(value = "file:${user.home}/.config/ctv/" + PersistenceConfig.PERSISTENCE_PROPERTIES, ignoreResourceNotFound = true)
@@ -39,7 +39,7 @@ public class PersistenceConfig {
     }
 
     @Bean
-    public JpaTransactionManager jpaTransactionManager() {
+    public JpaTransactionManager transactionManager() {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         EntityManagerFactory entityManagerFactory = entityManagerFactory().getObject();
         transactionManager.setEntityManagerFactory(entityManagerFactory);

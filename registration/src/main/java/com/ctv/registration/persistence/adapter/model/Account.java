@@ -4,10 +4,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -20,6 +17,7 @@ public class Account {
     public static final String TABLE_NAME = "users";
 
     @Id
+    @GeneratedValue
     private int id;
 
     @Column(name = "username")
@@ -40,6 +38,14 @@ public class Account {
 
     @URL
     private String site;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;
@@ -88,4 +94,5 @@ public class Account {
     public void setSite(String site) {
         this.site = site;
     }
+
 }
