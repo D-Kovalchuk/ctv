@@ -1,8 +1,8 @@
 package com.ctv.registration.config;
 
 import com.ctv.registration.core.port.out.RegistrationMvcAdapter;
-import com.ctv.registration.mvc.infrostructure.AuthenticationController;
-import com.ctv.registration.mvc.infrostructure.RegistrationController;
+import com.ctv.registration.mvc.infrastructure.AuthenticationController;
+import com.ctv.registration.mvc.infrastructure.RegistrationController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -1,4 +1,4 @@
-package com.ctv.registration.mvc.infrostructure;
+package com.ctv.registration.mvc.infrastructure;
 
 import com.ctv.registration.mvc.adapter.dto.AuthenticationRequest;
 import com.ctv.registration.mvc.adapter.dto.AuthenticationToken;
