@@ -10,7 +10,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import javax.sql.DataSource;
 
-import static com.ctv.registration.config.PersistenceConfig.PERSISTENCE_DEFAULT_PROPERTIES;
+import static com.ctv.registration.config.properties.PersistencePropertyConfig.PERSISTENCE_DEFAULT_PROPERTIES;
 
 /**
  * @author Dmitry Kovalchuk

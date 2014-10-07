@@ -1,14 +1,15 @@
 package com.ctv.registration.config;
 
-import com.ctv.config.EnablePropertySource;
 import com.ctv.registration.config.properties.DataSourcePropertiesHolder;
 import com.ctv.registration.config.properties.HibernatePropertiesHolder;
+import com.ctv.registration.config.properties.PersistencePropertyConfig;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.hibernate.jpa.HibernatePersistenceProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.Import;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -22,18 +23,20 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
-@EnablePropertySource
-@PropertySource("classpath:" + PersistenceConfig.PERSISTENCE_DEFAULT_PROPERTIES)
-@PropertySource(value = "file:${user.home}/.config/ctv/" + PersistenceConfig.PERSISTENCE_PROPERTIES, ignoreResourceNotFound = true)
+@Import(PersistencePropertyConfig.class)
 public class PersistenceConfig {
 
-    public static final String PERSISTENCE_DEFAULT_PROPERTIES = "persistence-default.properties";
-    public static final String PERSISTENCE_PROPERTIES = "persistence.properties";
     public static final String ENTITIES_LOCATION = "com.ctv.registration.persistence.adapter.model";
+
+    @Autowired
+    private DataSourcePropertiesHolder dataSourcePropertiesHolder;
+
+    @Autowired
+    private HibernatePropertiesHolder hibernatePropertiesHolder;
 
     @Bean
     public DataSource dataSource() {
-        Properties dataSourceProperties = dataSourcePropertiesHolder().toProperties();
+        Properties dataSourceProperties = dataSourcePropertiesHolder.toProperties();
         HikariConfig config = new HikariConfig(dataSourceProperties);
         return new HikariDataSource(config);
     }
@@ -52,19 +55,9 @@ public class PersistenceConfig {
         entityManagerFactoryBean.setDataSource(dataSource());
         entityManagerFactoryBean.setPackagesToScan(ENTITIES_LOCATION);
         entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
-        Properties jpaProperties = hibernatePropertiesHolder().toProperties();
+        Properties jpaProperties = hibernatePropertiesHolder.toProperties();
         entityManagerFactoryBean.setJpaProperties(jpaProperties);
         return entityManagerFactoryBean;
-    }
-
-    @Bean
-    public DataSourcePropertiesHolder dataSourcePropertiesHolder() {
-        return new DataSourcePropertiesHolder();
-    }
-
-    @Bean
-    public HibernatePropertiesHolder hibernatePropertiesHolder() {
-        return new HibernatePropertiesHolder();
     }
 
 }
