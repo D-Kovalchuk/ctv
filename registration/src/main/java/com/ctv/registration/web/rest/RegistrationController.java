@@ -4,11 +4,13 @@ import com.ctv.registration.core.port.out.RegistrationMvcAdapter;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.ctv.registration.web.rest.Endpoint.USER_PATH;
+
 /**
  * @author Dmitry Kovalchuk
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping(USER_PATH)
 public class RegistrationController {
 
     private RegistrationMvcAdapter registrationMvcAdapter;
