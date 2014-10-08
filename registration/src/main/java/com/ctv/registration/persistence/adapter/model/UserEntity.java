@@ -5,7 +5,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 /**
  * @author Timur Yarosh
@@ -27,9 +26,8 @@ public class UserEntity {
     @Column(name = "password")
     private String password;
 
-    @NotNull
     @Column(name = "enabled")
-    private Boolean enabled;
+    private Boolean enabled = true;
 
     @Email
     private String email;

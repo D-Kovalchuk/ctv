@@ -7,14 +7,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class User {
 
+    @JsonProperty("id")
+    private Integer id;
+
     @JsonProperty("username")
     private String username;
 
     @JsonProperty("password")
     private String password;
-
-    @JsonProperty("enabled")
-    private Boolean enabled;
 
     @JsonProperty("email")
     private String email;
@@ -33,10 +33,6 @@ public class User {
         return password;
     }
 
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -48,4 +44,9 @@ public class User {
     public String getSite() {
         return site;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
 }
