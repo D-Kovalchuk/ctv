@@ -2,7 +2,6 @@ package com.ctv.security.config.client;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
@@ -11,9 +10,16 @@ import java.util.Collection;
  */
 public class CtvUserDetails extends User {
 
-    //TODO and more fields
+    private Integer id;
+    private String email;
+    private String type;
+    private String site;
 
-    public CtvUserDetails(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+    CtvUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities, Integer id, String email, String type, String site) {
+        super(username, password, authorities);
+        this.id = id;
+        this.email = email;
+        this.type = type;
+        this.site = site;
     }
 }
