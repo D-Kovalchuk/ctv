@@ -2,6 +2,8 @@ package com.ctv.registration.core;
 
 import com.ctv.registration.core.dto.User;
 
+import java.util.List;
+
 /**
  * @author Dmitry Kovalchuk
  */
@@ -15,4 +17,5 @@ public interface RegistrationService {
 
     User findUserById(Integer id);
 
+    List<User> findAllUsers(int page, int size);
 }

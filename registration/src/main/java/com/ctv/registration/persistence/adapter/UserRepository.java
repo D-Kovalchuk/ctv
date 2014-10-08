@@ -1,9 +1,9 @@
 package com.ctv.registration.persistence.adapter;
 
 import com.ctv.registration.persistence.adapter.model.UserEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * @author Dmitry Kovalchuk
@@ -17,6 +17,6 @@ public interface UserRepository extends org.springframework.data.repository.Repo
 
     UserEntity getOne(Integer id);
 
-    List<UserEntity> findAll();
+    Page<UserEntity> findAll(Pageable pageable);
 
 }

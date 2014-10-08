@@ -3,6 +3,8 @@ package com.ctv.registration.web.adapter;
 
 import com.ctv.registration.core.dto.User;
 
+import java.util.List;
+
 /**
  * @author Dmitry Kovalchuk
  */
@@ -16,5 +18,5 @@ public interface UserMvcAdapter {
 
     User findUserById(Integer id);
 
-
+    List<User> findAllUsers(int page, int size);
 }

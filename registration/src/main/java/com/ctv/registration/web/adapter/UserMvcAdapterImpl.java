@@ -3,6 +3,8 @@ package com.ctv.registration.web.adapter;
 import com.ctv.registration.core.RegistrationService;
 import com.ctv.registration.core.dto.User;
 
+import java.util.List;
+
 /**
  * @author Dmitry Kovalchuk
  */
@@ -32,5 +34,10 @@ public class UserMvcAdapterImpl implements UserMvcAdapter {
     @Override
     public User findUserById(Integer id) {
         return registrationService.findUserById(id);
+    }
+
+    @Override
+    public List<User> findAllUsers(int page, int size) {
+        return registrationService.findAllUsers(page, size);
     }
 }
