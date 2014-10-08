@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
+import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.type.AnnotationMetadata;
@@ -26,17 +27,34 @@ public class ImportConverterBeanRegistrar implements ImportBeanDefinitionRegistr
     private static final Logger log = LoggerFactory.getLogger(ImportConverterBeanRegistrar.class);
     public static final String ANNOTATION_TYPE = EnableConverters.class.getName();
     public static final String VALUE_ATTRIBUTE = "value";
+    public static final String CREATE_CONVERSION_SERVICE = "createConversionService";
+    public static final String BEAN_NAME = "beanName";
+    private BeanDefinitionRegistry registry;
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
+        this.registry = registry;
         AnnotationAttributes annotationAttributes = getAnnotationAttributes(importingClassMetadata);
         String[] packages = annotationAttributes.getStringArray(VALUE_ATTRIBUTE);
         if (isEmpty(packages)) {
             log.warn("None packages are specified. Please pass package as a parameter of value property in EnableConverters annotation");
             return;
         }
-        Map<String, List<Class<? extends Converter>>> classes = findConverters(packages);
-        register(classes, registry);
+        boolean createConversionService = annotationAttributes.getBoolean(CREATE_CONVERSION_SERVICE);
+        String conversionServiceBeanName = annotationAttributes.getString(BEAN_NAME);
+
+        registerConversionService(conversionServiceBeanName, createConversionService);
+        registerConverters(packages);
+    }
+
+
+
+    private void registerConversionService(String conversionServiceBeanName, boolean createConversionService) {
+        if (createConversionService) {
+            GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
+            beanDefinition.setBeanClass(ConversionServiceFactoryBean.class);
+            registry.registerBeanDefinition(conversionServiceBeanName, beanDefinition);
+        }
     }
 
     private AnnotationAttributes getAnnotationAttributes(AnnotationMetadata importingClassMetadata) {
@@ -56,16 +74,16 @@ public class ImportConverterBeanRegistrar implements ImportBeanDefinitionRegistr
         return reflection.getSubTypesOf(Converter.class);
     }
 
-    private void register(Map<String, List<Class<? extends Converter>>> map, BeanDefinitionRegistry registry) {
-        map.forEach((k, v) -> {
+    private String name(Class<? extends Converter> c) {
+        return c.getName();
+    }
+
+    private void registerConverters(String[] packages) {
+        findConverters(packages).forEach((k, v) -> {
             GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
             beanDefinition.setBeanClass(v.get(0));
             registry.registerBeanDefinition(k, beanDefinition);
         });
-    }
-
-    private String name(Class<? extends Converter> c) {
-        return c.getName();
     }
 
 }

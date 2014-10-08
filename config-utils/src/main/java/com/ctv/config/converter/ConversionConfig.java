@@ -13,11 +13,6 @@ import org.springframework.core.convert.converter.ConverterRegistry;
 public class ConversionConfig {
 
     @Bean
-    public ConversionServiceFactoryBean conversionService() {
-        return new ConversionServiceFactoryBean();
-    }
-
-    @Bean
     public static ConverterRegistrarBeanPostProcessor registrarBeanPostProcessor(ConversionService conversionService) {
         return new ConverterRegistrarBeanPostProcessor((ConverterRegistry) conversionService);
     }

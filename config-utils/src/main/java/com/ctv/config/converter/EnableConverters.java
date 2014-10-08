@@ -16,4 +16,8 @@ public @interface EnableConverters {
 
     String[] value();
 
+    boolean createConversionService() default true;
+
+    String beanName() default "conversionService";
+
 }
