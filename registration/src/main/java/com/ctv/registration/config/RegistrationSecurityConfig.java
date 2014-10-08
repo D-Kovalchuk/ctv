@@ -27,7 +27,6 @@ public class RegistrationSecurityConfig extends SecurityConfig {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
-                .usersByUsernameQuery("select * from users where username = ?")
                 .passwordEncoder(new BCryptPasswordEncoder())
                 .dataSource(dataSource);
     }
@@ -44,6 +43,7 @@ public class RegistrationSecurityConfig extends SecurityConfig {
     @Override
     public UserDetailsService userDetailsServiceBean() throws Exception {
         CtvUserDetailsService detailsService = new CtvUserDetailsService();
+        detailsService.setUsersByUsernameQuery("select * from users where username = ?");
         detailsService.setDataSource(dataSource);
         return detailsService;
     }
