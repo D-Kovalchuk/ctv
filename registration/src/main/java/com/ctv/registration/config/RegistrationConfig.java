@@ -1,5 +1,6 @@
 package com.ctv.registration.config;
 
+import com.ctv.config.EnableConverters;
 import com.ctv.registration.core.RegistrationService;
 import com.ctv.registration.core.RegistrationServiceImpl;
 import com.ctv.registration.core.port.in.UserPersistenceAdapter;
@@ -8,8 +9,8 @@ import com.ctv.registration.persistence.adapter.UserRepository;
 import com.ctv.registration.web.adapter.UserMvcAdapter;
 import com.ctv.registration.web.adapter.UserMvcAdapterImpl;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
@@ -18,6 +19,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  */
 @Configuration
 @EnableJpaRepositories(RegistrationConfig.PERSISTENCE_PACKAGE)
+@ComponentScan("com.ctv.registration.persistence.adapter.converter")
+@EnableConverters
 public class RegistrationConfig {
 
     public static final String PERSISTENCE_PACKAGE = "com.ctv.registration.persistence";
@@ -35,11 +38,6 @@ public class RegistrationConfig {
     @Bean
     public UserPersistenceAdapter registrationPersistenceAdapter(UserRepository userRepository, ConversionService conversionService) {
         return new UserPersistenceAdapterImpl(userRepository, conversionService);
-    }
-
-    @Bean
-    public ConversionServiceFactoryBean conversionService() {
-        return new ConversionServiceFactoryBean();
     }
 
 }

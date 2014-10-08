@@ -3,10 +3,12 @@ package com.ctv.registration.persistence.adapter.converter
 import com.ctv.registration.core.dto.User
 import com.ctv.registration.persistence.adapter.model.UserEntity
 import org.springframework.core.convert.converter.Converter
+import org.springframework.stereotype.Component
 
 /**
  * @author Timur Yarosh
  */
+@Component
 class UserToUserEntityConverter implements Converter<User, UserEntity> {
 
     @Override
