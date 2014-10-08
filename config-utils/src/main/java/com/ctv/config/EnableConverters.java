@@ -11,10 +11,9 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@Import(ConversionConfig.class)
+@Import({ImportConverterBeanRegistrar.class, ConversionConfig.class})
 public @interface EnableConverters {
 
-    //TODO array of packages with converters which should be added as beans and registered to ConverterRegistry
-//    String[] value() default {};
+    String[] value();
 
 }
