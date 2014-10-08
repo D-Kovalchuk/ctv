@@ -1,8 +1,8 @@
 package com.ctv.registration.config;
 
-import com.ctv.registration.web.adapter.RegistrationMvcAdapter;
+import com.ctv.registration.web.adapter.UserMvcAdapter;
 import com.ctv.registration.web.rest.AuthenticationController;
-import com.ctv.registration.web.rest.RegistrationController;
+import com.ctv.registration.web.rest.UserController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,8 +20,8 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public RegistrationController registrationController(RegistrationMvcAdapter registrationMvcAdapter) {
-        return new RegistrationController(registrationMvcAdapter);
+    public UserController registrationController(UserMvcAdapter userMvcAdapter) {
+        return new UserController(userMvcAdapter);
     }
 
 

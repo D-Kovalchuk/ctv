@@ -1,16 +1,16 @@
 package com.ctv.registration.core;
 
 import com.ctv.registration.core.dto.User;
-import com.ctv.registration.core.port.in.RegistrationPersistenceAdapter;
+import com.ctv.registration.core.port.in.UserPersistenceAdapter;
 
 /**
  * @author Dmitry Kovalchuk
  */
 public class RegistrationServiceImpl implements RegistrationService {
 
-    private RegistrationPersistenceAdapter persistenceAdapter;
+    private UserPersistenceAdapter persistenceAdapter;
 
-    public RegistrationServiceImpl(RegistrationPersistenceAdapter persistenceAdapter) {
+    public RegistrationServiceImpl(UserPersistenceAdapter persistenceAdapter) {
         this.persistenceAdapter = persistenceAdapter;
     }
 

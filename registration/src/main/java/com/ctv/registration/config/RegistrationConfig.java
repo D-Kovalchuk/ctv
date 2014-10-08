@@ -2,11 +2,11 @@ package com.ctv.registration.config;
 
 import com.ctv.registration.core.RegistrationService;
 import com.ctv.registration.core.RegistrationServiceImpl;
-import com.ctv.registration.core.port.in.RegistrationPersistenceAdapter;
-import com.ctv.registration.persistence.adapter.RegistrationPersistenceAdapterImpl;
+import com.ctv.registration.core.port.in.UserPersistenceAdapter;
+import com.ctv.registration.persistence.adapter.UserPersistenceAdapterImpl;
 import com.ctv.registration.persistence.adapter.UserRepository;
-import com.ctv.registration.web.adapter.RegistrationMvcAdapter;
-import com.ctv.registration.web.adapter.RegistrationMvcAdapterImpl;
+import com.ctv.registration.web.adapter.UserMvcAdapter;
+import com.ctv.registration.web.adapter.UserMvcAdapterImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ConversionServiceFactoryBean;
@@ -23,18 +23,18 @@ public class RegistrationConfig {
     public static final String PERSISTENCE_PACKAGE = "com.ctv.registration.persistence";
 
     @Bean
-    public RegistrationMvcAdapter registrationMvcAdapter(RegistrationService registrationService) {
-        return new RegistrationMvcAdapterImpl(registrationService);
+    public UserMvcAdapter registrationMvcAdapter(RegistrationService registrationService) {
+        return new UserMvcAdapterImpl(registrationService);
     }
 
     @Bean
-    public RegistrationService registrationService(RegistrationPersistenceAdapter persistenceAdapter) {
+    public RegistrationService registrationService(UserPersistenceAdapter persistenceAdapter) {
         return new RegistrationServiceImpl(persistenceAdapter);
     }
 
     @Bean
-    public RegistrationPersistenceAdapter registrationPersistenceAdapter(UserRepository userRepository, ConversionService conversionService) {
-        return new RegistrationPersistenceAdapterImpl(userRepository, conversionService);
+    public UserPersistenceAdapter registrationPersistenceAdapter(UserRepository userRepository, ConversionService conversionService) {
+        return new UserPersistenceAdapterImpl(userRepository, conversionService);
     }
 
     @Bean

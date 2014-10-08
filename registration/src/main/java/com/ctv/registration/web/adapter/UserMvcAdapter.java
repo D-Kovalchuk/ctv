@@ -1,11 +1,12 @@
-package com.ctv.registration.core.port.in;
+package com.ctv.registration.web.adapter;
+
 
 import com.ctv.registration.core.dto.User;
 
 /**
  * @author Dmitry Kovalchuk
  */
-public interface RegistrationPersistenceAdapter {
+public interface UserMvcAdapter {
 
     void createUser(User user);
 
@@ -14,5 +15,6 @@ public interface RegistrationPersistenceAdapter {
     void updateUser(User user);
 
     User findUserById(Integer id);
+
 
 }

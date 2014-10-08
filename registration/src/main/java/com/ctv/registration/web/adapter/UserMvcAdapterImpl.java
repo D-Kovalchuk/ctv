@@ -6,11 +6,11 @@ import com.ctv.registration.core.dto.User;
 /**
  * @author Dmitry Kovalchuk
  */
-public class RegistrationMvcAdapterImpl implements RegistrationMvcAdapter {
+public class UserMvcAdapterImpl implements UserMvcAdapter {
 
     private RegistrationService registrationService;
 
-    public RegistrationMvcAdapterImpl(RegistrationService registrationService) {
+    public UserMvcAdapterImpl(RegistrationService registrationService) {
         this.registrationService = registrationService;
     }
 

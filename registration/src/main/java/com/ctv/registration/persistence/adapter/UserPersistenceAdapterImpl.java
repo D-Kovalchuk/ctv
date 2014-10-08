@@ -1,19 +1,19 @@
 package com.ctv.registration.persistence.adapter;
 
 import com.ctv.registration.core.dto.User;
-import com.ctv.registration.core.port.in.RegistrationPersistenceAdapter;
+import com.ctv.registration.core.port.in.UserPersistenceAdapter;
 import com.ctv.registration.persistence.adapter.model.UserEntity;
 import org.springframework.core.convert.ConversionService;
 
 /**
  * @author Dmitry Kovalchuk
  */
-public class RegistrationPersistenceAdapterImpl implements RegistrationPersistenceAdapter {
+public class UserPersistenceAdapterImpl implements UserPersistenceAdapter {
 
     private ConversionService conversionService;
     private UserRepository userRepository;
 
-    public RegistrationPersistenceAdapterImpl(UserRepository userRepository, ConversionService conversionService) {
+    public UserPersistenceAdapterImpl(UserRepository userRepository, ConversionService conversionService) {
         this.userRepository = userRepository;
         this.conversionService = conversionService;
     }
