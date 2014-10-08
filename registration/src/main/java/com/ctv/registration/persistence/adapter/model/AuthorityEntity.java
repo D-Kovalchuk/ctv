@@ -6,8 +6,8 @@ import javax.persistence.*;
  * @author Timur Yarosh
  */
 @Entity
-@Table(name = Authority.TABLE_NAME)
-public class Authority {
+@Table(name = AuthorityEntity.TABLE_NAME)
+public class AuthorityEntity {
 
     public static final String TABLE_NAME = "authorities";
 
@@ -15,7 +15,7 @@ public class Authority {
     @GeneratedValue
     private Integer id;
 
-    @ManyToOne(targetEntity = Account.class)
+    @ManyToOne(targetEntity = UserEntity.class)
     @JoinColumn(name = "username", referencedColumnName = "username")
     private String username;
 

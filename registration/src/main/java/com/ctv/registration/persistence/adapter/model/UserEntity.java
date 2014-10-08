@@ -11,8 +11,8 @@ import javax.validation.constraints.NotNull;
  * @author Timur Yarosh
  */
 @Entity
-@Table(name = Account.TABLE_NAME)
-public class Account {
+@Table(name = UserEntity.TABLE_NAME)
+public class UserEntity {
 
     public static final String TABLE_NAME = "users";
 
