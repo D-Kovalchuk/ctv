@@ -25,7 +25,7 @@ public class RegistrationController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public void updateUser(User user) {
+    public void updateUser(@RequestBody User user) {
         registrationMvcAdapter.updateUser(user);
     }
 
