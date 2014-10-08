@@ -11,33 +11,33 @@ import org.springframework.core.convert.ConversionService;
 public class RegistrationPersistenceAdapterImpl implements RegistrationPersistenceAdapter {
 
     private ConversionService conversionService;
-    private RegistrationRepository registrationRepository;
+    private UserRepository userRepository;
 
-    public RegistrationPersistenceAdapterImpl(RegistrationRepository registrationRepository, ConversionService conversionService) {
-        this.registrationRepository = registrationRepository;
+    public RegistrationPersistenceAdapterImpl(UserRepository userRepository, ConversionService conversionService) {
+        this.userRepository = userRepository;
         this.conversionService = conversionService;
     }
 
     @Override
     public void createUser(User user) {
         UserEntity userEntity = conversionService.convert(user, UserEntity.class);
-        registrationRepository.saveAndFlush(userEntity);
+        userRepository.save(userEntity);
     }
 
     @Override
     public void deleteUser(Integer id) {
-        registrationRepository.delete(id);
+        userRepository.delete(id);
     }
 
     @Override
     public void updateUser(User user) {
         UserEntity userEntity = conversionService.convert(user, UserEntity.class);
-        registrationRepository.saveAndFlush(userEntity);
+        userRepository.save(userEntity);
     }
 
     @Override
     public User findUserById(Integer id) {
-        UserEntity userEntity = registrationRepository.getOne(id);
+        UserEntity userEntity = userRepository.getOne(id);
         return conversionService.convert(userEntity, User.class);
     }
 

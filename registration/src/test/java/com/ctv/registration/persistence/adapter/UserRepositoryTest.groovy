@@ -24,10 +24,10 @@ import javax.transaction.Transactional
 @ContextConfiguration(classes = [PersistenceTestConfig, RegistrationConfig])
 @TransactionConfiguration(defaultRollback = false)
 @TestExecutionListeners([DependencyInjectionTestExecutionListener, DbUnitTestExecutionListener, TransactionalTestExecutionListener])
-class RegistrationRepositoryTest extends Specification {
+class UserRepositoryTest extends Specification {
 
     @Autowired
-    private RegistrationRepository registrationRepository;
+    private UserRepository registrationRepository;
 
     @Ignore
     @DatabaseSetup("/dataset/updateUser.xml")

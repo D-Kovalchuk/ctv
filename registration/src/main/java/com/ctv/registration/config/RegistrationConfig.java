@@ -4,7 +4,7 @@ import com.ctv.registration.core.RegistrationService;
 import com.ctv.registration.core.RegistrationServiceImpl;
 import com.ctv.registration.core.port.in.RegistrationPersistenceAdapter;
 import com.ctv.registration.persistence.adapter.RegistrationPersistenceAdapterImpl;
-import com.ctv.registration.persistence.adapter.RegistrationRepository;
+import com.ctv.registration.persistence.adapter.UserRepository;
 import com.ctv.registration.web.adapter.RegistrationMvcAdapter;
 import com.ctv.registration.web.adapter.RegistrationMvcAdapterImpl;
 import org.springframework.context.annotation.Bean;
@@ -33,8 +33,8 @@ public class RegistrationConfig {
     }
 
     @Bean
-    public RegistrationPersistenceAdapter registrationPersistenceAdapter(RegistrationRepository registrationRepository, ConversionService conversionService) {
-        return new RegistrationPersistenceAdapterImpl(registrationRepository, conversionService);
+    public RegistrationPersistenceAdapter registrationPersistenceAdapter(UserRepository userRepository, ConversionService conversionService) {
+        return new RegistrationPersistenceAdapterImpl(userRepository, conversionService);
     }
 
     @Bean
