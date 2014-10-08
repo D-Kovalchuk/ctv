@@ -1,5 +1,6 @@
 package com.ctv.config
 
+import com.ctv.config.property.ToProperties
 import org.springframework.beans.factory.annotation.Value
 import spock.lang.Specification
 import spock.lang.Unroll

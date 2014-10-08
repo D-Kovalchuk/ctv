@@ -1,4 +1,4 @@
-package com.ctv.config;
+package com.ctv.config.converter;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.ctv.config;
+package com.ctv.config.property;
 
 import org.springframework.beans.factory.annotation.Value;
 

@@ -1,6 +1,6 @@
 package com.ctv.registration.config;
 
-import com.ctv.config.EnableConverters;
+import com.ctv.config.converter.EnableConverters;
 import com.ctv.registration.core.RegistrationService;
 import com.ctv.registration.core.RegistrationServiceImpl;
 import com.ctv.registration.core.port.in.UserPersistenceAdapter;

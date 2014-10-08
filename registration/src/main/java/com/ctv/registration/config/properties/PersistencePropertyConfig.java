@@ -1,6 +1,6 @@
 package com.ctv.registration.config.properties;
 
-import com.ctv.config.EnablePropertySource;
+import com.ctv.config.property.EnablePropertySource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 

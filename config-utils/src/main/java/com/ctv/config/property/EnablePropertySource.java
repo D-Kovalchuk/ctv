@@ -1,19 +1,16 @@
-package com.ctv.config;
+package com.ctv.config.property;
 
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
 
 /**
- * @author Timur Yarosh
+ * @author Dmitry Kovalchuk
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@Import({ImportConverterBeanRegistrar.class, ConversionConfig.class})
-public @interface EnableConverters {
-
-    String[] value();
-
+@Import(PropertySourceConfig.class)
+public @interface EnablePropertySource {
 }

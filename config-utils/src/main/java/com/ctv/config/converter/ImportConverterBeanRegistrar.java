@@ -1,4 +1,4 @@
-package com.ctv.config;
+package com.ctv.config.converter;
 
 import org.reflections.Reflections;
 import org.slf4j.Logger;
