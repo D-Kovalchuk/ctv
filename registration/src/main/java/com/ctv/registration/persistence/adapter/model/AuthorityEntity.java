@@ -2,6 +2,8 @@ package com.ctv.registration.persistence.adapter.model;
 
 import javax.persistence.*;
 
+import static javax.persistence.EnumType.STRING;
+
 /**
  * @author Timur Yarosh
  */
@@ -20,6 +22,7 @@ public class AuthorityEntity {
     private String username;
 
     @Column(name = "authority")
+    @Enumerated(STRING)
     private Role role;
 
     public Role getRole() {
