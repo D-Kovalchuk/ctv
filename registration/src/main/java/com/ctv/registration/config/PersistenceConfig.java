@@ -10,6 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.jdbc.datasource.init.DataSourceInitializer;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -58,6 +62,23 @@ public class PersistenceConfig {
         Properties jpaProperties = hibernatePropertiesHolder.toProperties();
         entityManagerFactoryBean.setJpaProperties(jpaProperties);
         return entityManagerFactoryBean;
+    }
+
+    @Bean
+    public DataSourceInitializer dataSourceInitializer(DataSource dataSource, ResourceDatabasePopulator databasePopulator) {
+        DataSourceInitializer initializer = new DataSourceInitializer();
+        initializer.setDataSource(dataSource);
+        initializer.setDatabasePopulator(databasePopulator);
+        return initializer;
+    }
+
+    @Bean
+    public ResourceDatabasePopulator resourceDatabasePopulator() {
+        ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator();
+        Resource resource = new ClassPathResource("data.sql");
+        databasePopulator.setScripts(resource);
+        databasePopulator.setContinueOnError(true);
+        return databasePopulator;
     }
 
 }

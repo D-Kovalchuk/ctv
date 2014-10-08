@@ -1,0 +1,1 @@
+insert into users values (1, 'username@company.com', true, 'pw', 'company.com', 'ROLE_WATCHER', 'username')
