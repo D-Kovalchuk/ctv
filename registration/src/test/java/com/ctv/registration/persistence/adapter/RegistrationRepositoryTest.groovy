@@ -1,5 +1,4 @@
 package com.ctv.registration.persistence.adapter
-
 import com.ctv.registration.config.RegistrationConfig
 import com.ctv.registration.persistence.adapter.model.Account
 import com.github.springtestdbunit.DbUnitTestExecutionListener
@@ -7,7 +6,6 @@ import com.github.springtestdbunit.annotation.DatabaseSetup
 import com.github.springtestdbunit.annotation.ExpectedDatabase
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.test.annotation.Repeat
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
@@ -17,7 +15,6 @@ import org.springframework.transaction.PlatformTransactionManager
 import spock.lang.Specification
 
 import javax.transaction.Transactional
-
 /**
  * @author Dmitry Kovalchuk
  */
@@ -30,7 +27,7 @@ class RegistrationRepositoryTest extends Specification {
     @Autowired
     private RegistrationRepository registrationRepository;
     @Autowired
-    private PlatformTransactionManager tm;
+    private PlatformTransactionManager tm; //todo why?
 
     //todo add on more data set for authorities table
     @DatabaseSetup("/dataset/updateUser.xml")
