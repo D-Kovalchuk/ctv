@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity
 import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.security.test.context.support.WithSecurityContextTestExcecutionListener
@@ -33,7 +34,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 /**
  * @author Timur Yarosh
  */
-@ContextConfiguration(classes = [MvcTestConfig])
+@ContextConfiguration(classes = [MvcTestConfig, SecurityTestConfig])
 @WebAppConfiguration
 @TestExecutionListeners(listeners = [ServletTestExecutionListener,
         DependencyInjectionTestExecutionListener,
@@ -46,10 +47,6 @@ class AuthenticationControllerTest extends Specification {
     def WebApplicationContext webApplicationContext
     @Autowired
     def Filter springSecurityFilterChain
-    @Autowired
-    def authenticationManagerMock
-    @Autowired
-    def sessionRepository
 
     @WithMockUser
     def "authenticate"() {
@@ -70,22 +67,27 @@ class AuthenticationControllerTest extends Specification {
 
     @Configuration
     @EnableWebMvc
-    @EnableWebMvcSecurity
-    class MvcTestConfig extends WebMvcConfigurerAdapter {
+    static class MvcTestConfig extends WebMvcConfigurerAdapter {
+
+        def authenticationManagerMock = Mock(AuthenticationManager)
 
         @Bean
         AuthenticationManager authenticationManagerMock() {
-            return Mock(AuthenticationManager)
+            return
         }
 
         @Bean
         RedisOperationsSessionRepository sessionRepositoryMock() {
-            return Mock(RedisOperationsSessionRepository)
+
         }
 
         @Bean
         AuthenticationController authenticationController() {
-            return new AuthenticationController(authenticationManagerMock(), sessionRepository())
+            return new AuthenticationController(authenticationManagerMock(), AuthenticationControllerTest.this.sessionRepositoryMock())
         }
+    }
+
+    @EnableWebMvcSecurity
+    static class SecurityTestConfig extends WebSecurityConfigurerAdapter {
     }
 }
