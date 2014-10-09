@@ -60,6 +60,8 @@
         <jetty-stop-port>8081</jetty-stop-port>
         <jetty-stop-key>stop</jetty-stop-key>
         <jetty.port>8080</jetty.port>
+        <cglib.version>3.1</cglib.version>
+        <objenesis.version>2.1</objenesis.version>
     </properties>
 
     <dependencies>
@@ -91,6 +93,12 @@
             <groupId>com.github.isrsal</groupId>
             <artifactId>spring-mvc-logger</artifactId>
             <version>${spring.mvc.logger.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-log4j12</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!--Data binding-->
@@ -103,6 +111,12 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>5.1.2.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path-assert</artifactId>
+            <version>${json.path.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- Web dependencies -->
@@ -170,12 +184,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
-            <version>${json.path.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-spring</artifactId>
             <version>${spock.version}</version>
@@ -197,6 +205,18 @@
             <groupId>com.github.springtestdbunit</groupId>
             <artifactId>spring-test-dbunit</artifactId>
             <version>${spring-test-dbunit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+            <version>${cglib.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.objenesis</groupId>
+            <artifactId>objenesis</artifactId>
+            <version>${objenesis.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -292,8 +312,12 @@
 
     <repositories>
         <repository>
-            <id>Spring snapshot libs</id>
+            <id>spring-snapshots</id>
             <url>http://maven.springframework.org/snapshot</url>
+        </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <url>http://repo.springsource.org/libs-milestone/</url>
         </repository>
     </repositories>
 
