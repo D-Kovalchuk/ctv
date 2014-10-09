@@ -60,6 +60,7 @@
         <jetty-stop-port>8081</jetty-stop-port>
         <jetty-stop-key>stop</jetty-stop-key>
         <jetty.port>8080</jetty.port>
+        <embedded.redis.version>0.3</embedded.redis.version>
     </properties>
 
     <dependencies>
@@ -205,6 +206,12 @@
             <version>${spring-test-dbunit.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>redis.embedded</groupId>
+            <artifactId>embedded-redis</artifactId>
+            <version>${embedded.redis.version}</version>
+            <scope>test</scope>
+        </dependency>
 
 
         <!--Data access-->
@@ -300,6 +307,10 @@
         <repository>
             <id>Spring snapshot libs</id>
             <url>http://maven.springframework.org/snapshot</url>
+        </repository>
+        <repository>
+            <id>clojars.org</id>
+            <url>http://clojars.org/repo</url>
         </repository>
     </repositories>
 

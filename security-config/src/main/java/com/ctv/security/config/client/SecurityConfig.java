@@ -50,12 +50,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .csrf().disable();
     }
 
-    @Bean
-    @Override
-    public UserDetailsService userDetailsServiceBean() throws Exception {
-        return super.userDetailsServiceBean();
-    }
-
 
     @Bean
     @Override

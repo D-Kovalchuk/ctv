@@ -2,6 +2,11 @@ package com.ctv.registration.web.rest;
 
 import com.ctv.registration.core.dto.User;
 import com.ctv.registration.web.adapter.UserMvcAdapter;
+import com.ctv.security.config.client.CtvUserDetails;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,7 +40,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{id}", method = DELETE)
-    public void deleteUser(@PathVariable Integer id) {
+    public void deleteUser(@PathVariable Integer id, @AuthenticationPrincipal CtvUserDetails userDetails) {
+        System.out.println(userDetails.getId());
         userMvcAdapter.deleteUser(id);
     }
 

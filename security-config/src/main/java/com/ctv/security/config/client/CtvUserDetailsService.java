@@ -1,7 +1,10 @@
 package com.ctv.security.config.client;
 
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 
 import java.util.List;
@@ -9,11 +12,14 @@ import java.util.List;
 /**
  * @author Dmitry Kovalchuk
  */
-public class CtvUserDetailsService extends JdbcDaoImpl {
+public class CtvUserDetailsService extends JdbcDaoSupport implements UserDetailsService {
 
     @Override
-    protected List<UserDetails> loadUsersByUsername(String username) {
-        return getJdbcTemplate().query(getUsersByUsernameQuery(), new String[]{username}, (rs, rowNum) -> {
+    public CtvUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        String authority = getJdbcTemplate().queryForObject("select username,authority from authorities where username = ?", new String[]{username}, (rs, rowNum) -> {
+            return rs.getString("authority");
+        });
+        return getJdbcTemplate().queryForObject("select * from users where username = ?", new String[]{username}, (rs, rowNum) -> {
             int id = rs.getInt("id");
             String login = rs.getString("username");
             String password = rs.getString("password");
@@ -23,7 +29,7 @@ public class CtvUserDetailsService extends JdbcDaoImpl {
             return CtvUserDetailsBuilder.get()
                     .withUsername(login)
                     .withPassword(password)
-                    .withAuthorities(AuthorityUtils.NO_AUTHORITIES)
+                    .withAuthorities(AuthorityUtils.createAuthorityList(authority))
                     .withId(id)
                     .withEmail(email)
                     .withType(type)

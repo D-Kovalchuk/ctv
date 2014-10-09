@@ -1,11 +1,15 @@
 package com.ctv.registration.config;
 
 import com.ctv.security.config.client.CtvUserDetailsService;
+import com.ctv.security.config.client.Provider;
 import com.ctv.security.config.client.SecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -22,16 +26,20 @@ public class RegistrationSecurityConfig extends SecurityConfig {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication()
-                .passwordEncoder(new BCryptPasswordEncoder())
-                .dataSource(dataSource);
+        auth.authenticationProvider(authenticationProvider());
     }
 
     @Bean
-    @Override
-    public UserDetailsService userDetailsServiceBean() throws Exception {
+    public AuthenticationProvider authenticationProvider() throws Exception {
+        Provider daoAuthenticationProvider = new Provider(userDetailsServiceBean1());
+        return daoAuthenticationProvider;
+    }
+
+    @Bean
+//    @Override
+    public UserDetailsService userDetailsServiceBean1() throws Exception {
         CtvUserDetailsService detailsService = new CtvUserDetailsService();
-        detailsService.setUsersByUsernameQuery("select * from users where username = ?");
+//        detailsService.setUsersByUsernameQuery("select * from users where username = ?");
         detailsService.setDataSource(dataSource);
         return detailsService;
     }

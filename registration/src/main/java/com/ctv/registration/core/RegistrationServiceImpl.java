@@ -2,6 +2,7 @@ package com.ctv.registration.core;
 
 import com.ctv.registration.core.dto.User;
 import com.ctv.registration.core.port.in.UserPersistenceAdapter;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     //todo user delete only himself
+    @PreAuthorize("authentication.getDetails().getId() == #id")
     @Override
     public void deleteUser(Integer id) {
         persistenceAdapter.deleteUser(id);
