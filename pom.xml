@@ -33,6 +33,7 @@
         <dbunit.version>2.5.0</dbunit.version>
         <spring-test-dbunit.version>1.1.0</spring-test-dbunit.version>
         <hsqldb.version>2.3.2</hsqldb.version>
+        <powermock.version>1.5.6</powermock.version>
 
         <!--Other-->
         <commons.lang3.version>3.3.2</commons.lang3.version>
@@ -62,6 +63,7 @@
         <jetty.port>8080</jetty.port>
         <cglib.version>3.1</cglib.version>
         <objenesis.version>2.1</objenesis.version>
+        <mockito.all.version>1.9.5</mockito.all.version>
     </properties>
 
     <dependencies>
@@ -219,6 +221,24 @@
             <version>${objenesis.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${mockito.all.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+
 
 
         <!--Data access-->
