@@ -1,10 +1,9 @@
 package com.ctv.config.converter;
 
 import org.reflections.Reflections;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
+import org.springframework.context.ApplicationContextException;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.annotation.AnnotationAttributes;
@@ -24,7 +23,6 @@ import static org.apache.commons.lang3.ArrayUtils.isEmpty;
  */
 public class ImportConverterBeanRegistrar implements ImportBeanDefinitionRegistrar {
 
-    private static final Logger log = LoggerFactory.getLogger(ImportConverterBeanRegistrar.class);
     public static final String ANNOTATION_TYPE = EnableConverters.class.getName();
     public static final String VALUE_ATTRIBUTE = "value";
     public static final String CREATE_CONVERSION_SERVICE = "createConversionService";
@@ -37,12 +35,10 @@ public class ImportConverterBeanRegistrar implements ImportBeanDefinitionRegistr
         AnnotationAttributes annotationAttributes = getAnnotationAttributes(importingClassMetadata);
         String[] packages = annotationAttributes.getStringArray(VALUE_ATTRIBUTE);
         if (isEmpty(packages)) {
-            log.warn("None packages are specified. Please pass package as a parameter of value property in EnableConverters annotation");
-            return;
+            throw new ApplicationContextException("None packages are specified. Please pass package as a parameter of value property in EnableConverters annotation");
         }
         boolean createConversionService = annotationAttributes.getBoolean(CREATE_CONVERSION_SERVICE);
         String conversionServiceBeanName = annotationAttributes.getString(BEAN_NAME);
-
         registerConversionService(conversionServiceBeanName, createConversionService);
         registerConverters(packages);
     }
@@ -67,15 +63,11 @@ public class ImportConverterBeanRegistrar implements ImportBeanDefinitionRegistr
                 .map(Reflections::new)
                 .map(this::toClasses)
                 .flatMap(Set::stream)
-                .collect(groupingBy(this::name));
+                .collect(groupingBy(Class::getName));
     }
 
     private Set<Class<? extends Converter>> toClasses(Reflections reflection) {
         return reflection.getSubTypesOf(Converter.class);
-    }
-
-    private String name(Class<? extends Converter> c) {
-        return c.getName();
     }
 
     private void registerConverters(String[] packages) {
