@@ -33,6 +33,7 @@
         <dbunit.version>2.5.0</dbunit.version>
         <spring-test-dbunit.version>1.1.0</spring-test-dbunit.version>
         <hsqldb.version>2.3.2</hsqldb.version>
+        <powermock.version>1.5.6</powermock.version>
 
         <!--Other-->
         <commons.lang3.version>3.3.2</commons.lang3.version>
@@ -60,6 +61,9 @@
         <jetty-stop-port>8081</jetty-stop-port>
         <jetty-stop-key>stop</jetty-stop-key>
         <jetty.port>8080</jetty.port>
+        <cglib.version>3.1</cglib.version>
+        <objenesis.version>2.1</objenesis.version>
+        <mockito.all.version>1.9.5</mockito.all.version>
     </properties>
 
     <dependencies>
@@ -91,6 +95,12 @@
             <groupId>com.github.isrsal</groupId>
             <artifactId>spring-mvc-logger</artifactId>
             <version>${spring.mvc.logger.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-log4j12</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!--Data binding-->
@@ -103,6 +113,12 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>5.1.2.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path-assert</artifactId>
+            <version>${json.path.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- Web dependencies -->
@@ -170,12 +186,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
-            <version>${json.path.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-spring</artifactId>
             <version>${spock.version}</version>
@@ -199,6 +209,36 @@
             <version>${spring-test-dbunit.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+            <version>${cglib.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.objenesis</groupId>
+            <artifactId>objenesis</artifactId>
+            <version>${objenesis.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${mockito.all.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+
 
 
         <!--Data access-->
@@ -292,8 +332,12 @@
 
     <repositories>
         <repository>
-            <id>Spring snapshot libs</id>
+            <id>spring-snapshots</id>
             <url>http://maven.springframework.org/snapshot</url>
+        </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <url>http://repo.springsource.org/libs-milestone/</url>
         </repository>
     </repositories>
 
