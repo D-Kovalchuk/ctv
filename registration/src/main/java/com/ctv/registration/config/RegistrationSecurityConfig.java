@@ -3,8 +3,10 @@ package com.ctv.registration.config;
 import com.ctv.security.config.client.CtvUserDetailsService;
 import com.ctv.security.config.client.SecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -17,12 +19,14 @@ import javax.sql.DataSource;
  * @author Dmitry Kovalchuk
  */
 @Configuration
+@PropertySource("classpath:security-default.properties")
 public class RegistrationSecurityConfig extends SecurityConfig {
-
-    public static final String QUERY = "select * from users join authorities using (username)";
 
     @Autowired
     private DataSource dataSource;
+
+    @Value("${security.loadUsersAndAuthoritiesByUsernameQuery}")
+    private String query;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -37,10 +41,9 @@ public class RegistrationSecurityConfig extends SecurityConfig {
         return authenticationProvider;
     }
 
-    @Override
     @Bean
-    public UserDetailsService userDetailsServiceBean() throws Exception {
-        CtvUserDetailsService detailsService = new CtvUserDetailsService(QUERY);
+    public UserDetailsService userDetailsServiceBean() {
+        CtvUserDetailsService detailsService = new CtvUserDetailsService(query);
         detailsService.setDataSource(dataSource);
         return detailsService;
     }

@@ -18,16 +18,14 @@ public class CtvUserDetailsService extends JdbcDaoSupport implements UserDetails
 
     @Override
     public CtvUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        String authority = getJdbcTemplate().queryForObject("select username,authority from authorities where username = ?", new String[]{username}, (rs, rowNum) -> {
-            return rs.getString("authority");
-        });
-        return getJdbcTemplate().queryForObject("select * from users where username = ?", new String[]{username}, (rs, rowNum) -> {
+        return getJdbcTemplate().queryForObject(usersAndAuthoritiesByUsernameQuery, new String[]{username}, (rs, rowNum) -> {
             int id = rs.getInt("id");
             String login = rs.getString("username");
             String password = rs.getString("password");
             String email = rs.getString("email");
             String type = rs.getString("type");
             String site = rs.getString("site");
+            String authority = rs.getString("authority");
             return CtvUserDetailsBuilder.get()
                     .withUsername(login)
                     .withPassword(password)
