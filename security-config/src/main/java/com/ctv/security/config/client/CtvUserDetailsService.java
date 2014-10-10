@@ -2,17 +2,19 @@ package com.ctv.security.config.client;
 
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
-
-import java.util.List;
 
 /**
  * @author Dmitry Kovalchuk
  */
 public class CtvUserDetailsService extends JdbcDaoSupport implements UserDetailsService {
+
+    private String usersAndAuthoritiesByUsernameQuery;
+
+    public CtvUserDetailsService(String usersAndAuthoritiesByUsernameQuery) {
+        this.usersAndAuthoritiesByUsernameQuery = usersAndAuthoritiesByUsernameQuery;
+    }
 
     @Override
     public CtvUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -1,7 +1,6 @@
 package com.ctv.registration.config;
 
 import com.ctv.security.config.client.CtvUserDetailsService;
-import com.ctv.security.config.client.Provider;
 import com.ctv.security.config.client.SecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -21,6 +19,8 @@ import javax.sql.DataSource;
 @Configuration
 public class RegistrationSecurityConfig extends SecurityConfig {
 
+    public static final String QUERY = "select * from users join authorities using (username)";
+
     @Autowired
     private DataSource dataSource;
 
@@ -31,15 +31,16 @@ public class RegistrationSecurityConfig extends SecurityConfig {
 
     @Bean
     public AuthenticationProvider authenticationProvider() throws Exception {
-        Provider daoAuthenticationProvider = new Provider(userDetailsServiceBean1());
-        return daoAuthenticationProvider;
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setPasswordEncoder(new BCryptPasswordEncoder());
+        authenticationProvider.setUserDetailsService(userDetailsServiceBean());
+        return authenticationProvider;
     }
 
+    @Override
     @Bean
-//    @Override
-    public UserDetailsService userDetailsServiceBean1() throws Exception {
-        CtvUserDetailsService detailsService = new CtvUserDetailsService();
-//        detailsService.setUsersByUsernameQuery("select * from users where username = ?");
+    public UserDetailsService userDetailsServiceBean() throws Exception {
+        CtvUserDetailsService detailsService = new CtvUserDetailsService(QUERY);
         detailsService.setDataSource(dataSource);
         return detailsService;
     }
