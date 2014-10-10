@@ -8,7 +8,7 @@
     </appender>
 
     <logger name="com.ctv">
-        <level value="DEBUG"/>
+        <level value="TRACE"/>
     </logger>
     <logger name="com.github.isrsal.logging">
         <level value="DEBUG"/>
