@@ -1,5 +1,6 @@
 package com.ctv.registration.core.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -25,6 +26,9 @@ public class User {
     @JsonProperty("site")
     private String site;
 
+    @JsonIgnore
+    private Boolean enabled;
+
     public String getUsername() {
         return username;
     }
@@ -49,4 +53,11 @@ public class User {
         return id;
     }
 
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
 }

@@ -3,9 +3,6 @@ package com.ctv.registration.web.rest;
 import com.ctv.registration.core.dto.User;
 import com.ctv.registration.web.adapter.UserMvcAdapter;
 import com.ctv.security.config.client.CtvUserDetails;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +20,7 @@ public class UserController {
 
     public static final String START_PAGE = "0";
     public static final String PAGE_SIZE = "10";
+    public static final String X_AUTH_TOKEN = "x-auth-token";
     private UserMvcAdapter userMvcAdapter;
 
     public UserController(UserMvcAdapter userMvcAdapter) {
@@ -34,14 +32,14 @@ public class UserController {
         userMvcAdapter.createUser(user);
     }
 
-    @RequestMapping(method = PUT)
+    @RequestMapping(headers = X_AUTH_TOKEN, method = PUT)
     public void updateUser(@RequestBody User user) {
         userMvcAdapter.updateUser(user);
     }
 
-    @RequestMapping(value = "/{id}", method = DELETE)
-    public void deleteUser(@PathVariable Integer id, @AuthenticationPrincipal CtvUserDetails userDetails) {
-        System.out.println(userDetails.getId());
+    @RequestMapping(headers = X_AUTH_TOKEN, method = DELETE)
+    public void deleteUser(@AuthenticationPrincipal CtvUserDetails userDetails) {
+        Integer id = userDetails.getId();
         userMvcAdapter.deleteUser(id);
     }
 

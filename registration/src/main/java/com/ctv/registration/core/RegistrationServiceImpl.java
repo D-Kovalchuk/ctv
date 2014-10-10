@@ -24,15 +24,15 @@ public class RegistrationServiceImpl implements RegistrationService {
         persistenceAdapter.createUser(user);
     }
 
-    //todo user delete only himself
-    @PreAuthorize("authentication.getDetails().getId() == #id")
     @Override
     public void deleteUser(Integer id) {
-        persistenceAdapter.deleteUser(id);
+        User user = persistenceAdapter.findUserById(id);
+        user.setEnabled(false);
+        persistenceAdapter.updateUser(user);
     }
 
-    //todo user update only himself
     @Override
+    @PreAuthorize("principal.id == #user.id")
     public void updateUser(User user) {
         persistenceAdapter.updateUser(user);
     }

@@ -21,6 +21,7 @@ class UserToUserEntityConverter implements Converter<User, UserEntity> {
             email = source.email
             type = source.type
             site = source.site
+            enabled = source.enabled
         }
         return userEntity;
     }
