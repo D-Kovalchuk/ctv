@@ -5,7 +5,7 @@ package com.ctv.registration.web.rest;
  */
 public class Endpoint {
 
-    public static final String USER_PATH = "/user";
-    public static final String TOKEN_PATH = "/token";
+    public static final String USER_PATH = "/users";
+    public static final String TOKEN_PATH = "/tokens";
 
 }
