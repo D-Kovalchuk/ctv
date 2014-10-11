@@ -1,13 +1,11 @@
 package com.ctv.registration.core;
 
-import com.ctv.registration.core.model.UserModel;
 import com.ctv.registration.core.adapter.UserPersistenceAdapter;
+import com.ctv.registration.core.model.UserModel;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
-import static java.lang.String.format;
 
 /**
  * @author Dmitry Kovalchuk
@@ -30,7 +28,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     public void deleteUser(Integer id) {
         UserModel user = persistenceAdapter.findUserById(id);
         if (user == null) {
-            throw new IllegalArgumentException(format("User with id '%s' not found", id));
+            throw new UserIdNotFoundException(id);
         }
         user.setEnabled(false);
         persistenceAdapter.updateUser(user);
@@ -45,7 +43,11 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     @Transactional(readOnly = true)
     public UserModel findUserById(Integer id) {
-        return persistenceAdapter.findUserById(id);
+        UserModel userById = persistenceAdapter.findUserById(id);
+        if (userById == null) {
+            throw new UserIdNotFoundException(id);
+        }
+        return userById;
     }
 
     @Override
