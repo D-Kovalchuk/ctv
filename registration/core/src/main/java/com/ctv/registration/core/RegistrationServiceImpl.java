@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static java.lang.String.format;
+
 /**
  * @author Dmitry Kovalchuk
  */
@@ -27,6 +29,9 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     public void deleteUser(Integer id) {
         UserModel user = persistenceAdapter.findUserById(id);
+        if (user == null) {
+            throw new IllegalArgumentException(format("User with id '%s' not found", id));
+        }
         user.setEnabled(false);
         persistenceAdapter.updateUser(user);
     }
