@@ -1,4 +1,4 @@
-package com.ctv.registration.core;
+package com.ctv.registration.core.exception;
 
 import static java.lang.String.format;
 

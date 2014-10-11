@@ -1,6 +1,7 @@
 package com.ctv.registration.core;
 
 import com.ctv.registration.core.adapter.UserPersistenceAdapter;
+import com.ctv.registration.core.exception.UserIdNotFoundException;
 import com.ctv.registration.core.model.UserModel;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;

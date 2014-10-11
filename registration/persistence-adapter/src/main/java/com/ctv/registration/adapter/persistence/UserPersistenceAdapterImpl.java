@@ -2,7 +2,7 @@ package com.ctv.registration.adapter.persistence;
 
 import com.ctv.registration.adapter.persistence.api.UserRepository;
 import com.ctv.registration.adapter.persistence.model.User;
-import com.ctv.registration.core.UsernameAlreadyExistsException;
+import com.ctv.registration.core.exception.UsernameAlreadyExistsException;
 import com.ctv.registration.core.adapter.UserPersistenceAdapter;
 import com.ctv.registration.core.model.UserModel;
 import org.springframework.core.convert.ConversionService;
