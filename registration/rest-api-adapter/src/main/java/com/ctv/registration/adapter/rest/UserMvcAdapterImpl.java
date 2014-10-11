@@ -8,6 +8,9 @@ import org.springframework.core.convert.TypeDescriptor;
 
 import java.util.List;
 
+import static org.springframework.core.convert.TypeDescriptor.collection;
+import static org.springframework.core.convert.TypeDescriptor.valueOf;
+
 /**
  * @author Dmitry Kovalchuk
  */
@@ -48,8 +51,8 @@ public class UserMvcAdapterImpl implements UserMvcAdapter {
     @SuppressWarnings("unchecked")
     public List<User> findAllUsers(int page, int size) {
         List<UserModel> allUsers = registrationService.findAllUsers(page, size);
-        TypeDescriptor collection = TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(User.class));
-        TypeDescriptor collection1 = TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(UserModel.class));
-        return (List<User>) conversionService.convert(allUsers, collection1, collection);
+        TypeDescriptor userList = collection(List.class, valueOf(User.class));
+        TypeDescriptor userModelList = collection(List.class, valueOf(UserModel.class));
+        return (List<User>) conversionService.convert(allUsers, userModelList, userList);
     }
 }
