@@ -4,6 +4,7 @@ import com.ctv.registration.adapter.persistence.model.User
 import com.ctv.registration.core.model.UserModel
 import org.springframework.core.convert.converter.Converter
 import org.springframework.stereotype.Component
+
 /**
  * @author Timur Yarosh
  */
@@ -14,7 +15,9 @@ class UserModelToUserConverter implements Converter<UserModel, User> {
     User convert(UserModel source) {
         def userEntity = new User()
         userEntity.with {
-            id = source.id
+            if (source.id != null) {
+                id = source.id
+            }
             username = source.username
             password = source.password
             email = source.email
