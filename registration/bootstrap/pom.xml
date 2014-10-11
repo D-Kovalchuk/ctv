@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ctv.registration</groupId>
-    <artifactId>${parent.artifactId}-bootstrap</artifactId>
+    <artifactId>${project.parent.artifactId}-bootstrap</artifactId>
 
     <properties>
         <jetty.port>8086</jetty.port>
@@ -19,12 +19,12 @@
     <dependencies>
         <dependency>
             <groupId>com.ctv.registration</groupId>
-            <artifactId>${parent.artifactId}-rest-api</artifactId>
+            <artifactId>${project.parent.artifactId}-rest-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.ctv.registration</groupId>
-            <artifactId>${parent.artifactId}-persistence</artifactId>
+            <artifactId>${project.parent.artifactId}-persistence</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

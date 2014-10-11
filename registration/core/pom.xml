@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ctv.registration</groupId>
-    <artifactId>${parent.artifactId}-core</artifactId>
+    <artifactId>${project.parent.artifactId}-core</artifactId>
 
 
     <dependencies>
