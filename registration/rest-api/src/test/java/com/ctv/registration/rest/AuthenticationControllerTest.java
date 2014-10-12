@@ -2,10 +2,12 @@ package com.ctv.registration.rest;
 
 import com.ctv.registration.adapter.rest.dto.AuthenticationRequest;
 import com.ctv.registration.rest.dto.ErrorInfo;
+import com.ctv.test.EmbeddedRedis;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +52,8 @@ public class AuthenticationControllerTest {
     public static final String WRONG_USERNAME = "wrong-username";
     public static final String WRONG_PASSWORD = "wrong-password";
 
-    //todo write a rule for junit
-    RedisServer redisServer;
+    @Rule
+    public EmbeddedRedis embeddedRedis = new EmbeddedRedis(6379);
 
     @Autowired
     private WebApplicationContext wac;
@@ -70,17 +72,10 @@ public class AuthenticationControllerTest {
 
     @Before
     public void setup() throws IOException {
-        redisServer = new RedisServer(6379);
-        this.redisServer.start();
         this.mockMvc = webAppContextSetup(this.wac)
                 .addFilters(springSecurityFilterChain)
                 .alwaysDo(print())
                 .build();
-    }
-
-    @After
-    public void cleanup() throws InterruptedException {
-        redisServer.stop();
     }
 
     @Test

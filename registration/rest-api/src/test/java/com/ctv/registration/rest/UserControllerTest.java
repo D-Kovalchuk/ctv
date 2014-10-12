@@ -5,9 +5,10 @@ import com.ctv.registration.adapter.rest.UserMvcAdapter;
 import com.ctv.registration.adapter.rest.dto.User;
 import com.ctv.registration.core.exception.UserIdNotFoundException;
 import com.ctv.registration.core.exception.UsernameAlreadyExistsException;
-import org.junit.After;
+import com.ctv.test.EmbeddedRedis;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
-import redis.embedded.RedisServer;
 
 import javax.servlet.Filter;
 
@@ -43,7 +43,8 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @WebAppConfiguration
 public class UserControllerTest {
 
-    private RedisServer redisServer;
+    @Rule
+    public EmbeddedRedis embeddedRedis = new EmbeddedRedis(6379);
 
     @Autowired
     private WebApplicationContext wac;
@@ -59,19 +60,11 @@ public class UserControllerTest {
 
     @Before
     public void setUp() throws Exception {
-        redisServer = new RedisServer(6379);
-        this.redisServer.start();
         this.mockMvc = webAppContextSetup(this.wac)
                 .addFilters(springSecurityFilterChain)
                 .alwaysDo(print())
                 .build();
     }
-
-    @After
-    public void cleanup() throws InterruptedException {
-        redisServer.stop();
-    }
-
 
     @Test
     public void createUser() throws Exception {
