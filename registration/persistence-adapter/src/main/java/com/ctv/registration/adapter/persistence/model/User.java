@@ -19,7 +19,7 @@ public class User {
     @GeneratedValue
     private int id;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
     private String username;
 
     @NotBlank

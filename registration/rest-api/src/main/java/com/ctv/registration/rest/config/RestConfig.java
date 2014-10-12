@@ -3,6 +3,7 @@ package com.ctv.registration.rest.config;
 import com.ctv.registration.adapter.rest.UserMvcAdapter;
 import com.ctv.registration.adapter.rest.config.RestAdapterConfig;
 import com.ctv.registration.rest.AuthenticationController;
+import com.ctv.registration.rest.GlobalControllerExceptionHandler;
 import com.ctv.registration.rest.UserController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @EnableWebMvc
 @Configuration
 @Import(RestAdapterConfig.class)
-public class RestConfig  extends WebMvcConfigurerAdapter {
+public class RestConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public AuthenticationController authenticationController(AuthenticationManager authenticationManager, RedisOperationsSessionRepository sessionRepository) {
@@ -28,6 +29,11 @@ public class RestConfig  extends WebMvcConfigurerAdapter {
     @Bean
     public UserController registrationController(UserMvcAdapter userMvcAdapter) {
         return new UserController(userMvcAdapter);
+    }
+
+    @Bean
+    public GlobalControllerExceptionHandler globalControllerExceptionHandler() {
+        return new GlobalControllerExceptionHandler();
     }
 
 

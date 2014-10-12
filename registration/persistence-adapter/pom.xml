@@ -10,13 +10,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ctv.registration</groupId>
-    <artifactId>${parent.artifactId}-persistence-adapter</artifactId>
+    <artifactId>${project.parent.artifactId}-persistence-adapter</artifactId>
 
 
     <dependencies>
         <dependency>
             <groupId>com.ctv.registration</groupId>
-            <artifactId>${parent.artifactId}-core</artifactId>
+            <artifactId>${project.parent.artifactId}-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
