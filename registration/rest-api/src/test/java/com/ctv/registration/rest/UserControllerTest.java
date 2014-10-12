@@ -5,8 +5,6 @@ import com.ctv.registration.adapter.rest.UserMvcAdapter;
 import com.ctv.registration.adapter.rest.dto.User;
 import com.ctv.registration.core.exception.UserIdNotFoundException;
 import com.ctv.registration.core.exception.UsernameAlreadyExistsException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -15,26 +13,19 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.test.context.support.WithSecurityContextTestExcecutionListener;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.springframework.test.context.web.ServletTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 import redis.embedded.RedisServer;
 
 import javax.servlet.Filter;
-import java.util.List;
 
 import static com.ctv.registration.rest.Endpoint.*;
-import static java.util.Arrays.asList;
+import static com.ctv.test.Converters.toJson;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -50,11 +41,6 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
 @ContextConfiguration(classes = {SecurityTestConfig.class, RestTestConfig.class})
 @WebAppConfiguration
-@TestExecutionListeners(listeners={ServletTestExecutionListener.class,
-        DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class,
-        TransactionalTestExecutionListener.class,
-        WithSecurityContextTestExcecutionListener.class})
 public class UserControllerTest {
 
     private RedisServer redisServer;
@@ -176,12 +162,5 @@ public class UserControllerTest {
 
         verify(userMvcAdapter).findAllUsers(Integer.valueOf(START_PAGE), Integer.valueOf(PAGE_SIZE));
     }
-
-    //todo extract to util class in test utils project
-    private String toJson(Object object) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(object);
-    }
-
 
 }

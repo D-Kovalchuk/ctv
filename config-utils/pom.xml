@@ -12,11 +12,22 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        <reflections.version>0.9.9</reflections.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
             <version>${reflections.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ctv</groupId>
+            <artifactId>test-utils</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

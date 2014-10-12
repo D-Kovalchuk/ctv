@@ -26,6 +26,7 @@ import java.io.IOException;
 
 import static com.ctv.registration.rest.Endpoint.TOKEN_PATH;
 import static com.ctv.registration.rest.Endpoint.X_AUTH_TOKEN;
+import static com.ctv.test.Converters.toJson;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.any;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -117,12 +118,6 @@ public class AuthenticationControllerTest {
 
         Session session1 = sessionRepository.getSession(sessionId);
         assertThat(session1.getAttribute(SPRING_SECURITY_CONTEXT)).isNull();
-    }
-
-    //todo extract to util class in test utils project
-    private String toJson(Object object) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(object);
     }
 
 }
