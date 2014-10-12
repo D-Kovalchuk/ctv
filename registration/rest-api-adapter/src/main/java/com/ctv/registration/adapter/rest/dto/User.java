@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author Dmitry Kovalchuk
  */
+//todo add validation
 public class User {
 
     @JsonProperty("id")
