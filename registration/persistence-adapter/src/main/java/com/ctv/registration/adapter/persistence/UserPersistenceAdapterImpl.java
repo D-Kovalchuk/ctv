@@ -31,6 +31,7 @@ public class UserPersistenceAdapterImpl implements UserPersistenceAdapter {
         User userEntity = conversionService.convert(user, User.class);
         try {
             userRepository.save(userEntity);
+            //todo change to DataAccessException
         } catch (JpaSystemException e) {
             String username = user.getUsername();
             throw new UsernameAlreadyExistsException(username);

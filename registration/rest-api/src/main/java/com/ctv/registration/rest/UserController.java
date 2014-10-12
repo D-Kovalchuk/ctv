@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.ctv.registration.rest.Endpoint.USER_PATH;
+import static com.ctv.registration.rest.Endpoint.*;
+import static org.springframework.http.HttpStatus.*;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 /**
@@ -18,37 +19,39 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 @RequestMapping(USER_PATH)
 public class UserController {
 
-    public static final String START_PAGE = "0";
-    public static final String PAGE_SIZE = "10";
-    public static final String X_AUTH_TOKEN = "x-auth-token";
     private UserMvcAdapter userMvcAdapter;
 
     public UserController(UserMvcAdapter userMvcAdapter) {
         this.userMvcAdapter = userMvcAdapter;
     }
 
+    @ResponseStatus(CREATED)
     @RequestMapping(method = POST)
     public void createUser(@RequestBody User user) {
         userMvcAdapter.createUser(user);
     }
 
+    @ResponseStatus(OK)
     @RequestMapping(headers = X_AUTH_TOKEN, method = PUT)
     public void updateUser(@RequestBody User user) {
         userMvcAdapter.updateUser(user);
     }
 
+    @ResponseStatus(NO_CONTENT)
     @RequestMapping(headers = X_AUTH_TOKEN, method = DELETE)
     public void deleteUser(@AuthenticationPrincipal CtvUserDetails userDetails) {
         Integer id = userDetails.getId();
         userMvcAdapter.deleteUser(id);
     }
 
-    @RequestMapping(value = "/{id}", method = GET)
+    @ResponseStatus(OK)
+    @RequestMapping(value = BY_ID, method = GET)
     public User findUser(@PathVariable Integer id) {
         return userMvcAdapter.findUserById(id);
     }
 
-    @RequestMapping(params = {"page", "size"}, method = GET)
+    @ResponseStatus(OK)
+    @RequestMapping(params = {PAGE_PARAM, SIZE_PARAM}, method = GET)
     public List<User> findUsers(@RequestParam(defaultValue = START_PAGE) int page,
                                 @RequestParam(defaultValue = PAGE_SIZE) int size) {
         return userMvcAdapter.findAllUsers(page, size);
