@@ -5,22 +5,19 @@ import com.ctv.registration.core.exception.UsernameAlreadyExistsException;
 import com.ctv.registration.rest.dto.ErrorInfo;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.HttpStatus.*;
 
 /**
  * @author Timur Yarosh
  */
+@ResponseBody
 @ControllerAdvice
 public class GlobalControllerExceptionHandler {
 
     @ResponseStatus(NOT_FOUND)
     @ExceptionHandler
-    @ResponseBody
     public ErrorInfo handleUserIdNotFoundException(UserIdNotFoundException e) {
         int errorCode = NOT_FOUND.value();
         String errorMessage = e.getMessage();
@@ -29,7 +26,6 @@ public class GlobalControllerExceptionHandler {
 
     @ResponseStatus(CONFLICT)
     @ExceptionHandler
-    @ResponseBody
     public ErrorInfo handleUsernameAlreadyExistsException(UsernameAlreadyExistsException e) {
         int errorCode = CONFLICT.value();
         String errorMessage = e.getMessage();
@@ -38,7 +34,6 @@ public class GlobalControllerExceptionHandler {
 
     @ResponseStatus(UNAUTHORIZED)
     @ExceptionHandler
-    @ResponseBody
     public ErrorInfo handleAnyException(AuthenticationException e) {
         int errorCode = HttpStatus.UNAUTHORIZED.value();
         String errorMessage = e.getMessage();
@@ -47,7 +42,6 @@ public class GlobalControllerExceptionHandler {
 
     @ResponseStatus(INTERNAL_SERVER_ERROR)
     @ExceptionHandler
-    @ResponseBody
     public ErrorInfo handleAnyException(Exception e) {
         int errorCode = INTERNAL_SERVER_ERROR.value();
         String errorMessage = e.getMessage();
