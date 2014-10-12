@@ -3,9 +3,7 @@ package com.ctv.registration.rest;
 import com.ctv.registration.adapter.rest.dto.AuthenticationRequest;
 import com.ctv.registration.rest.dto.ErrorInfo;
 import com.ctv.test.EmbeddedRedis;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,7 +19,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
-import redis.embedded.RedisServer;
 
 import javax.servlet.Filter;
 import java.io.IOException;

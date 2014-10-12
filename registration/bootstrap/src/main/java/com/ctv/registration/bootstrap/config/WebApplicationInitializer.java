@@ -1,9 +1,9 @@
 package com.ctv.registration.bootstrap.config;
 
+import com.ctv.registration.persistence.config.PersistenceConfig;
 import com.ctv.registration.rest.config.RegistrationSecurityConfig;
 import com.ctv.registration.rest.config.RestConfig;
 import com.github.isrsal.logging.LoggingFilter;
-import com.ctv.registration.persistence.config.PersistenceConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.Filter;
