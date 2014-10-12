@@ -2,14 +2,14 @@ package com.ctv.registration.adapter.persistence;
 
 import com.ctv.registration.adapter.persistence.api.UserRepository;
 import com.ctv.registration.adapter.persistence.model.User;
-import com.ctv.registration.core.exception.UsernameAlreadyExistsException;
 import com.ctv.registration.core.adapter.UserPersistenceAdapter;
+import com.ctv.registration.core.exception.UsernameAlreadyExistsException;
 import com.ctv.registration.core.model.UserModel;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.orm.jpa.JpaSystemException;
 
 import java.util.List;
 
@@ -31,8 +31,7 @@ public class UserPersistenceAdapterImpl implements UserPersistenceAdapter {
         User userEntity = conversionService.convert(user, User.class);
         try {
             userRepository.save(userEntity);
-            //todo change to DataAccessException
-        } catch (JpaSystemException e) {
+        } catch (DataAccessException e) {
             String username = user.getUsername();
             throw new UsernameAlreadyExistsException(username);
         }
