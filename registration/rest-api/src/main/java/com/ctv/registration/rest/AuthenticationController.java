@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import static com.ctv.registration.rest.Endpoint.X_AUTH_TOKEN;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
@@ -40,8 +41,8 @@ public class AuthenticationController {
     }
 
     @ResponseStatus(OK)
-    @RequestMapping(method = DELETE, headers = "x-auth-token")
-    public void logout(@RequestHeader("x-auth-token") String token) {
+    @RequestMapping(method = DELETE, headers = X_AUTH_TOKEN)
+    public void logout(@RequestHeader(X_AUTH_TOKEN) String token) {
         sessionRepository.delete(token);
     }
 

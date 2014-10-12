@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.ctv.registration.rest.Endpoint.USER_PATH;
+import static com.ctv.registration.rest.Endpoint.*;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 /**
@@ -18,9 +18,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 @RequestMapping(USER_PATH)
 public class UserController {
 
-    public static final String START_PAGE = "0";
-    public static final String PAGE_SIZE = "10";
-    public static final String X_AUTH_TOKEN = "x-auth-token";
     private UserMvcAdapter userMvcAdapter;
 
     public UserController(UserMvcAdapter userMvcAdapter) {
@@ -43,12 +40,12 @@ public class UserController {
         userMvcAdapter.deleteUser(id);
     }
 
-    @RequestMapping(value = "/{id}", method = GET)
+    @RequestMapping(value = BY_ID, method = GET)
     public User findUser(@PathVariable Integer id) {
         return userMvcAdapter.findUserById(id);
     }
 
-    @RequestMapping(params = {"page", "size"}, method = GET)
+    @RequestMapping(params = {PAGE_PARAM, SIZE_PARAM}, method = GET)
     public List<User> findUsers(@RequestParam(defaultValue = START_PAGE) int page,
                                 @RequestParam(defaultValue = PAGE_SIZE) int size) {
         return userMvcAdapter.findAllUsers(page, size);

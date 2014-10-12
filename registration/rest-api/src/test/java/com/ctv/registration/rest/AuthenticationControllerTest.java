@@ -25,6 +25,7 @@ import javax.servlet.Filter;
 import java.io.IOException;
 
 import static com.ctv.registration.rest.Endpoint.TOKEN_PATH;
+import static com.ctv.registration.rest.Endpoint.X_AUTH_TOKEN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.any;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -47,7 +48,6 @@ public class AuthenticationControllerTest {
     public static final String PASSWORD = "password";
     public static final String WRONG_USERNAME = "wrong-username";
     public static final String WRONG_PASSWORD = "wrong-password";
-    public static final String HEADER = "x-auth-token";
 
     //todo write a rule for junit
     RedisServer redisServer;
@@ -90,7 +90,7 @@ public class AuthenticationControllerTest {
         mockMvc.perform(post(TOKEN_PATH).content(content1)
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON))
-                .andExpect(header().string(HEADER, any(String.class)));
+                .andExpect(header().string(X_AUTH_TOKEN, any(String.class)));
     }
 
     @Test
@@ -102,7 +102,7 @@ public class AuthenticationControllerTest {
         mockMvc.perform(post(TOKEN_PATH).content(toJson(request))
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON))
-                .andExpect(header().doesNotExist(HEADER))
+                .andExpect(header().doesNotExist(X_AUTH_TOKEN))
                 .andExpect(status().isUnauthorized())
                 .andExpect(content().string(toJson(errorInfo)));
     }
@@ -113,7 +113,7 @@ public class AuthenticationControllerTest {
         String key = "spring:session:sessions:" + sessionId;
         redisOperations.boundHashOps(key).put("sessionAttr:" + SPRING_SECURITY_CONTEXT, "security context");
 
-        mockMvc.perform(delete(TOKEN_PATH).header(HEADER, sessionId));
+        mockMvc.perform(delete(TOKEN_PATH).header(X_AUTH_TOKEN, sessionId));
 
         Session session1 = sessionRepository.getSession(sessionId);
         assertThat(session1.getAttribute(SPRING_SECURITY_CONTEXT)).isNull();
