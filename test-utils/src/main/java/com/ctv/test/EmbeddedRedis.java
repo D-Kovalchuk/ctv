@@ -3,7 +3,6 @@ package com.ctv.test;
 import org.junit.rules.ExternalResource;
 import redis.embedded.RedisServer;
 
-import java.io.IOException;
 import java.util.Objects;
 
 /**
@@ -22,14 +21,15 @@ public class EmbeddedRedis extends ExternalResource {
     @Override
     protected void before() throws Throwable {
         redisServer = new RedisServer(port);
+        redisServer.start();
     }
 
     @Override
     protected void after() {
         if (Objects.nonNull(redisServer)) {
             try {
-                redisServer.start();
-            } catch (IOException e) {
+                redisServer.stop();
+            } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
