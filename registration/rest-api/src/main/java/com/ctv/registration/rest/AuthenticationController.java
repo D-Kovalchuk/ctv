@@ -1,21 +1,16 @@
 package com.ctv.registration.rest;
 
 import com.ctv.registration.adapter.rest.dto.AuthenticationRequest;
-import com.ctv.registration.adapter.rest.dto.AuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.session.data.redis.RedisOperationsSessionRepository;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
-import static java.util.stream.Collectors.toList;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
@@ -36,28 +31,18 @@ public class AuthenticationController {
 
     @ResponseStatus(CREATED)
     @RequestMapping(method = POST)
-    public AuthenticationToken authenticate(@RequestBody AuthenticationRequest authenticationRequest, HttpServletRequest request) {
+    public void authenticate(@RequestBody AuthenticationRequest authenticationRequest, HttpServletRequest request) {
         UsernamePasswordAuthenticationToken token = createUserPasswordToken(authenticationRequest);
         Authentication authentication = this.authenticationManager.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         HttpSession session = request.getSession(true);
         session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
-        return createTokenResponse(authentication, session);
     }
 
     @ResponseStatus(OK)
     @RequestMapping(method = DELETE, headers = "x-auth-token")
     public void logout(@RequestHeader("x-auth-token") String token) {
         sessionRepository.delete(token);
-    }
-
-    public AuthenticationToken createTokenResponse(Authentication authentication, HttpSession session) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        List<String> authorities = userDetails.getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(toList());
-        return new AuthenticationToken(userDetails.getUsername(), authorities, session.getId());
     }
 
     private UsernamePasswordAuthenticationToken createUserPasswordToken(AuthenticationRequest authenticationRequest) {

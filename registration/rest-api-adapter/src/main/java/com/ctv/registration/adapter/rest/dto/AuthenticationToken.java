@@ -9,19 +9,15 @@ import java.util.List;
 */
 public class AuthenticationToken {
 
-    @JsonProperty("userName")
+    @JsonProperty("username")
     private String userName;
 
     @JsonProperty("authorities")
     private List<String> authorities;
 
-    @JsonProperty("sessionId")
-    private String sessionId;
-
-    public AuthenticationToken(String userName, List<String> authorities, String sessionId) {
+    public AuthenticationToken(String userName, List<String> authorities) {
         this.userName = userName;
         this.authorities = authorities;
-        this.sessionId = sessionId;
     }
 
     public String getUserName() {
@@ -30,9 +26,5 @@ public class AuthenticationToken {
 
     public List<String> getAuthorities() {
         return authorities;
-    }
-
-    public String getSessionId() {
-        return sessionId;
     }
 }

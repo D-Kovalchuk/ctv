@@ -12,7 +12,7 @@ public class AuthenticationRequest {
     private String password;
 
     @JsonCreator
-    public AuthenticationRequest(@JsonProperty("userName") String username,
+    public AuthenticationRequest(@JsonProperty("username") String username,
                                  @JsonProperty("password") String password) {
         this.username = username;
         this.password = password;
