@@ -1,5 +1,7 @@
 package com.ctv.registration.core.exception;
 
+import org.springframework.dao.DataAccessException;
+
 import static java.lang.String.format;
 
 /**
@@ -10,6 +12,14 @@ public class UsernameAlreadyExistsException extends RuntimeException {
     private static final String PATTERN = "The username '%s' is already in use";
 
     public UsernameAlreadyExistsException(String username) {
-        super(format(PATTERN, username));
+        super(createErrorMessage(username));
+    }
+
+    public UsernameAlreadyExistsException(String username, DataAccessException e) {
+        super(createErrorMessage(username), e);
+    }
+
+    private static String createErrorMessage(String username) {
+        return format(PATTERN, username);
     }
 }

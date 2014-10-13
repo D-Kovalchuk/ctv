@@ -33,7 +33,7 @@ public class UserPersistenceAdapterImpl implements UserPersistenceAdapter {
             userRepository.save(userEntity);
         } catch (DataAccessException e) {
             String username = user.getUsername();
-            throw new UsernameAlreadyExistsException(username);
+            throw new UsernameAlreadyExistsException(username, e);
         }
     }
 
