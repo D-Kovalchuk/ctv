@@ -5,6 +5,7 @@ import com.ctv.registration.rest.dto.ErrorInfo;
 import com.ctv.test.EmbeddedRedis;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,8 +50,8 @@ public class AuthenticationControllerTest {
     public static final String WRONG_USERNAME = "wrong-username";
     public static final String WRONG_PASSWORD = "wrong-password";
 
-    @Rule
-    public EmbeddedRedis embeddedRedis = new EmbeddedRedis(6379);
+    @ClassRule
+    public static EmbeddedRedis embeddedRedis = new EmbeddedRedis(6379);
 
     @Autowired
     private WebApplicationContext wac;
