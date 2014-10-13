@@ -27,7 +27,6 @@ class AuthenticationControllerIT extends Specification {
     static final WRONG_USERNAME = "wrong-username";
     static final TOKENS_ENDPOINT = "http://localhost:8099/tokens";
     static final TOKEN_HEADER = "x-auth-token";
-    static final String WRONG_TOKEN = "wrongToken"
     static final String SPRING_SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
 
     @Autowired
