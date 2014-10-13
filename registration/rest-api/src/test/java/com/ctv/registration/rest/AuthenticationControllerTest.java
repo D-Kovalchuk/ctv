@@ -4,17 +4,16 @@ import com.ctv.registration.adapter.rest.dto.AuthenticationRequest;
 import com.ctv.registration.rest.dto.ErrorInfo;
 import com.ctv.test.EmbeddedRedis;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.session.ExpiringSession;
 import org.springframework.session.Session;
 import org.springframework.session.SessionRepository;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -60,10 +59,10 @@ public class AuthenticationControllerTest {
     private Filter springSecurityFilterChain;
 
     @Autowired
-    SessionRepository<? extends ExpiringSession> sessionRepository;
+    private SessionRepository<? extends ExpiringSession> sessionRepository;
 
     @Autowired
-    RedisOperations<String, ExpiringSession> redisOperations;
+    private RedisOperations<String, ExpiringSession> redisOperations;
 
     private MockMvc mockMvc;
 
@@ -76,12 +75,15 @@ public class AuthenticationControllerTest {
                 .build();
     }
 
+    @After
+    public void tearDown() throws Exception {
+        embeddedRedis.clean();
+    }
+
     @Test
     public void authenticateUserWhenCredentialsIsGood() throws Exception {
         AuthenticationRequest request = new AuthenticationRequest(USERNAME, PASSWORD);
-        ObjectMapper mapper = new ObjectMapper();
-        String content1 = mapper.writeValueAsString(request);
-        mockMvc.perform(post(TOKEN_PATH).content(content1)
+        mockMvc.perform(post(TOKEN_PATH).content(toJson(request))
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON))
                 .andExpect(header().string(X_AUTH_TOKEN, any(String.class)));
@@ -102,9 +104,10 @@ public class AuthenticationControllerTest {
     }
 
     @Test
-    public void logout() throws Exception {
+    public void logout1() throws Exception {
         String sessionId = "9ce60ab3-3566-4dfd-a991-b2869966f5e8";
         String key = "spring:session:sessions:" + sessionId;
+
         redisOperations.boundHashOps(key).put("sessionAttr:" + SPRING_SECURITY_CONTEXT, "security context");
 
         mockMvc.perform(delete(TOKEN_PATH).header(X_AUTH_TOKEN, sessionId));
