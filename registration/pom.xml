@@ -12,6 +12,7 @@
         <module>rest-api</module>
         <module>rest-api-adapter</module>
         <module>bootstrap</module>
+        <module>integration-test</module>
     </modules>
 
     <parent>

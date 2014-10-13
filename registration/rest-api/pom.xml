@@ -10,14 +10,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ctv.registration</groupId>
-    <artifactId>${project.parent.artifactId}-rest-api</artifactId>
+    <artifactId>registration-rest-api</artifactId>
 
 
     <dependencies>
         <!--User dependencies-->
         <dependency>
             <groupId>com.ctv.registration</groupId>
-            <artifactId>${project.parent.artifactId}-rest-api-adapter</artifactId>
+            <artifactId>registration-rest-api-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
