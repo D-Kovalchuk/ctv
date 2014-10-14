@@ -1,37 +1,56 @@
 package com.ctv.test;
 
+import org.junit.After;
 import org.junit.rules.ExternalResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import redis.clients.jedis.Jedis;
 import redis.embedded.RedisServer;
 
-import java.util.Objects;
+import java.io.IOException;
+
+import static java.util.Objects.nonNull;
 
 /**
  * @author Dmitry Kovalchuk
  */
 public class EmbeddedRedis extends ExternalResource {
 
+    private static final Logger log = LoggerFactory.getLogger(EmbeddedRedis.class);
+
     private RedisServer redisServer;
 
-    private Integer port;
+    private Jedis jedis;
 
     public EmbeddedRedis(Integer port) {
-        this.port = port;
+        jedis = new Jedis("localhost", port);
+        try {
+            redisServer = new RedisServer(port);
+        } catch (IOException e) {
+            log.warn("Can't create RedisServer instance", e);
+        }
     }
 
     @Override
     protected void before() throws Throwable {
-        redisServer = new RedisServer(port);
         redisServer.start();
     }
 
     @Override
     protected void after() {
-        if (Objects.nonNull(redisServer)) {
+        if (nonNull(redisServer)) {
             try {
                 redisServer.stop();
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                log.warn("Can't stop redis", e);
             }
         }
     }
+
+    @After
+    public void clean() {
+        log.debug("delete all keys");
+        jedis.flushDB();
+    }
+
 }
