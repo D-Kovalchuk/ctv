@@ -8,6 +8,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -35,6 +36,9 @@ public class PersistenceConfig {
 
     public static final String PERSISTENCE_PACKAGE = "com.ctv.registration.persistence";
     public static final String ENTITIES_LOCATION = "com.ctv.registration.adapter.persistence.model";
+
+    @Value("${dbInitializerEnabled}")
+    private boolean dataInit;
 
     @Autowired
     private DataSourcePropertiesHolder dataSourcePropertiesHolder;
@@ -73,6 +77,7 @@ public class PersistenceConfig {
         DataSourceInitializer initializer = new DataSourceInitializer();
         initializer.setDataSource(dataSource);
         initializer.setDatabasePopulator(databasePopulator);
+        initializer.setEnabled(dataInit);
         return initializer;
     }
 
