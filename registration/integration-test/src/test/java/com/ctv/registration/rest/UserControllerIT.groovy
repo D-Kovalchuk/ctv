@@ -35,7 +35,7 @@ class UserControllerIT extends Specification {
     def final jettyPort = System.getProperty("jetty.port")
     def final rest = new RESTClient("http://localhost:${jettyPort}/")
 
-    @ExpectedDatabase(value = "/dataset/userCreated.xml", assertionMode = NON_STRICT)
+    @ExpectedDatabase(value = "dataset/userCreated.xml", assertionMode = NON_STRICT)
     def "should save new user into database"() {
         given:
         println new File(".").absolutePath

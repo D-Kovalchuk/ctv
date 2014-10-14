@@ -2,12 +2,14 @@ package com.ctv.config
 
 import com.ctv.config.property.ToProperties
 import org.springframework.beans.factory.annotation.Value
+import spock.lang.Ignore
 import spock.lang.Specification
 import spock.lang.Unroll
 
 /**
  * @author Dmitry Kovalchuk
  */
+@Ignore
 class ToPropertiesTest extends Specification {
 
     @Unroll
