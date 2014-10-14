@@ -9,6 +9,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.transaction.TransactionConfiguration
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener
 import org.springframework.transaction.annotation.Transactional
+import spock.lang.Ignore
 
 import static com.ctv.test.Converters.toJson
 import static com.github.springtestdbunit.assertion.DatabaseAssertionMode.NON_STRICT
@@ -31,6 +32,7 @@ class UserControllerIT extends AbstractIntegrationSpecification {
     public static final String NEW_COMPANY = "http://company.com"
     public static final String NEW_TYPE = "ROLE_WATCHER"
 
+    @Ignore("not finished yet")
     @ExpectedDatabase(value = "/dataset/userCreated.xml", assertionMode = NON_STRICT)
     def "should save new user into database"() {
         given:
