@@ -23,7 +23,9 @@ class UserModelToUserConverter implements Converter<UserModel, User> {
             email = source.email
             type = source.type
             site = source.site
-            enabled = source.enabled
+            if (source.enabled != null) {
+                enabled = source.enabled
+            }
         }
         return userEntity;
     }

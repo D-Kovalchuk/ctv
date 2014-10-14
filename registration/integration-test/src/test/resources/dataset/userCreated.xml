@@ -1,0 +1,18 @@
+<dataset>
+    <users id="1"
+           email="username@company.com"
+           enabled="true"
+           password="$2a$10$M8nZRjPQ0i8WSODkcHZ9kO0L/ekDPYyqeE9nofi6gDOd6oai8TjH."
+           site="http://company.com"
+           type="ROLE_WATCHER"
+           username="username"
+            />
+    <users id="2"
+           email="username2@company.com"
+           enabled="true"
+           password="$2a$10$M8nZRjPQ0i8WSODkcHZ9kO0L/ekDPYyqeE9nofi6gDOd6oai8TjH."
+           site="http://company.com"
+           type="ROLE_WATCHER"
+           username="username2"
+            />
+</dataset>

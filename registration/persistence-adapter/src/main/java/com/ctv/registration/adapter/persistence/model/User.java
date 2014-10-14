@@ -16,22 +16,24 @@ public class User {
     public static final String TABLE_NAME = "users";
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 
-    @Column(name = "username", unique = true)
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
     @NotBlank
     @Column(name = "password")
     private String password;
 
-    @Column(name = "enabled")
+    @Column(name = "enabled", nullable = false)
     private Boolean enabled = true;
 
     @Email
+    @NotBlank
     private String email;
 
+    @NotBlank
     private String type;
 
     @URL
