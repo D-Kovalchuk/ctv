@@ -24,6 +24,7 @@
         <embedded.redis.version>0.3</embedded.redis.version>
         <spring-security-test.version>4.0.0.M2</spring-security-test.version>
         <mockito.version>1.9.5</mockito.version>
+        <http.builder.version>0.7.1</http.builder.version>
     </properties>
 
 
@@ -31,6 +32,11 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy.modules.http-builder</groupId>
+            <artifactId>http-builder</artifactId>
+            <version>${http.builder.version}</version>
         </dependency>
 
         <!--Test-->
