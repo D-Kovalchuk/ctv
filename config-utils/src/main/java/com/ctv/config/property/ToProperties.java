@@ -1,7 +1,5 @@
 package com.ctv.config.property;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.lang.reflect.Field;
@@ -18,11 +16,11 @@ import static org.apache.commons.lang3.reflect.FieldUtils.readField;
 /**
  * @author Timur Yarosh
  */
-public class ToProperties {
+public abstract class ToProperties implements PropertyConvertible {
 
     public static final String PROPERTY_REGEXP = "[\\$\\{\\}]";
-    private static final Logger log = LoggerFactory.getLogger(ToProperties.class);
 
+    @Override
     public Properties toProperties() {
         Map<String, String> propertiesMap = getAllFieldsList(getClass()).stream()
                 .filter(this::isProperty)
