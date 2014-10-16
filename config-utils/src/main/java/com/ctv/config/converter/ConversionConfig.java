@@ -9,7 +9,7 @@ import org.springframework.core.convert.converter.ConverterRegistry;
  * @author Timur Yarosh
  */
 @Configuration
-public class ConversionConfig {
+class ConversionConfig {
 
     @Bean
     public static ConverterRegistrarBeanPostProcessor registrarBeanPostProcessor(ConversionService conversionService) {

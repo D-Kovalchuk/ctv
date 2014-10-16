@@ -8,7 +8,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
  * @author Dmitry Kovalchuk
  */
 @Configuration
-public class PropertySourceConfig {
+class PropertySourceConfig {
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {

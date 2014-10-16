@@ -11,7 +11,7 @@ import org.springframework.core.convert.converter.ConverterRegistry;
 /**
  * @author Timur Yarosh
  */
-public class ConverterRegistrarBeanPostProcessor implements BeanPostProcessor {
+class ConverterRegistrarBeanPostProcessor implements BeanPostProcessor {
 
     private static final Logger log = LoggerFactory.getLogger(ConverterRegistrarBeanPostProcessor.class);
     private ConverterRegistry converterRegistry;

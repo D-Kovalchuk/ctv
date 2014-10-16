@@ -21,7 +21,7 @@ import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 /**
  * @author Dmitry Kovalchuk
  */
-public class ImportConverterBeanRegistrar implements ImportBeanDefinitionRegistrar {
+class ImportConverterBeanRegistrar implements ImportBeanDefinitionRegistrar {
 
     public static final String ANNOTATION_TYPE = EnableConverters.class.getName();
     public static final String VALUE_ATTRIBUTE = "value";
