@@ -21,10 +21,25 @@
     <dependencies>
         <dependency>
             <groupId>com.ctv.registration</groupId>
-            <artifactId>registration-bootstrap</artifactId>
+            <artifactId>registration-rest-api</artifactId>
             <version>${project.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.ctv.registration</groupId>
+            <artifactId>registration-persistence</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ctv</groupId>
+            <artifactId>test-utils</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -35,6 +50,7 @@
                 <executions>
                     <execution>
                         <goals>
+                            <goal>compile</goal>
                             <goal>testCompile</goal>
                         </goals>
                     </execution>
@@ -70,6 +86,7 @@
                     <execution>
                         <goals>
                             <goal>testResources</goal>
+                            <goal>resources</goal>
                         </goals>
                     </execution>
                 </executions>

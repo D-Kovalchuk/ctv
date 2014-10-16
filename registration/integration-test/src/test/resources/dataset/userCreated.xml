@@ -15,4 +15,7 @@
            type="ROLE_WATCHER"
            username="username2"
             />
+
+    <authorities id="1" authority="ROLE_ORGANIZER" username="username" />
+    <authorities id="2" authority="ROLE_ORGANIZER" username="username2" />
 </dataset>
