@@ -52,7 +52,7 @@
         <groovy.eclipse.compiler.version>2.9.0-01</groovy.eclipse.compiler.version>
         <groovy.eclipse.batch.version>2.3.4-01</groovy.eclipse.batch.version>
         <maven.compiler.plugin>3.1</maven.compiler.plugin>
-        <jetty.maven.plugin.version>9.2.2.v20140723</jetty.maven.plugin.version>
+        <jetty.maven.plugin.version>9.3.0.M0</jetty.maven.plugin.version>
         <maven.war.plugin.version>2.4</maven.war.plugin.version>
         <jetty-stop-port>8081</jetty-stop-port>
         <jetty-stop-key>stop</jetty-stop-key>
