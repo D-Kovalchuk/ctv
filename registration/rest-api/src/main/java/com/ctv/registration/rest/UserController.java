@@ -4,6 +4,7 @@ import com.ctv.registration.adapter.rest.UserMvcAdapter;
 import com.ctv.registration.adapter.rest.dto.User;
 import com.ctv.security.config.client.CtvUserDetails;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,13 +28,13 @@ public class UserController {
 
     @ResponseStatus(CREATED)
     @RequestMapping(method = POST)
-    public void createUser(@RequestBody User user) {
+    public void createUser(@RequestBody @Validated User user) {
         userMvcAdapter.createUser(user);
     }
 
     @ResponseStatus(OK)
     @RequestMapping(headers = X_AUTH_TOKEN, method = PUT)
-    public void updateUser(@RequestBody User user) {
+    public void updateUser(@RequestBody @Validated User user) {
         userMvcAdapter.updateUser(user);
     }
 

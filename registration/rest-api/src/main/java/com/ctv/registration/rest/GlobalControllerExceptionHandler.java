@@ -5,7 +5,11 @@ import com.ctv.registration.core.exception.UsernameAlreadyExistsException;
 import com.ctv.registration.rest.dto.ErrorInfo;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -46,6 +50,13 @@ public class GlobalControllerExceptionHandler {
         int errorCode = INTERNAL_SERVER_ERROR.value();
         String errorMessage = e.getMessage();
         return new ErrorInfo(errorCode, errorMessage);
+    }
+
+    @ResponseStatus(CONFLICT)
+    @ExceptionHandler
+    public ErrorInfo handleValidationException(MethodArgumentNotValidException e) {
+        //todo consider validation violation messages
+        return new ErrorInfo(CONFLICT.value(), e.getLocalizedMessage());
     }
 
 }

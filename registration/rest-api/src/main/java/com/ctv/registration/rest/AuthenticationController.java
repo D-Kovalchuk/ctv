@@ -6,6 +6,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.session.data.redis.RedisOperationsSessionRepository;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +33,7 @@ public class AuthenticationController {
 
     @ResponseStatus(CREATED)
     @RequestMapping(method = POST)
-    public void authenticate(@RequestBody AuthenticationRequest authenticationRequest, HttpServletRequest request) {
+    public void authenticate(@RequestBody @Validated AuthenticationRequest authenticationRequest, HttpServletRequest request) {
         UsernamePasswordAuthenticationToken token = createUserPasswordToken(authenticationRequest);
         Authentication authentication = this.authenticationManager.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
