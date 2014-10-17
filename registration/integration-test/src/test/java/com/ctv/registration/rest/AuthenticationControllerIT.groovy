@@ -1,5 +1,6 @@
 package com.ctv.registration.rest
 import com.ctv.registration.PersistenceTestConfig
+import com.ctv.registration.adapter.rest.dto.AuthenticationRequest
 import com.ctv.registration.rest.config.RegistrationSecurityConfig
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
@@ -12,9 +13,9 @@ import org.springframework.session.SessionRepository
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
-import spock.lang.Ignore
 
 import static com.ctv.registration.rest.Endpoint.TOKEN_PATH
+import static com.ctv.test.Converters.toJson
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 /**
  * @author Timur Yarosh
@@ -34,13 +35,15 @@ class AuthenticationControllerIT extends AbstractIntegrationSpecification {
     @Autowired
     SessionRepository<? extends ExpiringSession> sessionRepository
 
-    @Ignore
     @DatabaseSetup(value = "/dataset/userCreated.xml")
     def "should authenticate user if credentials is good"() {
+        given:
+        def request = new AuthenticationRequest(USERNAME, PASSWORD)
+
         when:
         def response = restClient.post([
-                path              : pathTo(TOKEN_PATH),
-                body              : "{\"username\":\"${USERNAME}\", \"password\":\"${PASSWORD}\"}",
+                path              : TOKEN_PATH,
+                body              : toJson(request),
                 requestContentType: APPLICATION_JSON_VALUE])
 
         then:
@@ -49,16 +52,20 @@ class AuthenticationControllerIT extends AbstractIntegrationSpecification {
             headers[TOKEN_HEADER] != null
             data == null
         }
+
         and:
         sessionRepository.getSession(response.headers[TOKEN_HEADER].value) != null
     }
 
     @DatabaseSetup(value = "/dataset/userCreated.xml")
     def "should fail if credentials is bad"() {
+        given:
+        def request = new AuthenticationRequest(WRONG_USERNAME, PASSWORD)
+
         when:
         restClient.post([
-                path              : pathTo(TOKEN_PATH),
-                body              : "{\"username\":\"${WRONG_USERNAME}\", \"password\":\"${PASSWORD}\"}",
+                path              : TOKEN_PATH,
+                body              : toJson(request),
                 requestContentType: APPLICATION_JSON_VALUE])
 
         then:
@@ -71,17 +78,18 @@ class AuthenticationControllerIT extends AbstractIntegrationSpecification {
     }
 
     def "should logout"() {
-        setup:
+        given:
         def session = sessionRepository.createSession()
         sessionRepository.save(session)
         def token = session.getId()
 
+        when:
         restClient.delete([
-                path   : pathTo(TOKEN_PATH),
+                path   : TOKEN_PATH,
                 headers: ["${TOKEN_HEADER}": token]
         ])
 
-        expect:
+        then:
         sessionRepository.getSession(token).getAttribute(SPRING_SECURITY_CONTEXT) == null
     }
 }

@@ -9,9 +9,10 @@ import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
 import spock.lang.Ignore
 
+import static com.ctv.registration.rest.Endpoint.USER_PATH
 import static com.ctv.test.Converters.toJson
-import static com.github.springtestdbunit.assertion.DatabaseAssertionMode.NON_STRICT
 import static org.springframework.http.HttpStatus.CREATED
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 /**
  * @author Timur Yarosh
  */
@@ -28,7 +29,7 @@ class UserControllerIT extends AbstractIntegrationSpecification {
     public static final String NEW_TYPE = "ROLE_WATCHER"
 
     @Ignore("not finished yet")
-    @ExpectedDatabase(value = "/dataset/userCreated.xml", assertionMode = NON_STRICT)
+    @ExpectedDatabase(value = "/dataset/userCreated.xml")
     def "should save new user into database"() {
         given:
         def user = new User()
@@ -39,13 +40,12 @@ class UserControllerIT extends AbstractIntegrationSpecification {
             it.site = NEW_COMPANY
             it.type = NEW_TYPE
         }
-        def userJson = toJson(user)
 
         when:
         def response = restClient.post([
-                path       : "http://localhost:8099/users",
-                contentType: "application/json",
-                body       : userJson
+                path       : USER_PATH,
+                contentType: APPLICATION_JSON_VALUE,
+                body       : toJson(user)
         ])
 
         then:
