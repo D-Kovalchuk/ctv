@@ -11,7 +11,6 @@
 
     <groupId>com.ctv.registration</groupId>
     <artifactId>registration-integration-test</artifactId>
-    <packaging>pom</packaging>
 
     <properties>
         <jetty.port>8099</jetty.port>
@@ -94,32 +93,76 @@
 
             <!--Infrastructure-->
             <plugin>
-                <groupId>com.btmatthews.maven.plugins.inmemdb</groupId>
-                <artifactId>inmemdb-maven-plugin</artifactId>
-                <version>1.4.3</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>sql-maven-plugin</artifactId>
+                <version>1.5</version>
+
+                <dependencies>
+                    <!-- specify the dependent jdbc driver here -->
+                    <dependency>
+                        <groupId>org.postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>9.3-1102-jdbc41</version>
+                    </dependency>
+                </dependencies>
+
+                <!-- common configuration shared by all executions -->
                 <configuration>
-                    <monitorPort>11527</monitorPort>
-                    <monitorKey>inmemdb</monitorKey>
-                    <daemon>true</daemon>
-                    <type>hsqldb</type>
-                    <database>ctv</database>
-                    <username></username>
-                    <password></password>
+                    <driver>org.postgresql.Driver</driver>
+                    <url>jdbc:postgresql://localhost:5432/ctv_test</url>
+                    <username>postgres</username>
+                    <password>postgres</password>
+                    <!-- You can comment out username/password configurations and
+                         have maven to look them up in your settings.xml using ${settingsKey}
+                    -->
+                    <settingsKey>sensibleKey</settingsKey>
+                    <!--all executions are ignored if -Dmaven.test.skip=true-->
+                    <skip>${maven.test.skip}</skip>
                 </configuration>
+
                 <executions>
                     <execution>
-                        <id>start-db</id>
-                        <phase>pre-integration-test</phase>
+                        <id>drop-db-before-test-if-any</id>
+                        <phase>process-test-resources</phase>
                         <goals>
-                            <goal>run</goal>
+                            <goal>execute</goal>
                         </goals>
+                        <configuration>
+                            <!-- need another database to drop the targeted one -->
+                            <url>jdbc:postgresql://localhost:5432/ctv</url>
+                            <autocommit>true</autocommit>
+                            <sqlCommand>drop database if exists ctv_test</sqlCommand>
+                            <!-- ignore error when database is not avaiable -->
+                            <onError>continue</onError>
+                        </configuration>
                     </execution>
+
                     <execution>
-                        <id>stop-db</id>
-                        <phase>post-integration-test</phase>
+                        <id>create-db</id>
+                        <phase>process-test-resources</phase>
                         <goals>
-                            <goal>stop</goal>
+                            <goal>execute</goal>
                         </goals>
+                        <configuration>
+                            <url>jdbc:postgresql://localhost:5432/ctv</url>
+                            <!-- no transaction -->
+                            <autocommit>true</autocommit>
+                            <sqlCommand>create database ctv_test</sqlCommand>
+                        </configuration>
+                    </execution>
+
+                    <!-- drop db after test -->
+                    <execution>
+                        <id>drop-db-after-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <url>jdbc:postgresql://localhost:5432/ctv</url>
+                            <autocommit>true</autocommit>
+                            <sqlCommand>drop database ctv_test</sqlCommand>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
