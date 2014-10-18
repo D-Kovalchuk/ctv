@@ -1,22 +1,27 @@
 package com.ctv.registration.adapter.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
 import static com.ctv.registration.adapter.rest.Constraints.*;
+import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL;
 
 /**
  * @author Dmitry Kovalchuk
  */
-//todo add validation
+@JsonSerialize(include= NON_NULL)
 public class User {
 
+    @JsonView(ResponseView.class)
     @JsonProperty("id")
     private Integer id;
 
+    @JsonView(ResponseView.class)
     @JsonProperty("username")
     @Length(min = USERNAME_MINIMUM_LENGTH, max = USERNAME_MAXIMUM_LENGTH)
     private String username;
@@ -26,14 +31,17 @@ public class User {
     private String password;
 
     @Email
+    @JsonView(ResponseView.class)
     @JsonProperty("email")
     private String email;
 
     @NotEmpty
+    @JsonView(ResponseView.class)
     @JsonProperty("type")
     private String type;
 
     @URL
+    @JsonView(ResponseView.class)
     @JsonProperty("site")
     private String site;
 

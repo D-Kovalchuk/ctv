@@ -1,8 +1,10 @@
 package com.ctv.registration.rest;
 
 import com.ctv.registration.adapter.rest.UserMvcAdapter;
+import com.ctv.registration.adapter.rest.dto.ResponseView;
 import com.ctv.registration.adapter.rest.dto.User;
 import com.ctv.security.config.client.CtvUserDetails;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -46,15 +48,18 @@ public class UserController {
     }
 
     @ResponseStatus(OK)
+    @JsonView(ResponseView.class)
     @RequestMapping(value = BY_ID, method = GET)
     public User findUser(@PathVariable Integer id) {
         return userMvcAdapter.findUserById(id);
     }
 
     @ResponseStatus(OK)
+    @JsonView(ResponseView.class)
     @RequestMapping(params = {PAGE_PARAM, SIZE_PARAM}, method = GET)
     public List<User> findUsers(@RequestParam(defaultValue = START_PAGE) int page,
                                 @RequestParam(defaultValue = PAGE_SIZE) int size) {
         return userMvcAdapter.findAllUsers(page, size);
     }
+
 }

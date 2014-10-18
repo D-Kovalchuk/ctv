@@ -1,4 +1,4 @@
-package com.ctv.registration.rest;
+package com.ctv.registration.rest.config;
 
 import com.ctv.security.config.client.CtvUserDetailsBuilder;
 import com.ctv.security.config.client.SecurityConfig;
