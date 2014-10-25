@@ -3,27 +3,28 @@ package com.ctv.registration.adapter.persistence.model;
 
 import javax.persistence.*;
 
+import static com.ctv.registration.adapter.persistence.model.ColumnNames.*;
 import static javax.persistence.EnumType.STRING;
+import static javax.persistence.GenerationType.SEQUENCE;
 
 /**
  * @author Timur Yarosh
  */
 @Entity
-@Table(name = Authority.TABLE_NAME)
+@Table(name = AUTHORITIES_TABLE)
 public class Authority {
 
-    public static final String TABLE_NAME = "authorities";
-
     @Id
-    @GeneratedValue
+    @Column(name = ID)
+    @GeneratedValue(strategy = SEQUENCE)
     private Integer id;
 
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "username", referencedColumnName = "username")
+    @JoinColumn(name = USERNAME, referencedColumnName = USERNAME)
     private String username;
 
-    @Column(name = "authority")
     @Enumerated(STRING)
+    @Column(name = AUTHORITY)
     private Role role;
 
     public Role getRole() {
