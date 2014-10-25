@@ -36,7 +36,8 @@ class RegistrationServiceImplTest extends Specification {
     static final boolean ENABLED = true
     static final String ROLE = "USER"
 
-    def userModel
+    def userModelWithId
+    def userModelWithoutId
 
     @Autowired
     RegistrationService registrationService
@@ -44,9 +45,19 @@ class RegistrationServiceImplTest extends Specification {
     UserPersistenceAdapter persistenceAdapterMock
 
     void setup() {
-        userModel = new UserModel()
-        userModel.with {
+        userModelWithId = new UserModel()
+        userModelWithId.with {
             id = ID
+            username = USERNAME
+            password = PASSWORD
+            email = EMAIL
+            type = TYPE
+            site = SITE
+            enabled = ENABLED
+        }
+
+        userModelWithoutId = new UserModel()
+        userModelWithoutId.with {
             username = USERNAME
             password = PASSWORD
             email = EMAIL
@@ -58,24 +69,32 @@ class RegistrationServiceImplTest extends Specification {
         reset(persistenceAdapterMock)
     }
 
-    def "should create new User"() {
+    def "should throw IllegalArgumentException if new user request contains user's id"() {
         when:
-        registrationService.createUser(userModel)
+        registrationService.createUser(userModelWithId)
 
         then:
-        verify(persistenceAdapterMock).createUser(userModel)
+        thrown(IllegalArgumentException)
+    }
+
+    def "should create new User"() {
+        when:
+        registrationService.createUser(userModelWithoutId)
+
+        then:
+        verify(persistenceAdapterMock).createUser(userModelWithoutId)
     }
 
     def "should delete existing user"() {
         given:
-        when(persistenceAdapterMock.findUserById(ID)).thenReturn(userModel)
+        when(persistenceAdapterMock.findUserById(ID)).thenReturn(userModelWithId)
 
         when:
         registrationService.deleteUser(ID)
 
         then:
-        !userModel.enabled
-        verify(persistenceAdapterMock).updateUser(userModel)
+        !userModelWithId.enabled
+        verify(persistenceAdapterMock).updateUser(userModelWithId)
     }
 
     def "should throw UserIdNotFoundException if user with passed id not found"() {
@@ -91,7 +110,7 @@ class RegistrationServiceImplTest extends Specification {
 
     def "should find user by id"() {
         given:
-        when(persistenceAdapterMock.findUserById(ID)).thenReturn(userModel)
+        when(persistenceAdapterMock.findUserById(ID)).thenReturn(userModelWithId)
 
         when:
         registrationService.findUserById(ID)
@@ -115,12 +134,12 @@ class RegistrationServiceImplTest extends Specification {
     @WithUserDetails("username")
     def "should fail if passed user id not equal to authenticated user id"() {
         given:
-        userModel.with {
+        userModelWithId.with {
             it.id = 12
         }
 
         when:
-        registrationService.updateUser(userModel)
+        registrationService.updateUser(userModelWithId)
 
         then:
         thrown(AccessDeniedException)
@@ -128,7 +147,7 @@ class RegistrationServiceImplTest extends Specification {
 
     def "should fail if anonymous user request update"() {
         when:
-        registrationService.updateUser(userModel)
+        registrationService.updateUser(userModelWithId)
 
         then:
         thrown(AuthenticationCredentialsNotFoundException)
@@ -137,10 +156,10 @@ class RegistrationServiceImplTest extends Specification {
     @WithUserDetails("username")
     def "should update passed user"() {
         when:
-        registrationService.updateUser(userModel)
+        registrationService.updateUser(userModelWithId)
 
         then:
-        verify(persistenceAdapterMock).updateUser(userModel)
+        verify(persistenceAdapterMock).updateUser(userModelWithId)
     }
 
     @EnableGlobalMethodSecurity(prePostEnabled = true)

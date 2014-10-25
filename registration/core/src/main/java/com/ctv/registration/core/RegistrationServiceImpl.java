@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static org.springframework.util.Assert.isNull;
+import static org.springframework.util.Assert.notNull;
+
 /**
  * @author Dmitry Kovalchuk
  */
@@ -22,6 +25,8 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public void createUser(UserModel user) {
+        notNull(user, "Payload mustn't be null");
+        isNull(user.getId(), "Payload mustn't contain user id");
         persistenceAdapter.createUser(user);
     }
 
