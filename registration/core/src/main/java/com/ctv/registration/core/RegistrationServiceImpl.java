@@ -4,6 +4,7 @@ import com.ctv.registration.core.adapter.UserPersistenceAdapter;
 import com.ctv.registration.core.exception.UserIdNotFoundException;
 import com.ctv.registration.core.model.UserModel;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -14,14 +15,19 @@ import java.util.List;
 @Transactional
 public class RegistrationServiceImpl implements RegistrationService {
 
-    private UserPersistenceAdapter persistenceAdapter;
+    private final UserPersistenceAdapter persistenceAdapter;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public RegistrationServiceImpl(UserPersistenceAdapter persistenceAdapter) {
+    public RegistrationServiceImpl(UserPersistenceAdapter persistenceAdapter, BCryptPasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
         this.persistenceAdapter = persistenceAdapter;
     }
 
     @Override
     public void createUser(UserModel user) {
+        String password = user.getPassword();
+        String encodedPassword = passwordEncoder.encode(password);
+        user.setPassword(encodedPassword);
         persistenceAdapter.createUser(user);
     }
 
