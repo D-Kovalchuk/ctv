@@ -1,5 +1,4 @@
 package com.ctv.registration.adapter.persistence
-
 import com.ctv.registration.adapter.persistence.api.UserRepository
 import com.ctv.registration.adapter.persistence.model.User
 import com.ctv.registration.core.exception.UsernameAlreadyExistsException
@@ -9,18 +8,35 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.orm.jpa.JpaSystemException
 import spock.lang.Specification
-
 /**
  * @author Timur Yarosh
  */
 class UserPersistenceAdapterImplTest extends Specification {
 
+    public static final String PASSWORD = "ps"
+    public static final String USERNAME = "un"
+    public static final String EMAIL = "email@gmail.com"
+    public static final String TYPE = "or"
+    public static final String SITE = "http://url.com"
+    public static final int ID = 1
+
     def userRepository = Mock(UserRepository)
     def conversionService = Mock(ConversionService)
     def persistenceAdapter = new UserPersistenceAdapterImpl(userRepository, conversionService)
     def user = new UserModel()
-    def userEntity = new User()
-    def id = 1
+    def userEntity
+
+    void setup() {
+        userEntity = new User()
+        userEntity.with {
+            id = ID
+            password = PASSWORD
+            username = USERNAME
+            email = EMAIL
+            type = TYPE
+            site = SITE
+        }
+    }
 
     def "save user"() {
         when:
@@ -45,10 +61,10 @@ class UserPersistenceAdapterImplTest extends Specification {
 
     def "delete user"() {
         when:
-        persistenceAdapter.deleteUser(id)
+        persistenceAdapter.deleteUser(ID)
 
         then:
-        1 * userRepository.delete(id)
+        1 * userRepository.delete(ID)
     }
 
     def "update user"() {
@@ -62,10 +78,11 @@ class UserPersistenceAdapterImplTest extends Specification {
 
     def "find user by id"() {
         when:
-        persistenceAdapter.findUserById(id)
+        persistenceAdapter.findUserById(ID)
 
         then:
-        1 * userRepository.findOne(id) >> userEntity
+        1 * userRepository.findOne(ID) >> userEntity
+        userEntity.password == null
         1 * conversionService.convert(userEntity, UserModel)
     }
 
@@ -75,7 +92,7 @@ class UserPersistenceAdapterImplTest extends Specification {
         def size = 10
         def pageRequest = new PageRequest(pageNum, size)
         def page = Mock(Page)
-        def userEntities = Arrays.asList(userEntity)
+        def userEntities = [userEntity]
         page.getContent() >> userEntities
 
         when:
@@ -83,6 +100,7 @@ class UserPersistenceAdapterImplTest extends Specification {
 
         then:
         1 * userRepository.findAll(pageRequest) >> page
+        page.getContent()[0].password == null
         1 * conversionService.convert(userEntities, _, _) >> userEntities
     }
 

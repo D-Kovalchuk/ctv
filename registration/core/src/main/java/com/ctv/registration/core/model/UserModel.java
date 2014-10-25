@@ -51,4 +51,27 @@ public class UserModel {
         this.enabled = enabled;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
+    }
 }

@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.core.authority.AuthorityUtils
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.test.context.support.WithUserDetails
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
@@ -35,14 +36,19 @@ class RegistrationServiceImplTest extends Specification {
     static final int ID = 0
     static final boolean ENABLED = true
     static final String ROLE = "USER"
+    static final String ENCODED_PASSWORD = "encoded user"
 
     def userModelWithId
     def userModelWithoutId
 
     @Autowired
     RegistrationService registrationService
+
     @Autowired
     UserPersistenceAdapter persistenceAdapterMock
+
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder
 
     void setup() {
         userModelWithId = new UserModel()
@@ -78,11 +84,15 @@ class RegistrationServiceImplTest extends Specification {
     }
 
     def "should create new User"() {
+        given:
+        when(passwordEncoder.encode(PASSWORD)).thenReturn(ENCODED_PASSWORD)
+
         when:
         registrationService.createUser(userModelWithoutId)
 
         then:
         verify(persistenceAdapterMock).createUser(userModelWithoutId)
+        userModelWithoutId.password == ENCODED_PASSWORD
     }
 
     def "should delete existing user"() {
@@ -172,8 +182,14 @@ class RegistrationServiceImplTest extends Specification {
         }
 
         @Bean
-        RegistrationService registrationService(UserPersistenceAdapter userPersistenceAdapter) {
-            new RegistrationServiceImpl(userPersistenceAdapter)
+        BCryptPasswordEncoder passwordEncoder() {
+            mock(BCryptPasswordEncoder)
+        }
+
+        @Bean
+        RegistrationService registrationService(UserPersistenceAdapter userPersistenceAdapter,
+                                                BCryptPasswordEncoder passwordEncoder) {
+            new RegistrationServiceImpl(userPersistenceAdapter, passwordEncoder)
         }
 
         @Autowired
@@ -188,7 +204,7 @@ class RegistrationServiceImplTest extends Specification {
                 CtvUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
                     return CtvUserDetailsBuilder.get()
                             .withUsername(USERNAME)
-                            .withPassword(PASSWORD)
+                            .withPassword(ENCODED_PASSWORD)
                             .withAuthorities(AuthorityUtils.createAuthorityList(ROLE))
                             .withId(ID)
                             .withEmail(EMAIL)

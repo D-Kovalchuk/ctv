@@ -5,6 +5,7 @@ import com.ctv.registration.core.RegistrationServiceImpl;
 import com.ctv.registration.core.adapter.UserPersistenceAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * @author Dmitry Kovalchuk
@@ -14,7 +15,7 @@ public class CoreConfig {
 
     @Bean
     public RegistrationService registrationService(UserPersistenceAdapter persistenceAdapter) {
-        return new RegistrationServiceImpl(persistenceAdapter);
+        return new RegistrationServiceImpl(persistenceAdapter, new BCryptPasswordEncoder());
     }
 
 }

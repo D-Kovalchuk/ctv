@@ -13,6 +13,9 @@ import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
+import static org.springframework.core.convert.TypeDescriptor.collection;
+import static org.springframework.core.convert.TypeDescriptor.valueOf;
+
 /**
  * @author Dmitry Kovalchuk
  */
@@ -51,6 +54,7 @@ public class UserPersistenceAdapterImpl implements UserPersistenceAdapter {
     @Override
     public UserModel findUserById(Integer id) {
         User userEntity = userRepository.findOne(id);
+        userEntity.setPassword(null);
         return conversionService.convert(userEntity, UserModel.class);
     }
 
@@ -59,9 +63,11 @@ public class UserPersistenceAdapterImpl implements UserPersistenceAdapter {
     public List<UserModel> findAllUsers(int page, int size) {
         PageRequest pageRequest = new PageRequest(page, size);
         Page<User> entities = userRepository.findAll(pageRequest);
-        TypeDescriptor sourceType = TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(User.class));
-        TypeDescriptor targetType = TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(UserModel.class));
-        return (List<UserModel>) conversionService.convert(entities.getContent(), sourceType, targetType);
+        TypeDescriptor sourceType = collection(List.class, valueOf(User.class));
+        TypeDescriptor targetType = collection(List.class, valueOf(UserModel.class));
+        List<User> content = entities.getContent();
+        content.forEach(user -> user.setPassword(null));
+        return (List<UserModel>) conversionService.convert(content, sourceType, targetType);
     }
 
 }

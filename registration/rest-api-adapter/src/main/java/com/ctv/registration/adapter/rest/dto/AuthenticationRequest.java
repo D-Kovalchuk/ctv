@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.Size;
 
 import static com.ctv.registration.adapter.rest.Constraints.*;
+import static com.ctv.registration.adapter.rest.dto.PropertyNames.PASSWORD;
+import static com.ctv.registration.adapter.rest.dto.PropertyNames.USERNAME;
 
 /**
 * @author Dmitry Kovalchuk
@@ -19,8 +21,8 @@ public class AuthenticationRequest {
     private String password;
 
     @JsonCreator
-    public AuthenticationRequest(@JsonProperty("username") String username,
-                                 @JsonProperty("password") String password) {
+    public AuthenticationRequest(@JsonProperty(USERNAME) String username,
+                                 @JsonProperty(PASSWORD) String password) {
         this.username = username;
         this.password = password;
     }

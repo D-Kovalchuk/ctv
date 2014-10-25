@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
 import static com.ctv.registration.adapter.rest.Constraints.*;
+import static com.ctv.registration.adapter.rest.dto.PropertyNames.*;
 import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL;
 
 /**
@@ -17,32 +18,32 @@ import static com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.
 @JsonSerialize(include= NON_NULL)
 public class User {
 
+    @JsonProperty(ID)
     @JsonView(ResponseView.class)
-    @JsonProperty("id")
     private Integer id;
 
+    @JsonProperty(USERNAME)
     @JsonView(ResponseView.class)
-    @JsonProperty("username")
     @Length(min = USERNAME_MINIMUM_LENGTH, max = USERNAME_MAXIMUM_LENGTH)
     private String username;
 
-    @JsonProperty("password")
+    @JsonProperty(PASSWORD)
     @Length(min = PASSWORD_MINIMUM_LENGTH, max = PASSWORD_MAXIMUM_LENGTH)
     private String password;
 
     @Email
+    @JsonProperty(EMAIL)
     @JsonView(ResponseView.class)
-    @JsonProperty("email")
     private String email;
 
     @NotEmpty
+    @JsonProperty(TYPE)
     @JsonView(ResponseView.class)
-    @JsonProperty("type")
     private String type;
 
     @URL
+    @JsonProperty(SITE)
     @JsonView(ResponseView.class)
-    @JsonProperty("site")
     private String site;
 
     public Integer getId() {
