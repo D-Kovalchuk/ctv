@@ -30,11 +30,10 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(PersistenceConfig.PERSISTENCE_PACKAGE)
+@EnableJpaRepositories("com.ctv.registration.persistence")
 @Import({PersistencePropertyConfig.class, PersistenceAdapterConfig.class})
 public class PersistenceConfig {
 
-    public static final String PERSISTENCE_PACKAGE = "com.ctv.registration.persistence";
     public static final String ENTITIES_LOCATION = "com.ctv.registration.adapter.persistence.model";
 
     @Value("${dbInitializerEnabled}")

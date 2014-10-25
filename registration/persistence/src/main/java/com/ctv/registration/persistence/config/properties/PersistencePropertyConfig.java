@@ -8,14 +8,10 @@ import org.springframework.context.annotation.PropertySource;
  * @author Dmitry Kovalchuk
  */
 @EnablePropertySource
-@PropertySource("classpath:" + PersistencePropertyConfig.PERSISTENCE_DEFAULT_PROPERTIES)
-@PropertySource(value = "file:" + PersistencePropertyConfig.PATH_TO_USER_PROPERTIES
-        + PersistencePropertyConfig.PERSISTENCE_PROPERTIES, ignoreResourceNotFound = true)
+@PropertySource("classpath:persistence-default.properties")
+@PropertySource(value = "file:${user.home}/.config/ctv/persistence.properties", ignoreResourceNotFound = true)
 public class PersistencePropertyConfig {
 
-    public static final String PATH_TO_USER_PROPERTIES = "${user.home}/.config/ctv/";
-    public static final String PERSISTENCE_DEFAULT_PROPERTIES = "persistence-default.properties";
-    public static final String PERSISTENCE_PROPERTIES = "persistence.properties";
 
     @Bean
     public DataSourcePropertiesHolder dataSourcePropertiesHolder() {
