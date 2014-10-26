@@ -9,6 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static org.springframework.util.Assert.isNull;
+import static org.springframework.util.Assert.notNull;
+
 /**
  * @author Dmitry Kovalchuk
  */
