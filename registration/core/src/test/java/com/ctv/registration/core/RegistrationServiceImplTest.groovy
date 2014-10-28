@@ -1,6 +1,7 @@
 package com.ctv.registration.core
 
 import com.ctv.registration.core.adapter.UserPersistenceAdapter
+import com.ctv.registration.core.exception.DataConflictException
 import com.ctv.registration.core.exception.UserIdNotFoundException
 import com.ctv.registration.core.model.UserModel
 import com.ctv.security.config.client.CtvUserDetails
@@ -75,12 +76,12 @@ class RegistrationServiceImplTest extends Specification {
         reset(persistenceAdapterMock)
     }
 
-    def "should throw IllegalArgumentException if new user request contains user's id"() {
+    def "should throw DataConflictException if new user request contains user's id"() {
         when:
         registrationService.createUser(userModelWithId)
 
         then:
-        thrown(IllegalArgumentException)
+        thrown(DataConflictException)
     }
 
     def "should create new User"() {

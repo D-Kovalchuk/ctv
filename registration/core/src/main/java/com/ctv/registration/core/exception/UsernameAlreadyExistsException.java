@@ -7,8 +7,9 @@ import static java.lang.String.format;
 /**
  * @author Timur Yarosh
  */
-public class UsernameAlreadyExistsException extends RuntimeException {
+public class UsernameAlreadyExistsException extends DataConflictException {
 
+    private static final int ERROR_CODE = 1102;
     private static final String PATTERN = "The username '%s' is already in use";
 
     public UsernameAlreadyExistsException(String username) {
@@ -21,5 +22,10 @@ public class UsernameAlreadyExistsException extends RuntimeException {
 
     private static String createErrorMessage(String username) {
         return format(PATTERN, username);
+    }
+
+    @Override
+    public int getErrorCode() {
+        return ERROR_CODE;
     }
 }

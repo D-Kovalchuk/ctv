@@ -1,6 +1,7 @@
 package com.ctv.registration.core;
 
 import com.ctv.registration.core.adapter.UserPersistenceAdapter;
+import com.ctv.registration.core.exception.DataConflictException;
 import com.ctv.registration.core.exception.UserIdNotFoundException;
 import com.ctv.registration.core.model.UserModel;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,8 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.springframework.util.Assert.isNull;
-import static org.springframework.util.Assert.notNull;
+import static java.util.Objects.nonNull;
 
 /**
  * @author Dmitry Kovalchuk
@@ -28,8 +28,9 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public void createUser(UserModel user) {
-        notNull(user, "Payload mustn't be null");
-        isNull(user.getId(), "Payload mustn't contain user id");
+        if (nonNull(user.getId())) {
+            throw new DataConflictException("Payload mustn't contain user id");
+        }
         String password = user.getPassword();
         String encodedPassword = passwordEncoder.encode(password);
         user.setPassword(encodedPassword);
