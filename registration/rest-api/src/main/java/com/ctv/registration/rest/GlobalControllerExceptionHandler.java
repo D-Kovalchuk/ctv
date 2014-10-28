@@ -1,7 +1,7 @@
 package com.ctv.registration.rest;
 
+import com.ctv.registration.core.exception.DataConflictException;
 import com.ctv.registration.core.exception.UserIdNotFoundException;
-import com.ctv.registration.core.exception.UsernameAlreadyExistsException;
 import com.ctv.registration.rest.dto.ErrorInfo;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
@@ -23,22 +23,22 @@ public class GlobalControllerExceptionHandler {
     @ResponseStatus(NOT_FOUND)
     @ExceptionHandler
     public ErrorInfo handleUserIdNotFoundException(UserIdNotFoundException e) {
-        int errorCode = NOT_FOUND.value();
+        int errorCode = e.getErrorCode();
         String errorMessage = e.getMessage();
         return new ErrorInfo(errorCode, errorMessage);
     }
 
     @ResponseStatus(CONFLICT)
     @ExceptionHandler
-    public ErrorInfo handleUsernameAlreadyExistsException(UsernameAlreadyExistsException e) {
-        int errorCode = CONFLICT.value();
+    public ErrorInfo handleUsernameAlreadyExistsException(DataConflictException e) {
+        int errorCode = e.getErrorCode();
         String errorMessage = e.getMessage();
         return new ErrorInfo(errorCode, errorMessage);
     }
 
     @ResponseStatus(UNAUTHORIZED)
     @ExceptionHandler
-    public ErrorInfo handleAnyException(AuthenticationException e) {
+    public ErrorInfo handleAuthenticationException(AuthenticationException e) {
         int errorCode = HttpStatus.UNAUTHORIZED.value();
         String errorMessage = e.getMessage();
         return new ErrorInfo(errorCode, errorMessage);
