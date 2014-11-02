@@ -1,7 +1,7 @@
 package com.ctv.registration.adapter.persistence
 import com.ctv.registration.adapter.persistence.api.UserRepository
 import com.ctv.registration.adapter.persistence.model.User
-import com.ctv.registration.core.exception.UsernameAlreadyExistsException
+import com.ctv.registration.core.exception.DataConflictException
 import com.ctv.registration.core.model.UserModel
 import org.springframework.core.convert.ConversionService
 import org.springframework.data.domain.Page
@@ -47,7 +47,7 @@ class UserPersistenceAdapterImplTest extends Specification {
         1 * userRepository.save(userEntity)
     }
 
-    def "should throw UsernameAlreadyExistsException if JpaSystemException has been thrown"() {
+    def "should throw DataConflictException if JpaSystemException has been thrown"() {
         given:
         userRepository.save(userEntity) >> { throw new JpaSystemException(new RuntimeException()) }
         conversionService.convert(user, User) >> userEntity
@@ -56,7 +56,7 @@ class UserPersistenceAdapterImplTest extends Specification {
         persistenceAdapter.createUser(user)
 
         then:
-        thrown(UsernameAlreadyExistsException)
+        thrown(DataConflictException)
     }
 
     def "delete user"() {

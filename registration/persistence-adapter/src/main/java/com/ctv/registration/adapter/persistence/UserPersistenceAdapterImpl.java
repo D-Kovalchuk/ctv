@@ -3,7 +3,7 @@ package com.ctv.registration.adapter.persistence;
 import com.ctv.registration.adapter.persistence.api.UserRepository;
 import com.ctv.registration.adapter.persistence.model.User;
 import com.ctv.registration.core.adapter.UserPersistenceAdapter;
-import com.ctv.registration.core.exception.UsernameAlreadyExistsException;
+import com.ctv.registration.core.exception.DataConflictException;
 import com.ctv.registration.core.model.UserModel;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
+import static com.ctv.registration.core.exception.ErrorData.USERNAME_ALREADY_EXISTS;
 import static org.springframework.core.convert.TypeDescriptor.collection;
 import static org.springframework.core.convert.TypeDescriptor.valueOf;
 
@@ -35,8 +36,7 @@ public class UserPersistenceAdapterImpl implements UserPersistenceAdapter {
         try {
             userRepository.save(userEntity);
         } catch (DataAccessException e) {
-            String username = user.getUsername();
-            throw new UsernameAlreadyExistsException(username, e);
+            throw new DataConflictException(USERNAME_ALREADY_EXISTS, e);
         }
     }
 

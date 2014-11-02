@@ -2,7 +2,7 @@ package com.ctv.registration.core;
 
 import com.ctv.registration.core.adapter.UserPersistenceAdapter;
 import com.ctv.registration.core.exception.DataConflictException;
-import com.ctv.registration.core.exception.UserIdNotFoundException;
+import com.ctv.registration.core.exception.ResourceNotFoundException;
 import com.ctv.registration.core.model.UserModel;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.ctv.registration.core.exception.ErrorData.PAYLOAD_WITH_USER_ID;
+import static com.ctv.registration.core.exception.ErrorData.USER_ID_NOT_FOUND;
 import static java.util.Objects.nonNull;
 
 /**
@@ -29,7 +31,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     public void createUser(UserModel user) {
         if (nonNull(user.getId())) {
-            throw new DataConflictException("Payload mustn't contain user id");
+            throw new DataConflictException(PAYLOAD_WITH_USER_ID);
         }
         String password = user.getPassword();
         String encodedPassword = passwordEncoder.encode(password);
@@ -41,7 +43,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     public void deleteUser(Integer id) {
         UserModel user = persistenceAdapter.findUserById(id);
         if (user == null) {
-            throw new UserIdNotFoundException(id);
+            throw new ResourceNotFoundException(USER_ID_NOT_FOUND);
         }
         user.setEnabled(false);
         persistenceAdapter.updateUser(user);
@@ -58,7 +60,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     public UserModel findUserById(Integer id) {
         UserModel userById = persistenceAdapter.findUserById(id);
         if (userById == null) {
-            throw new UserIdNotFoundException(id);
+            throw new ResourceNotFoundException(USER_ID_NOT_FOUND);
         }
         return userById;
     }

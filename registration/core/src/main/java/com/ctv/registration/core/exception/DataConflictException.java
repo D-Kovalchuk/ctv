@@ -5,18 +5,12 @@ package com.ctv.registration.core.exception;
  */
 public class DataConflictException extends CoreException {
 
-    private static final int ERROR_CODE = 1103;
-
-    public DataConflictException(String message) {
-        super(message);
+    public DataConflictException(ErrorData errorData) {
+        super(errorData);
     }
 
-    public DataConflictException(String message, Throwable cause) {
-        super(message, cause);
+    public DataConflictException(ErrorData errorData, Throwable cause) {
+        super(errorData, cause);
     }
 
-    @Override
-    public int getErrorCode() {
-        return super.getErrorCode();
-    }
 }

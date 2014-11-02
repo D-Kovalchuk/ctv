@@ -2,7 +2,7 @@ package com.ctv.registration.core
 
 import com.ctv.registration.core.adapter.UserPersistenceAdapter
 import com.ctv.registration.core.exception.DataConflictException
-import com.ctv.registration.core.exception.UserIdNotFoundException
+import com.ctv.registration.core.exception.ResourceNotFoundException
 import com.ctv.registration.core.model.UserModel
 import com.ctv.security.config.client.CtvUserDetails
 import com.ctv.security.config.client.CtvUserDetailsBuilder
@@ -108,7 +108,7 @@ class RegistrationServiceImplTest extends Specification {
         verify(persistenceAdapterMock).updateUser(userModelWithId)
     }
 
-    def "should throw UserIdNotFoundException if user with passed id not found"() {
+    def "should throw ResourceNotFoundException if user with passed id not found"() {
         given:
         when(persistenceAdapterMock.findUserById(ID)).thenReturn(null)
 
@@ -116,7 +116,7 @@ class RegistrationServiceImplTest extends Specification {
         registrationService.deleteUser(ID)
 
         then:
-        thrown(UserIdNotFoundException)
+        thrown(ResourceNotFoundException)
     }
 
     def "should find user by id"() {

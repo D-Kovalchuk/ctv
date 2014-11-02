@@ -5,30 +5,20 @@ package com.ctv.registration.core.exception;
  */
 public class CoreException extends RuntimeException {
 
-    /**
-     * ERROR_CODE consists of 4 digits:<br/>
-     * <ol>
-     * <li>service code</li>
-     * <li>module code</li>
-     * <li>exception code</li>
-     * <li>exception code</li>
-     * </ol>
-     */
-    private static final int ERROR_CODE = 1100;
+    private final int errorCode;
 
-    public CoreException(String message) {
-        super(message);
+    public CoreException(ErrorData errorData) {
+        super(errorData.getMessage());
+        errorCode = errorData.getCode();
     }
 
-    public CoreException() {
-        super();
-    }
-
-    public CoreException(String message, Throwable cause) {
-        super(message, cause);
+    public CoreException(ErrorData errorData, Throwable cause) {
+        super(errorData.getMessage(), cause);
+        errorCode = errorData.getCode();
     }
 
     public int getErrorCode() {
-        return ERROR_CODE;
+        return errorCode;
     }
+
 }

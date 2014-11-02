@@ -1,9 +1,8 @@
 package com.ctv.registration.rest
-
 import com.ctv.registration.adapter.rest.UserMvcAdapter
 import com.ctv.registration.adapter.rest.dto.User
-import com.ctv.registration.core.exception.UserIdNotFoundException
-import com.ctv.registration.core.exception.UsernameAlreadyExistsException
+import com.ctv.registration.core.exception.ResourceNotFoundException
+import com.ctv.registration.core.exception.DataConflictException
 import com.ctv.registration.rest.config.RestTestConfig
 import com.ctv.registration.rest.config.SecurityTestConfig
 import com.ctv.test.EmbeddedRedis
@@ -20,6 +19,8 @@ import spock.lang.Unroll
 
 import javax.servlet.Filter
 
+import static com.ctv.registration.core.exception.ErrorData.USERNAME_ALREADY_EXISTS
+import static com.ctv.registration.core.exception.ErrorData.USER_ID_NOT_FOUND
 import static com.ctv.registration.rest.Endpoint.*
 import static com.ctv.test.Converters.toJson
 import static org.springframework.http.MediaType.APPLICATION_JSON
@@ -29,7 +30,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup
-
 /**
  * @author Dmitry Kovalchuk
  */
@@ -81,7 +81,7 @@ class UserControllerTest extends Specification {
     def "create user when user with that username already exists"() {
         given:
         def user = createValidUser()
-        userMvcAdapter.createUser(_) >> { throw new UsernameAlreadyExistsException("username") }
+        userMvcAdapter.createUser(_) >> { throw new DataConflictException(USERNAME_ALREADY_EXISTS) } //todo why exception doesn't throw if user parameter used?
 
         when:
         def resultActions = mockMvc.perform(post(USER_PATH)
@@ -144,7 +144,7 @@ class UserControllerTest extends Specification {
     @Unroll
     def "when user by id=#id not found should return NOT_FOUND statues"() {
         given:
-        userMvcAdapter.findUserById(id) >> { throw new UserIdNotFoundException(id) }
+        userMvcAdapter.findUserById(id) >> { throw new ResourceNotFoundException(USER_ID_NOT_FOUND) }
 
         when:
         def resultActions = mockMvc.perform(get(USER_PATH + BY_ID, id as String)

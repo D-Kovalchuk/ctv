@@ -73,7 +73,7 @@ class AuthenticationControllerIT extends AbstractIntegrationSpecification {
         with(e.response as HttpResponseDecorator) {
             status == HttpStatus.UNAUTHORIZED.value()
             headers[TOKEN_HEADER] == null
-            data == [code: 401, message: "Bad credentials"]
+            data == [code: 1102, message: "Bad credentials"]
         }
     }
 

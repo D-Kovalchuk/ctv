@@ -1,5 +1,4 @@
 package com.ctv.registration.rest
-
 import com.ctv.registration.adapter.rest.dto.AuthenticationRequest
 import com.ctv.registration.rest.config.RestTestConfig
 import com.ctv.registration.rest.config.SecurityTestConfig
@@ -8,7 +7,6 @@ import com.ctv.test.EmbeddedRedis
 import org.junit.ClassRule
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.redis.core.RedisOperations
-import org.springframework.http.HttpStatus
 import org.springframework.session.ExpiringSession
 import org.springframework.session.Session
 import org.springframework.session.SessionRepository
@@ -24,6 +22,7 @@ import javax.servlet.Filter
 
 import static com.ctv.registration.adapter.rest.Constraints.PASSWORD_MAXIMUM_LENGTH
 import static com.ctv.registration.adapter.rest.Constraints.USERNAME_MAXIMUM_LENGTH
+import static com.ctv.registration.core.exception.ErrorData.BAD_CREDENTIALS
 import static com.ctv.registration.rest.Endpoint.TOKEN_PATH
 import static com.ctv.registration.rest.Endpoint.X_AUTH_TOKEN
 import static com.ctv.test.Converters.toJson
@@ -86,7 +85,7 @@ class AuthenticationControllerTest extends Specification {
 
     def "authenticate user when credentials is bad"() {
         setup:
-        ErrorInfo errorInfo = new ErrorInfo(HttpStatus.UNAUTHORIZED.value(), "Bad credentials");
+        ErrorInfo errorInfo = new ErrorInfo(BAD_CREDENTIALS.code, BAD_CREDENTIALS.message);
 
         expect:
         performTokenRequest(WRONG_USERNAME, WRONG_PASSWORD)
