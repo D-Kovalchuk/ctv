@@ -1,5 +1,4 @@
 package com.ctv.registration.core
-
 import com.ctv.registration.core.adapter.UserPersistenceAdapter
 import com.ctv.registration.core.exception.DataConflictException
 import com.ctv.registration.core.exception.ResourceNotFoundException
@@ -21,8 +20,8 @@ import org.springframework.security.test.context.support.WithUserDetails
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 
+import static com.ctv.registration.core.exception.ErrorData.BAD_PASSWORD
 import static org.mockito.Mockito.*
-
 /**
  * @author Timur Yarosh
  */
@@ -172,6 +171,28 @@ class RegistrationServiceImplTest extends Specification {
         then:
         verify(persistenceAdapterMock).updateUser(userModelWithId)
     }
+
+    def "update password when old password == new password"() {
+        when:
+        when(persistenceAdapterMock.findUserById(ID)).thenReturn(userModelWithId)
+        registrationService.updatePassword(ID, PASSWORD, "new password")
+
+        then:
+        userModelWithId.password == "new password"
+        verify(persistenceAdapterMock).updateUser(userModelWithId)
+    }
+
+    def "update password when old password != new password"() {
+        when:
+        when(persistenceAdapterMock.findUserById(ID)).thenReturn(userModelWithId)
+        registrationService.updatePassword(ID, "wrong old password", "new password")
+
+        then:
+        DataConflictException e = thrown()
+        e.getErrorCode() == BAD_PASSWORD.code
+        e.getMessage() == BAD_PASSWORD.message
+    }
+
 
     @EnableGlobalMethodSecurity(prePostEnabled = true)
     @Configuration

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.ctv.registration.core.exception.ErrorData.BAD_PASSWORD;
 import static com.ctv.registration.core.exception.ErrorData.PAYLOAD_WITH_USER_ID;
 import static com.ctv.registration.core.exception.ErrorData.USER_ID_NOT_FOUND;
 import static java.util.Objects.nonNull;
@@ -69,6 +70,17 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Transactional(readOnly = true)
     public List<UserModel> findAllUsers(int page, int size) {
         return persistenceAdapter.findAllUsers(page, size);
+    }
+
+    @Override
+    public void updatePassword(int id, String oldPass, String newPass) {
+        UserModel user = persistenceAdapter.findUserById(id);
+        if (user.getPassword().equals(oldPass)) {
+            user.setPassword(newPass);
+            persistenceAdapter.updateUser(user);
+        } else {
+            throw new DataConflictException(BAD_PASSWORD);
+        }
     }
 
 

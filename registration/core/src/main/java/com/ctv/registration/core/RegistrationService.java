@@ -18,4 +18,6 @@ public interface RegistrationService {
     UserModel findUserById(Integer id);
 
     List<UserModel> findAllUsers(int page, int size);
+
+    void updatePassword(int id, String oldPass, String newPass);
 }
