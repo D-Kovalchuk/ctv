@@ -17,6 +17,8 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 import org.springframework.session.web.http.HeaderHttpSessionStrategy;
 import org.springframework.session.web.http.SessionRepositoryFilter;
 
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+
 /**
  * @author Dmitry Kovalchuk
  */
@@ -46,7 +48,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         sessionRepositoryFilter.setHttpSessionStrategy(new HeaderHttpSessionStrategy());
         http.addFilterAfter(sessionRepositoryFilter, ChannelProcessingFilter.class)
-        .csrf().disable();
+                .sessionManagement().sessionCreationPolicy(STATELESS)
+                .and()
+                .csrf().disable();
     }
 
 
