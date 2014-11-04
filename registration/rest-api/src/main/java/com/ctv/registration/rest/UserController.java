@@ -62,4 +62,12 @@ public class UserController {
         return userMvcAdapter.findAllUsers(page, size);
     }
 
+    @ResponseStatus(OK)
+    @RequestMapping(value = PASSWORD, params = {OLD_PASSWORD, NEW_PASSWORD}, method = PUT)
+    public void updatePassword(@PathVariable Integer id,
+                               @RequestParam(OLD_PASSWORD) String oldPassword,
+                               @RequestParam(NEW_PASSWORD) String newPassword) {
+        userMvcAdapter.updatePassword(id, oldPassword, newPassword);
+    }
+
 }

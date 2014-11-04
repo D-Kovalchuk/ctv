@@ -19,4 +19,6 @@ public interface UserMvcAdapter {
     User findUserById(Integer id);
 
     List<User> findAllUsers(int page, int size);
+
+    void updatePassword(Integer id, String oldPassword, String newPassword);
 }

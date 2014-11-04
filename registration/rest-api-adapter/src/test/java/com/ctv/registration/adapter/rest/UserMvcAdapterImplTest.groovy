@@ -14,12 +14,14 @@ import static org.springframework.core.convert.TypeDescriptor.valueOf
  */
 class UserMvcAdapterImplTest extends Specification {
 
+    public static final String OLD_PASSWORD = "old_password"
+    public static final String NEW_PASSWORD = "new_password"
     RegistrationService registrationService = Mock()
     ConversionService conversionService = Mock()
     UserMvcAdapter userMvcAdapter
     User user = new User()
     UserModel model = new UserModel()
-    Integer id = 1;
+    static final Integer ID = 1;
 
     void setup() {
         userMvcAdapter = new UserMvcAdapterImpl(registrationService, conversionService)
@@ -36,10 +38,10 @@ class UserMvcAdapterImplTest extends Specification {
 
     def "delete user"() {
         when:
-        userMvcAdapter.deleteUser(id)
+        userMvcAdapter.deleteUser(ID)
 
         then:
-        1 * registrationService.deleteUser(id)
+        1 * registrationService.deleteUser(ID)
     }
 
     def "update user"() {
@@ -53,10 +55,10 @@ class UserMvcAdapterImplTest extends Specification {
 
     def "find user by id"() {
         when:
-        def foundUser = userMvcAdapter.findUserById(id)
+        def foundUser = userMvcAdapter.findUserById(ID)
 
         then:
-        1 * registrationService.findUserById(id) >> model
+        1 * registrationService.findUserById(ID) >> model
         1 * conversionService.convert(model, User) >> user
         user == foundUser
     }
@@ -75,4 +77,11 @@ class UserMvcAdapterImplTest extends Specification {
         1 * conversionService.convert(list, userModelList, userList)
     }
 
+    def "update password"() {
+        when:
+        userMvcAdapter.updatePassword(ID, OLD_PASSWORD, NEW_PASSWORD)
+
+        then:
+        1 * registrationService.updatePassword(ID, OLD_PASSWORD, NEW_PASSWORD)
+    }
 }

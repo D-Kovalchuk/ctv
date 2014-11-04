@@ -55,4 +55,9 @@ public class UserMvcAdapterImpl implements UserMvcAdapter {
         TypeDescriptor userModelList = collection(List.class, valueOf(UserModel.class));
         return (List<User>) conversionService.convert(allUsers, userModelList, userList);
     }
+
+    @Override
+    public void updatePassword(Integer id, String oldPassword, String newPassword) {
+        registrationService.updatePassword(id, oldPassword, newPassword);
+    }
 }

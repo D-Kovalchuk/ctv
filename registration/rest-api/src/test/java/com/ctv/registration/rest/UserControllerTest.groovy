@@ -199,6 +199,27 @@ class UserControllerTest extends Specification {
         1 * userMvcAdapter.findAllUsers(Integer.valueOf(START_PAGE), Integer.valueOf(PAGE_SIZE)) >> users
     }
 
+    def "update password"() {
+        given:
+        Integer id = 1
+        String oldPass = "oldPassword"
+        String newPass = "newPassword"
+
+        when:
+        def resultActions = mockMvc.perform(put(USER_PATH + PASSWORD, id)
+                .param(OLD_PASSWORD, oldPass)
+                .param(NEW_PASSWORD, newPass)
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON))
+
+        then:
+        resultActions
+                .andExpect(status().isOk())
+
+        and:
+        1 * userMvcAdapter.updatePassword(id, oldPass, newPass)
+    }
+
     private static User createValidUser() {
         User user = new User();
         user.id = 1
