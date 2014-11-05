@@ -20,27 +20,12 @@
             <artifactId>config-utils</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+        <!--Security-->
         <dependency>
             <groupId>com.ctv</groupId>
             <artifactId>security-config</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!--Security-->
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-expression</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
         </dependency>
 
         <dependency>

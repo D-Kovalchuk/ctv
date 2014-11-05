@@ -1,7 +1,7 @@
 package com.ctv.registration.rest
 import com.ctv.registration.PersistenceTestConfig
 import com.ctv.registration.adapter.rest.dto.User
-import com.ctv.registration.rest.config.RegistrationSecurityConfig
+import com.ctv.registration.core.config.RegistrationSecurityConfig
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.ExpectedDatabase
 import org.springframework.test.context.ContextConfiguration

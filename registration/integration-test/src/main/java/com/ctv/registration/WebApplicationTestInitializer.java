@@ -1,6 +1,6 @@
 package com.ctv.registration;
 
-import com.ctv.registration.rest.config.RegistrationSecurityConfig;
+import com.ctv.registration.core.config.RegistrationSecurityConfig;
 import com.ctv.registration.rest.config.RestConfig;
 import com.github.isrsal.logging.LoggingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
