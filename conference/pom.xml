@@ -3,7 +3,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>conference</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>conference-rest-api</module>
+        <module>conference-rest-api-adapter</module>
+        <module>conference-core</module>
+        <module>conference-persistence</module>
+        <module>conference-persistence-adapter</module>
+        <module>conference-bootstrap</module>
+    </modules>
 
     <parent>
         <artifactId>ctv</artifactId>
