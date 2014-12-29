@@ -3,7 +3,7 @@ package com.ctv.registration.rest;
 import com.ctv.registration.core.exception.CoreException;
 import com.ctv.registration.core.exception.DataConflictException;
 import com.ctv.registration.core.exception.ResourceNotFoundException;
-import com.ctv.registration.rest.dto.ErrorInfo;
+import com.ctv.shared.model.ErrorInfo;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;

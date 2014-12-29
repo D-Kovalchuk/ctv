@@ -1,4 +1,4 @@
-package com.ctv.registration.rest.dto;
+package com.ctv.shared.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

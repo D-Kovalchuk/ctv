@@ -2,7 +2,7 @@ package com.ctv.registration.rest
 import com.ctv.registration.adapter.rest.dto.AuthenticationRequest
 import com.ctv.registration.rest.config.RestTestConfig
 import com.ctv.registration.rest.config.SecurityTestConfig
-import com.ctv.registration.rest.dto.ErrorInfo
+import com.ctv.shared.model.ErrorInfo
 import com.ctv.test.EmbeddedRedis
 import org.junit.ClassRule
 import org.springframework.beans.factory.annotation.Autowired
