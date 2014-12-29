@@ -1,6 +1,8 @@
 package com.ctv.conference.rest.api;
 
 import com.ctv.conference.rest.adapter.ConferenceRestAdapter;
+import com.ctv.shared.model.CtvUserDetails;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,17 +43,17 @@ public class ConferenceController {
     }
 
     @RequestMapping(method = POST, headers = X_AUTH_TOKEN)
-    public void createConference() {
-
+    public void createConference(@AuthenticationPrincipal CtvUserDetails userDetails) {
+        //todo check userDetails on null
     }
 
     @RequestMapping(value = "/{id}", method = PUT, headers = X_AUTH_TOKEN)
-    public void updateConference(@PathVariable Integer id) {
+    public void updateConference(@PathVariable Integer id, @AuthenticationPrincipal CtvUserDetails userDetails) {
 
     }
 
     @RequestMapping(value = "/{id}", method = DELETE, headers = X_AUTH_TOKEN)
-    public void archiveConference(@PathVariable Integer id) {
+    public void archiveConference(@PathVariable Integer id, @AuthenticationPrincipal CtvUserDetails userDetails) {
 
     }
 

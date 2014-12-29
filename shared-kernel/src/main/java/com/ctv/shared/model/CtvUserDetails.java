@@ -1,4 +1,4 @@
-package com.ctv.security.config.client;
+package com.ctv.shared.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -15,7 +15,7 @@ public class CtvUserDetails extends User {
     private String type;
     private String site;
 
-    CtvUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities, Integer id, String email, String type, String site) {
+    public CtvUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities, Integer id, String email, String type, String site) {
         super(username, password, authorities);
         this.id = id;
         this.email = email;

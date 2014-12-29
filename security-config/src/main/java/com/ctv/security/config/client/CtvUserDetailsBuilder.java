@@ -1,5 +1,6 @@
 package com.ctv.security.config.client;
 
+import com.ctv.shared.model.CtvUserDetails;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;

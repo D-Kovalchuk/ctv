@@ -14,6 +14,7 @@
         <module>config-utils</module>
         <module>test-utils</module>
         <module>stream</module>
+        <module>shared-kernel</module>
     </modules>
 
 

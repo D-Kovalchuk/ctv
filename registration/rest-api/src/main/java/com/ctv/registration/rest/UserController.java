@@ -3,7 +3,7 @@ package com.ctv.registration.rest;
 import com.ctv.registration.adapter.rest.UserMvcAdapter;
 import com.ctv.registration.adapter.rest.dto.ResponseView;
 import com.ctv.registration.adapter.rest.dto.User;
-import com.ctv.security.config.client.CtvUserDetails;
+import com.ctv.shared.model.CtvUserDetails;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
@@ -43,6 +43,7 @@ public class UserController {
     @ResponseStatus(NO_CONTENT)
     @RequestMapping(headers = X_AUTH_TOKEN, method = DELETE)
     public void deleteUser(@AuthenticationPrincipal CtvUserDetails userDetails) {
+        //todo check userDetails on null
         Integer id = userDetails.getId();
         userMvcAdapter.deleteUser(id);
     }

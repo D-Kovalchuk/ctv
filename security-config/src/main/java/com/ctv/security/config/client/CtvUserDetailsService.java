@@ -1,5 +1,6 @@
 package com.ctv.security.config.client;
 
+import com.ctv.shared.model.CtvUserDetails;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.security.core.authority.AuthorityUtils;
