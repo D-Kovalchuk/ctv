@@ -13,6 +13,7 @@
         <module>security-config</module>
         <module>config-utils</module>
         <module>test-utils</module>
+        <module>stream</module>
     </modules>
 
 
