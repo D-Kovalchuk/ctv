@@ -1,5 +1,6 @@
 package com.ctv.conference.rest.api.config;
 
+import com.ctv.conference.rest.adapter.ConferenceRestAdapter;
 import com.ctv.conference.rest.adapter.config.RestAdapterConfig;
 import com.ctv.conference.rest.api.ConferenceController;
 import org.springframework.context.annotation.Bean;
@@ -17,8 +18,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class RestConfig extends WebMvcConfigurerAdapter {
 
     @Bean
-    public ConferenceController conferenceController() {
-        return new ConferenceController();
+    public ConferenceController conferenceController(ConferenceRestAdapter restAdapter) {
+        return new ConferenceController(restAdapter);
     }
 
 }

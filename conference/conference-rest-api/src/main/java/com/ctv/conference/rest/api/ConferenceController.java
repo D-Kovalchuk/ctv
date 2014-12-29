@@ -1,5 +1,6 @@
 package com.ctv.conference.rest.api;
 
+import com.ctv.conference.rest.adapter.ConferenceRestAdapter;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +15,12 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 @RestController
 @RequestMapping(CONFERENCE)
 public class ConferenceController {
+
+    private ConferenceRestAdapter restAdapter;
+
+    public ConferenceController(ConferenceRestAdapter restAdapter) {
+        this.restAdapter = restAdapter;
+    }
 
     //todo sort by...
     @RequestMapping(params = {PAGE_PARAM, SIZE_PARAM}, method = GET)
