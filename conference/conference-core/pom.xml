@@ -11,5 +11,13 @@
 
     <artifactId>conference-core</artifactId>
 
+    <dependencies>
+        <!--User dependencies-->
+        <dependency>
+            <groupId>com.ctv</groupId>
+            <artifactId>config-utils</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 </project>
