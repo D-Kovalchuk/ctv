@@ -62,7 +62,10 @@ public class ConferenceController {
 
     @RequestMapping(value = "/{id}", method = DELETE, headers = X_AUTH_TOKEN)
     public void archiveConference(@PathVariable Integer id, @AuthenticationPrincipal CtvUserDetails userDetails) {
-
+        if (!nonNull(userDetails)) {
+            throw new RuntimeException("dsf");
+        }
+        restAdapter.archiveConference(id, userDetails.getId());
     }
 
 }

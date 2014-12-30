@@ -25,4 +25,14 @@ public class ConferencePersistenceAdapterImpl implements ConferencePersistenceAd
         ConferenceDto savedConference = conferenceRepository.createConference(conferenceDto);
         return conversionService.convert(savedConference, ConferenceModel.class);
     }
+
+    @Override
+    public void isConferenceOwnedByUser(Integer conferenceId, Integer userId) {
+        conferenceRepository.isConferenceOwnedByUser(conferenceId, userId);
+    }
+
+    @Override
+    public void archiveConference(Integer conferenceId) {
+        conferenceRepository.archiveConference(conferenceId);
+    }
 }

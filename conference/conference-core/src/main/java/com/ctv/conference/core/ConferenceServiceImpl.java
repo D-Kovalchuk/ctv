@@ -18,4 +18,10 @@ public class ConferenceServiceImpl implements ConferenceService {
     public ConferenceModel createConference(ConferenceModel conference) {
         return persistenceAdapter.createConference(conference);
     }
+
+    @Override
+    public void archiveConference(Integer conferenceId, Integer userId) {
+        persistenceAdapter.isConferenceOwnedByUser(conferenceId, userId);
+        persistenceAdapter.archiveConference(conferenceId);
+    }
 }

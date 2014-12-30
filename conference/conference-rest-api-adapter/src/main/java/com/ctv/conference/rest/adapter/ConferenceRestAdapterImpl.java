@@ -26,4 +26,9 @@ public class ConferenceRestAdapterImpl implements ConferenceRestAdapter {
         return conversionService.convert(savedConference, ConferenceDto.class);
     }
 
+    @Override
+    public void archiveConference(Integer conferenceId, Integer userId) {
+        conferenceService.archiveConference(conferenceId, userId);
+    }
+
 }

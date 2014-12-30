@@ -9,4 +9,6 @@ public interface ConferenceService {
 
     ConferenceModel createConference(ConferenceModel conference);
 
+    void archiveConference(Integer conferenceId, Integer userId);
+
 }
