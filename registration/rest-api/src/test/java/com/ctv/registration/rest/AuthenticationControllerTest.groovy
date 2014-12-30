@@ -22,7 +22,7 @@ import javax.servlet.Filter
 
 import static com.ctv.registration.adapter.rest.Constraints.PASSWORD_MAXIMUM_LENGTH
 import static com.ctv.registration.adapter.rest.Constraints.USERNAME_MAXIMUM_LENGTH
-import static com.ctv.registration.core.exception.ErrorData.BAD_CREDENTIALS
+import static com.ctv.registration.core.exception.UserErrorCode.BAD_CREDENTIALS
 import static com.ctv.registration.rest.Endpoint.TOKEN_PATH
 import static com.ctv.registration.rest.Endpoint.X_AUTH_TOKEN
 import static com.ctv.test.Converters.toJson

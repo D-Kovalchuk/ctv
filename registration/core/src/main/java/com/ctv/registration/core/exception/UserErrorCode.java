@@ -1,9 +1,11 @@
 package com.ctv.registration.core.exception;
 
+import com.ctv.shared.model.ErrorCode;
+
 /**
  * @author Timur Yarosh
  */
-public enum ErrorData {
+public enum UserErrorCode implements ErrorCode {
 
     CORE_ERROR("Core error", 1100),
     USER_ID_NOT_FOUND("User id not found", 1101),
@@ -24,15 +26,17 @@ public enum ErrorData {
      */
     private final int code;
 
-    private ErrorData(String message, int code) {
+    private UserErrorCode(String message, int code) {
         this.message = message;
         this.code = code;
     }
 
+    @Override
     public String getMessage() {
         return message;
     }
 
+    @Override
     public int getCode() {
         return code;
     }

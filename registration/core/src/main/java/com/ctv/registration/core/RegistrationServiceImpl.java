@@ -10,9 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.ctv.registration.core.exception.ErrorData.BAD_PASSWORD;
-import static com.ctv.registration.core.exception.ErrorData.PAYLOAD_WITH_USER_ID;
-import static com.ctv.registration.core.exception.ErrorData.USER_ID_NOT_FOUND;
+import static com.ctv.registration.core.exception.UserErrorCode.BAD_PASSWORD;
+import static com.ctv.registration.core.exception.UserErrorCode.PAYLOAD_WITH_USER_ID;
+import static com.ctv.registration.core.exception.UserErrorCode.USER_ID_NOT_FOUND;
 import static java.util.Objects.nonNull;
 
 /**

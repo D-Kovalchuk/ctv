@@ -39,8 +39,8 @@ public class ConferenceController {
 
 
     @RequestMapping(value = "/{id}", method = GET)
-    public void getConference(@PathVariable Integer id) {
-
+    public ConferenceDto getConference(@PathVariable Integer id) {
+        return restAdapter.findConference(id);
     }
 
     @RequestMapping(method = POST, headers = X_AUTH_TOKEN)

@@ -19,8 +19,8 @@ import spock.lang.Unroll
 
 import javax.servlet.Filter
 
-import static com.ctv.registration.core.exception.ErrorData.USERNAME_ALREADY_EXISTS
-import static com.ctv.registration.core.exception.ErrorData.USER_ID_NOT_FOUND
+import static com.ctv.registration.core.exception.UserErrorCode.USERNAME_ALREADY_EXISTS
+import static com.ctv.registration.core.exception.UserErrorCode.USER_ID_NOT_FOUND
 import static com.ctv.registration.rest.Endpoint.*
 import static com.ctv.test.Converters.toJson
 import static org.springframework.http.MediaType.APPLICATION_JSON

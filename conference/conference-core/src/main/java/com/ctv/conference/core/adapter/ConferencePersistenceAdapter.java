@@ -12,4 +12,6 @@ public interface ConferencePersistenceAdapter {
     void isConferenceOwnedByUser(Integer conferenceId, Integer userId);
 
     void archiveConference(Integer conferenceId);
+
+    ConferenceModel findConference(Integer id);
 }

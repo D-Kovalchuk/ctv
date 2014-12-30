@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import static com.ctv.registration.core.exception.ErrorData.BAD_CREDENTIALS;
+import static com.ctv.registration.core.exception.UserErrorCode.BAD_CREDENTIALS;
 import static org.springframework.http.HttpStatus.*;
 
 /**

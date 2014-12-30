@@ -20,7 +20,7 @@ import org.springframework.security.test.context.support.WithUserDetails
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 
-import static com.ctv.registration.core.exception.ErrorData.BAD_PASSWORD
+import static com.ctv.registration.core.exception.UserErrorCode.BAD_PASSWORD
 import static org.mockito.Mockito.*
 /**
  * @author Timur Yarosh

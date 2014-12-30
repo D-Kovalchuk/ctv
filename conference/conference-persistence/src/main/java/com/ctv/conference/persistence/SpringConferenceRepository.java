@@ -47,4 +47,11 @@ public class SpringConferenceRepository implements ConferenceRepository {
         mongoOps.updateFirst(new Query(criteria), update, ConferenceDto.class);
     }
 
+    @Override
+    public ConferenceDto findConference(Integer id) {
+        Criteria criteria = where("_id").is(id);
+        Query query = new Query(criteria);
+        return mongoOps.findOne(query, ConferenceDto.class);
+    }
+
 }

@@ -13,7 +13,7 @@ import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
-import static com.ctv.registration.core.exception.ErrorData.USERNAME_ALREADY_EXISTS;
+import static com.ctv.registration.core.exception.UserErrorCode.USERNAME_ALREADY_EXISTS;
 import static org.springframework.core.convert.TypeDescriptor.collection;
 import static org.springframework.core.convert.TypeDescriptor.valueOf;
 

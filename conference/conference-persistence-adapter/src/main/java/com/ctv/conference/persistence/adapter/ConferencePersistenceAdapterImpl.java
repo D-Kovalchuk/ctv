@@ -35,4 +35,10 @@ public class ConferencePersistenceAdapterImpl implements ConferencePersistenceAd
     public void archiveConference(Integer conferenceId) {
         conferenceRepository.archiveConference(conferenceId);
     }
+
+    @Override
+    public ConferenceModel findConference(Integer id) {
+        ConferenceDto conferenceDto = conferenceRepository.findConference(id);
+        return conversionService.convert(conferenceDto, ConferenceModel.class);
+    }
 }

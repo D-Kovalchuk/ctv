@@ -31,4 +31,10 @@ public class ConferenceRestAdapterImpl implements ConferenceRestAdapter {
         conferenceService.archiveConference(conferenceId, userId);
     }
 
+    @Override
+    public ConferenceDto findConference(Integer id) {
+        ConferenceModel conferenceModel = conferenceService.findConference(id);
+        return conversionService.convert(conferenceModel, ConferenceDto.class);
+    }
+
 }

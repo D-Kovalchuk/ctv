@@ -1,9 +1,9 @@
-package com.ctv.registration.core.exception;
+package com.ctv.conference.core;
 
 import com.ctv.shared.model.ErrorCode;
 
 /**
- * @author Timur Yarosh
+ * @author Dmitry Kovalchuk
  */
 public class CoreException extends RuntimeException {
 
@@ -24,3 +24,4 @@ public class CoreException extends RuntimeException {
     }
 
 }
+

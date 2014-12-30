@@ -13,4 +13,5 @@ public interface ConferenceRepository {
 
     void archiveConference(Integer conferenceId);
 
+    ConferenceDto findConference(Integer id);
 }
