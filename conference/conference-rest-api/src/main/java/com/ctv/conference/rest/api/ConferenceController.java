@@ -4,10 +4,7 @@ import com.ctv.conference.rest.adapter.ConferenceRestAdapter;
 import com.ctv.conference.rest.adapter.dto.ConferenceDto;
 import com.ctv.shared.model.CtvUserDetails;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.ctv.conference.rest.api.Endpoint.*;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
@@ -50,9 +47,9 @@ public class ConferenceController {
         return restAdapter.createConference(conferenceDto);
     }
 
-    @RequestMapping(value = "/{id}", method = PUT, headers = X_AUTH_TOKEN)
-    public void updateConference(@PathVariable Integer id, @AuthenticationPrincipal CtvUserDetails userDetails) {
-
+    @RequestMapping(method = PUT, headers = X_AUTH_TOKEN)
+    public ConferenceDto updateConference(@RequestBody ConferenceDto conference, @AuthenticationPrincipal CtvUserDetails userDetails) {
+        return restAdapter.updateConference(conference, userDetails.getId());
     }
 
     @RequestMapping(value = "/{id}", method = DELETE, headers = X_AUTH_TOKEN)

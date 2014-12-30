@@ -54,4 +54,10 @@ public class SpringConferenceRepository implements ConferenceRepository {
         return mongoOps.findOne(query, ConferenceDto.class);
     }
 
+    @Override
+    public ConferenceDto updateConference(ConferenceDto conference) {
+        mongoOps.save(conference);
+        return conference;
+    }
+
 }

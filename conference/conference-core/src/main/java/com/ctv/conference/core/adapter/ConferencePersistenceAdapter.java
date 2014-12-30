@@ -14,4 +14,7 @@ public interface ConferencePersistenceAdapter {
     void archiveConference(Integer conferenceId);
 
     ConferenceModel findConference(Integer id);
+
+    ConferenceModel updateConference(ConferenceModel conference);
+
 }

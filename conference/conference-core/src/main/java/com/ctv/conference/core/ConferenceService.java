@@ -12,4 +12,6 @@ public interface ConferenceService {
     void archiveConference(Integer conferenceId, Integer userId);
 
     ConferenceModel findConference(Integer id);
+
+    ConferenceModel updateConference(ConferenceModel conference, Integer userId);
 }

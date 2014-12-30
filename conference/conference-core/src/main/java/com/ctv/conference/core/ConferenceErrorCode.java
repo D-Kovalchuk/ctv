@@ -9,7 +9,9 @@ public enum ConferenceErrorCode implements ErrorCode {
 
     CORE_ERROR("Core error", 2100),
 
-    CONFERENCE_NOT_FOUND("Conference not found", 2101);
+    CONFERENCE_NOT_FOUND("Conference not found", 2101),
+    CONFERENCE_ID_NULL("Conference id mustn't be null", 2102);
+
 
     private final String message;
 

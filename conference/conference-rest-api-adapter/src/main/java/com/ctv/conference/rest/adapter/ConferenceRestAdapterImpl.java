@@ -37,4 +37,11 @@ public class ConferenceRestAdapterImpl implements ConferenceRestAdapter {
         return conversionService.convert(conferenceModel, ConferenceDto.class);
     }
 
+    @Override
+    public ConferenceDto updateConference(ConferenceDto conferenceDto, Integer userId) {
+        ConferenceModel conference = conversionService.convert(conferenceDto, ConferenceModel.class);
+        ConferenceModel updatedConference = conferenceService.updateConference(conference, userId);
+        return conversionService.convert(updatedConference, ConferenceDto.class);
+    }
+
 }

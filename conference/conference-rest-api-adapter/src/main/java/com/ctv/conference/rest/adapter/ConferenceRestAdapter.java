@@ -12,4 +12,6 @@ public interface ConferenceRestAdapter {
     void archiveConference(Integer conferenceId, Integer userId);
 
     ConferenceDto findConference(Integer id);
+
+    ConferenceDto updateConference(ConferenceDto conference, Integer userId);
 }

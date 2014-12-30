@@ -35,4 +35,13 @@ public class ConferenceServiceImpl implements ConferenceService {
         }
         return conference;
     }
+
+    @Override
+    public ConferenceModel updateConference(ConferenceModel conference, Integer userId) {
+        if (conference.getId() != null) {
+            throw new DataConflictExceptions(ConferenceErrorCode.CONFERENCE_ID_NULL);
+        }
+        persistenceAdapter.isConferenceOwnedByUser(conference.getId(), userId);
+        return persistenceAdapter.updateConference(conference);
+    }
 }

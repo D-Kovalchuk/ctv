@@ -41,4 +41,11 @@ public class ConferencePersistenceAdapterImpl implements ConferencePersistenceAd
         ConferenceDto conferenceDto = conferenceRepository.findConference(id);
         return conversionService.convert(conferenceDto, ConferenceModel.class);
     }
+
+    @Override
+    public ConferenceModel updateConference(ConferenceModel conference) {
+        ConferenceDto conferenceDto = conversionService.convert(conference, ConferenceDto.class);
+        ConferenceDto updatedConference = conferenceRepository.updateConference(conferenceDto);
+        return conversionService.convert(updatedConference, ConferenceModel.class);
+    }
 }
