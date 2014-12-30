@@ -1,7 +1,7 @@
 package com.ctv.conference.persistence;
 
 import com.ctv.conference.persistence.adapter.ConferenceRepository;
-import com.ctv.conference.persistence.adapter.dto.Conference;
+import com.ctv.conference.persistence.adapter.dto.ConferenceDto;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface SpringConferenceRepository extends ConferenceRepository,
-        org.springframework.data.repository.Repository<Conference, Integer> {
+        org.springframework.data.repository.Repository<ConferenceDto, Integer> {
 }

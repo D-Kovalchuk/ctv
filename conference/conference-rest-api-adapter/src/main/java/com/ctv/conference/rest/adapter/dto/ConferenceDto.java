@@ -1,11 +1,15 @@
-package com.ctv.conference.persistence.adapter.dto;
+package com.ctv.conference.rest.adapter.dto;
 
 import java.util.List;
 
 /**
  * @author Dmitry Kovalchuk
  */
-public class Conference {
+public class ConferenceDto {
+
+    private Integer id;
+
+    private Integer userId;
 
     private String description;
 
@@ -14,6 +18,14 @@ public class Conference {
     private String logo;
 
     private List<Meetup> meetups;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getDescription() {
         return description;

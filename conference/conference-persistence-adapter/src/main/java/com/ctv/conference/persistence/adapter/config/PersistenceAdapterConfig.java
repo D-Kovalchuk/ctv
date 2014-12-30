@@ -8,6 +8,7 @@ import com.ctv.config.converter.EnableConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.convert.ConversionService;
 
 /**
  * @author Dmitry Kovalchuk
@@ -18,8 +19,8 @@ import org.springframework.context.annotation.Import;
 public class PersistenceAdapterConfig {
 
     @Bean
-    public ConferencePersistenceAdapter conferencePersistenceAdapter(ConferenceRepository conferenceRepository) {
-        return new ConferencePersistenceAdapterImpl(conferenceRepository);
+    public ConferencePersistenceAdapter conferencePersistenceAdapter(ConferenceRepository conferenceRepository, ConversionService conversionService) {
+        return new ConferencePersistenceAdapterImpl(conferenceRepository, conversionService);
     }
 
 }

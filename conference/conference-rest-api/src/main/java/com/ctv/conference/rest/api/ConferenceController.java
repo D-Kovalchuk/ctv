@@ -1,6 +1,7 @@
 package com.ctv.conference.rest.api;
 
 import com.ctv.conference.rest.adapter.ConferenceRestAdapter;
+import com.ctv.conference.rest.adapter.dto.ConferenceDto;
 import com.ctv.shared.model.CtvUserDetails;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.ctv.conference.rest.api.Endpoint.*;
+import static java.util.Objects.nonNull;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 /**
@@ -43,8 +45,14 @@ public class ConferenceController {
     }
 
     @RequestMapping(method = POST, headers = X_AUTH_TOKEN)
-    public void createConference(@AuthenticationPrincipal CtvUserDetails userDetails) {
-        //todo check userDetails on null
+    public ConferenceDto createConference(ConferenceDto conferenceDto, @AuthenticationPrincipal CtvUserDetails userDetails) {
+        // todo add spring component to check this condition before enter this method (create it in shred module)
+        if (!nonNull(userDetails)) {
+            throw new RuntimeException("dsf");
+        }
+        Integer userId = userDetails.getId();
+        conferenceDto.setId(userId);
+        return restAdapter.createConference(conferenceDto);
     }
 
     @RequestMapping(value = "/{id}", method = PUT, headers = X_AUTH_TOKEN)

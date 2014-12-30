@@ -8,6 +8,7 @@ import com.ctv.config.converter.EnableConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.convert.ConversionService;
 
 /**
  * @author Dmitry Kovalchuk
@@ -19,8 +20,8 @@ import org.springframework.context.annotation.Import;
 public class RestAdapterConfig {
 
     @Bean
-    public ConferenceRestAdapter conferenceRestAdapter(ConferenceService conferenceService) {
-        return new ConferenceRestAdapterImpl(conferenceService);
+    public ConferenceRestAdapter conferenceRestAdapter(ConferenceService conferenceService, ConversionService conversionService) {
+        return new ConferenceRestAdapterImpl(conferenceService, conversionService);
     }
 
 }
