@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.ctv.conference.rest.api.Endpoint.*;
-import static java.util.Objects.nonNull;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 /**
@@ -46,10 +45,6 @@ public class ConferenceController {
 
     @RequestMapping(method = POST, headers = X_AUTH_TOKEN)
     public ConferenceDto createConference(ConferenceDto conferenceDto, @AuthenticationPrincipal CtvUserDetails userDetails) {
-        // todo add spring component to check this condition before enter this method (create it in shred module)
-        if (!nonNull(userDetails)) {
-            throw new RuntimeException("dsf");
-        }
         Integer userId = userDetails.getId();
         conferenceDto.setId(userId);
         return restAdapter.createConference(conferenceDto);
@@ -62,9 +57,6 @@ public class ConferenceController {
 
     @RequestMapping(value = "/{id}", method = DELETE, headers = X_AUTH_TOKEN)
     public void archiveConference(@PathVariable Integer id, @AuthenticationPrincipal CtvUserDetails userDetails) {
-        if (!nonNull(userDetails)) {
-            throw new RuntimeException("dsf");
-        }
         restAdapter.archiveConference(id, userDetails.getId());
     }
 

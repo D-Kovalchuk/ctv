@@ -43,7 +43,6 @@ public class UserController {
     @ResponseStatus(NO_CONTENT)
     @RequestMapping(headers = X_AUTH_TOKEN, method = DELETE)
     public void deleteUser(@AuthenticationPrincipal CtvUserDetails userDetails) {
-        //todo check userDetails on null
         Integer id = userDetails.getId();
         userMvcAdapter.deleteUser(id);
     }
