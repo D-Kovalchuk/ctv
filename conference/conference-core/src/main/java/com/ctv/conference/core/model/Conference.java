@@ -1,4 +1,4 @@
-package com.ctv.conference.persistence.adapter.dto;
+package com.ctv.conference.core.model;
 
 import java.util.List;
 
