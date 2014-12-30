@@ -18,9 +18,11 @@
             <artifactId>conference-core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
+            <artifactId>spring-data-mongodb</artifactId>
+            <version>1.6.1.RELEASE</version>
         </dependency>
     </dependencies>
 </project>
