@@ -8,7 +8,10 @@ public class Endpoint {
     public static final String CONFERENCE = "/conference";
     public static final String BY_ID = "/{id}";
 
-    public static final String MEETUP_BY_ID = CONFERENCE + "/{confId}/meetup/{meetId}";
+    public static final String MEETUP_BY_CONFERENCE_ID = CONFERENCE + "/{confId}/meetup";
+
+    public static final String MEETUP_BY_ID = "/meetup/{id}";
+    public static final String MEETUP = "/meetup";
 
     public static final String SIZE_PARAM = "size";
     public static final String PAGE_PARAM = "page";

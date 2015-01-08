@@ -19,6 +19,8 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 import org.springframework.session.web.http.HeaderHttpSessionStrategy;
 import org.springframework.session.web.http.SessionRepositoryFilter;
 
+import static com.ctv.conference.rest.api.Endpoint.*;
+import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 /**
@@ -41,11 +43,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        secureEndpoints(http);
         sessionRepositoryFilter.setHttpSessionStrategy(new HeaderHttpSessionStrategy());
         http.addFilterAfter(sessionRepositoryFilter, ChannelProcessingFilter.class)
                 .sessionManagement().sessionCreationPolicy(STATELESS)
                 .and()
                 .csrf().disable();
+    }
+
+    private void secureEndpoints(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.authorizeRequests()
+                // conference endpoints
+                .antMatchers(POST, CONFERENCE).hasRole("USER")
+                .antMatchers(PUT, CONFERENCE).hasRole("USER")
+                .antMatchers(DELETE, CONFERENCE + BY_ID).hasRole("USER")
+                // meetup endpoints
+                .antMatchers(POST, MEETUP_BY_CONFERENCE_ID).hasRole("USER")
+                .antMatchers(PUT, MEETUP).hasAuthority("USER")
+                .antMatchers(PUT, MEETUP_BY_ID).hasRole("USER")
+                .antMatchers(DELETE, MEETUP_BY_ID).hasRole("USER");
     }
 
 }
