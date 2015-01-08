@@ -21,6 +21,7 @@ public class ConferenceServiceImpl implements ConferenceService {
         return persistenceAdapter.createConference(conference);
     }
 
+    @Secure
     @Override
     public void archiveConference(Integer conferenceId, Integer userId) {
         persistenceAdapter.isConferenceOwnedByUser(conferenceId, userId);
@@ -36,6 +37,7 @@ public class ConferenceServiceImpl implements ConferenceService {
         return conference;
     }
 
+    @Secure
     @Override
     public ConferenceModel updateConference(ConferenceModel conference, Integer userId) {
         if (conference.getId() != null) {
@@ -44,4 +46,5 @@ public class ConferenceServiceImpl implements ConferenceService {
         persistenceAdapter.isConferenceOwnedByUser(conference.getId(), userId);
         return persistenceAdapter.updateConference(conference);
     }
+
 }
