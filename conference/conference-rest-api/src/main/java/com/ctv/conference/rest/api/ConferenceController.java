@@ -29,19 +29,13 @@ public class ConferenceController {
 
     }
 
-    @RequestMapping(value = "{confId}/meetup/" + "{meetId}", method = GET)
-    public void getAllMeetupsOfConference(@PathVariable Integer confId, @PathVariable Integer meetId) {
-
-    }
-
-
-    @RequestMapping(value = "/{id}", method = GET)
+    @RequestMapping(value = BY_ID, method = GET)
     public ConferenceDto getConference(@PathVariable Integer id) {
         return restAdapter.findConference(id);
     }
 
     @RequestMapping(method = POST, headers = X_AUTH_TOKEN)
-    public ConferenceDto createConference(ConferenceDto conferenceDto, @AuthenticationPrincipal CtvUserDetails userDetails) {
+    public ConferenceDto createConference(@RequestBody ConferenceDto conferenceDto, @AuthenticationPrincipal CtvUserDetails userDetails) {
         Integer userId = userDetails.getId();
         conferenceDto.setId(userId);
         return restAdapter.createConference(conferenceDto);
@@ -52,7 +46,7 @@ public class ConferenceController {
         return restAdapter.updateConference(conference, userDetails.getId());
     }
 
-    @RequestMapping(value = "/{id}", method = DELETE, headers = X_AUTH_TOKEN)
+    @RequestMapping(value = BY_ID, method = DELETE, headers = X_AUTH_TOKEN)
     public void archiveConference(@PathVariable Integer id, @AuthenticationPrincipal CtvUserDetails userDetails) {
         restAdapter.archiveConference(id, userDetails.getId());
     }
