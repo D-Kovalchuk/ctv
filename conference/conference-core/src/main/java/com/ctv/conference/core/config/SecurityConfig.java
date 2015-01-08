@@ -61,7 +61,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(POST, MEETUP_BY_CONFERENCE_ID).hasRole("USER")
                 .antMatchers(PUT, MEETUP).hasAuthority("USER")
                 .antMatchers(PUT, MEETUP_BY_ID).hasRole("USER")
-                .antMatchers(DELETE, MEETUP_BY_ID).hasRole("USER");
+                .antMatchers(DELETE, MEETUP_BY_ID).hasRole("USER")
+                // talk endpoint
+                .antMatchers(POST, MEETUP_BY_ID_TALK).hasRole("USER")
+                .antMatchers(PUT, TALK).hasRole("USER")
+                .antMatchers(PUT, TALK_BY_ID).hasRole("USER")
+                .antMatchers(DELETE, TALK_BY_ID).hasRole("USER")
+                .antMatchers(POST, ASSIGN_SPEAKER_TO_TALK).hasRole("USER");
     }
 
 }
