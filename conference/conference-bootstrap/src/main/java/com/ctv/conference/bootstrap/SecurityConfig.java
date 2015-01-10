@@ -1,4 +1,4 @@
-package com.ctv.conference.core.config;
+package com.ctv.conference.bootstrap;
 
 /**
  * @author Dmitry Kovalchuk

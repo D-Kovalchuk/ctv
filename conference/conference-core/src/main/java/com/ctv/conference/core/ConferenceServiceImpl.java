@@ -18,6 +18,7 @@ public class ConferenceServiceImpl implements ConferenceService {
 
     @Override
     public ConferenceModel createConference(ConferenceModel conference) {
+        //todo must be some limitation of number of conference which one user can create
         return persistenceAdapter.createConference(conference);
     }
 
@@ -40,7 +41,7 @@ public class ConferenceServiceImpl implements ConferenceService {
     @Secure
     @Override
     public ConferenceModel updateConference(ConferenceModel conference, Integer userId) {
-        if (conference.getId() != null) {
+        if (conference.getId() == null) {
             throw new DataConflictExceptions(ConferenceErrorCode.CONFERENCE_ID_NULL);
         }
         persistenceAdapter.isConferenceOwnedByUser(conference.getId(), userId);

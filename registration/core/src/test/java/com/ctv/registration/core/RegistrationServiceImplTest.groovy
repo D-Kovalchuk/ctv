@@ -3,8 +3,8 @@ import com.ctv.registration.core.adapter.UserPersistenceAdapter
 import com.ctv.registration.core.exception.DataConflictException
 import com.ctv.registration.core.exception.ResourceNotFoundException
 import com.ctv.registration.core.model.UserModel
-import com.ctv.shared.model.CtvUserDetails
 import com.ctv.security.config.client.CtvUserDetailsBuilder
+import com.ctv.shared.model.CtvUserDetails
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
