@@ -118,12 +118,4 @@ public class ConferenceServiceImplTest {
         verify(persistenceAdapter, never()).updateConference(conferenceModel);
     }
 
-    @Test
-    @Description("update conference when it is owned by user")
-    public void updateConferenceWhenOwnedByUser() {
-
-    }
-
-
-
 }
