@@ -9,8 +9,6 @@ public class ConferenceDto {
 
     private Integer id;
 
-    private Integer userId;
-
     private String description;
 
     private String name;

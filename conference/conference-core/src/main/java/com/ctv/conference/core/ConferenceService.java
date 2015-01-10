@@ -7,7 +7,7 @@ import com.ctv.conference.core.model.ConferenceModel;
  */
 public interface ConferenceService {
 
-    ConferenceModel createConference(ConferenceModel conference);
+    ConferenceModel createConference(ConferenceModel conference, Integer userId);
 
     void archiveConference(Integer conferenceId, Integer userId);
 

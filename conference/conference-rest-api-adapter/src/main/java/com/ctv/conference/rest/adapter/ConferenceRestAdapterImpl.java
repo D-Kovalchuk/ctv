@@ -20,9 +20,9 @@ public class ConferenceRestAdapterImpl implements ConferenceRestAdapter {
     }
 
     @Override
-    public ConferenceDto createConference(ConferenceDto conferenceDto) {
+    public ConferenceDto createConference(ConferenceDto conferenceDto, Integer userId) {
         ConferenceModel conference = conversionService.convert(conferenceDto, ConferenceModel.class);
-        ConferenceModel savedConference = conferenceService.createConference(conference);
+        ConferenceModel savedConference = conferenceService.createConference(conference, userId);
         return conversionService.convert(savedConference, ConferenceDto.class);
     }
 

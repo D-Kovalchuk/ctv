@@ -36,9 +36,7 @@ public class ConferenceController {
 
     @RequestMapping(method = POST, headers = X_AUTH_TOKEN)
     public ConferenceDto createConference(@RequestBody ConferenceDto conferenceDto, @AuthenticationPrincipal CtvUserDetails userDetails) {
-        Integer userId = userDetails.getId();
-        conferenceDto.setId(userId);
-        return restAdapter.createConference(conferenceDto);
+        return restAdapter.createConference(conferenceDto, userDetails.getId());
     }
 
     @RequestMapping(method = PUT, headers = X_AUTH_TOKEN)

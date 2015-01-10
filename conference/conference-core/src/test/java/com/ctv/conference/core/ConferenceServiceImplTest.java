@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.context.ContextConfiguration;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
@@ -36,9 +37,10 @@ public class ConferenceServiceImplTest {
     public void createConference() {
         when(persistenceAdapter.createConference(conferenceModel)).thenReturn(conferenceModel);
 
-        conferenceService.createConference(conferenceModel);
+        conferenceService.createConference(conferenceModel, USER_ID);
 
         verify(persistenceAdapter).createConference(conferenceModel);
+        assertThat(conferenceModel.getUserId()).isEqualTo(USER_ID);
     }
 
     @Test

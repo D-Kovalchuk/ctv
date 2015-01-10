@@ -7,7 +7,7 @@ import com.ctv.conference.rest.adapter.dto.ConferenceDto;
  */
 public interface ConferenceRestAdapter {
 
-    ConferenceDto createConference(ConferenceDto conferenceDto);
+    ConferenceDto createConference(ConferenceDto conferenceDto, Integer userId);
 
     void archiveConference(Integer conferenceId, Integer userId);
 

@@ -1,6 +1,7 @@
 package com.ctv.conference.core.model;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Dmitry Kovalchuk
@@ -65,5 +66,25 @@ public class ConferenceModel {
 
     public void setMeetups(List<Meetup> meetups) {
         this.meetups = meetups;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ConferenceModel that = (ConferenceModel) o;
+
+        return Objects.equals(id, that.id)
+                || Objects.equals(description, that.description)
+                || Objects.equals(logo, that.logo)
+                || Objects.equals(name, that.name)
+                || Objects.equals(userId, that.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userId, description, name, logo);
     }
 }
