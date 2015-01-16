@@ -18,6 +18,7 @@ public class ConferenceServiceImpl implements ConferenceService {
 
     @Override
     public ConferenceModel createConference(ConferenceModel conference, Integer userId) {
+        //todo check that conference id == null
         //todo must be some limitation of number of conference which one user can create
         conference.setUserId(userId);
         return persistenceAdapter.createConference(conference);

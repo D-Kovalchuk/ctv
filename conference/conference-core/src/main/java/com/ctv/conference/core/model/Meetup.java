@@ -1,6 +1,7 @@
 package com.ctv.conference.core.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,6 +16,40 @@ public class Meetup {
     private String address;
 
     private List<Talk> talks;
+
+    private List<Integer> speakers;
+
+    private boolean hidden;
+
+    private boolean deleted;
+
+    public Meetup() {
+        speakers = new ArrayList<>();
+    }
+
+    public List<Integer> getSpeakers() {
+        return speakers;
+    }
+
+    public void setSpeakers(List<Integer> speakers) {
+        this.speakers = speakers;
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
     public Integer getId() {
         return id;

@@ -42,8 +42,8 @@ public class MeetupController {
         return new Meetup();
     }
 
-    @RequestMapping(value = MEETUP, method = PUT, headers = X_AUTH_TOKEN)
-    public void hideMeetup(@RequestBody Meetup meetup, @AuthenticationPrincipal CtvUserDetails userDetails) {
+    @RequestMapping(value = MEETUP_BY_ID, method = PUT, headers = X_AUTH_TOKEN)
+    public void hideMeetup(@PathVariable Integer meetupId, @RequestBody Meetup meetup, @AuthenticationPrincipal CtvUserDetails userDetails) {
 
     }
 
