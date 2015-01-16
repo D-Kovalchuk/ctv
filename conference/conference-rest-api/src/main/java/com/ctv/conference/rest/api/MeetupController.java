@@ -27,7 +27,7 @@ public class MeetupController {
     }
 
     @RequestMapping(value = MEETUP_BY_ID, method = GET)
-    public Meetup getAllMeetupsOfConference(@PathVariable Integer confId, @PathVariable Integer meetId) {
+    public Meetup getMeetup(@PathVariable Integer meetId) {
         //todo 1: meetup must contain all of the information
         return new Meetup();
     }
