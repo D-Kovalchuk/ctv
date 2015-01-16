@@ -39,4 +39,9 @@ class Spec extends Specification {
             throw ex
         }
     }
+
+    def verifyErrorMessage(def e, def message) {
+        e.getErrorCode() == message.getCode()
+        e.getMessage() == message.getMessage()
+    }
 }

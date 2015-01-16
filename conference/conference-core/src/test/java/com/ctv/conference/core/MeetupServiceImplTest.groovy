@@ -3,7 +3,6 @@ import com.ctv.conference.core.adapter.ConferencePersistenceAdapter
 import com.ctv.conference.core.adapter.MeetupPersistenceAdapter
 import com.ctv.conference.core.config.CoreTestConfig
 import com.ctv.conference.core.model.Meetup
-import com.ctv.shared.model.ErrorCode
 import com.ctv.test.Spec
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.access.AccessDeniedException
@@ -254,12 +253,6 @@ class MeetupServiceImplTest extends Spec {
             verify(meetupPersistenceAdapter).isMeetupOwnedByUser(MEETUP_ID, USER_ID)
             verify(meetupPersistenceAdapter).archiveMeetup(meetupIdNotNull)
         }
-    }
-
-    //todo extract to Sepc using dynamic features of groovy
-    def verifyErrorMessage(CoreException e, ErrorCode message) {
-        e.getErrorCode() == message.getCode()
-        e.getMessage() == message.getMessage()
     }
 
 }
