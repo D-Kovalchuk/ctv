@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * @author Dmitry Kovalchuk
  */
+//todo consider where payment module have to be used
 public interface TalkService {
 
     //todo who crete talk ? can create only speakers or conference owner
