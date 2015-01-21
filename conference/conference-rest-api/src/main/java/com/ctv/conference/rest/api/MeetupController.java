@@ -52,6 +52,11 @@ public class MeetupController {
         Integer userId = userDetails.getId();
     }
 
+    @RequestMapping(value = MEETUP_BY_ID_SPEAKER, method = PUT, headers = X_AUTH_TOKEN)
+    public void getSpeakerPool(@PathVariable Integer id, @AuthenticationPrincipal CtvUserDetails userDetails) {
+        Integer userId = userDetails.getId();
+    }
+
     @RequestMapping(value = MEETUP_BY_ID, method = DELETE, headers = X_AUTH_TOKEN)
     public void archiveMeetup(@PathVariable Integer id) {
 

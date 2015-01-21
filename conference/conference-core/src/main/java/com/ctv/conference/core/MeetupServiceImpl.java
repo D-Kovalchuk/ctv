@@ -23,7 +23,6 @@ public class MeetupServiceImpl implements MeetupService {
         this.conferencePersistenceAdapter = conferencePersistenceAdapter;
     }
 
-    @Secure
     @Override
     public Meetup createMeetup(Meetup meetup, Integer confId, Integer userId) {
         if (meetup.getId() != null) {
@@ -35,7 +34,6 @@ public class MeetupServiceImpl implements MeetupService {
         return meetupPersistenceAdapter.createMeetup(meetup, confId);
     }
 
-    @Secure
     @Override
     public Meetup updateMeetup(Meetup meetup, Integer userId) {
         Optional.ofNullable(meetup.getId())
@@ -59,7 +57,6 @@ public class MeetupServiceImpl implements MeetupService {
         return meetup;
     }
 
-    @Secure
     @Override
     public void hideMeetup(Integer meetupId, Integer userId) {
         if (!meetupPersistenceAdapter.isMeetupOwnedByUser(meetupId, userId)) {
@@ -77,7 +74,14 @@ public class MeetupServiceImpl implements MeetupService {
         meetupPersistenceAdapter.joinAsSpeaker(meetup);
     }
 
-    @Secure
+    @Override
+    public List<Integer> getSpeakerPool(Integer meetupId, Integer userId) {
+        if (!meetupPersistenceAdapter.isMeetupOwnedByUser(meetupId, userId)) {
+            throw new PermissionDeniedException(ACCESS_TO_MEETUP_DENIED);
+        }
+        return meetupPersistenceAdapter.getSpeakerPool(meetupId);
+    }
+
     @Override
     public void archiveMeetup(Integer meetupId, Integer userId) {
         if (!meetupPersistenceAdapter.isMeetupOwnedByUser(meetupId, userId)) {

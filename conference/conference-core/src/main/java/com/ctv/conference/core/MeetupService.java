@@ -36,6 +36,8 @@ public interface MeetupService {
     //todo consider to not set speaker immediately
     void joinAsSpeaker(Integer meetupId, Integer userId);
 
+    List<Integer> getSpeakerPool(Integer meetupId, Integer userId);
+
     //todo set deleted flag to true
     void archiveMeetup(Integer meetupId, Integer userId);
 

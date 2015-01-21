@@ -16,6 +16,7 @@ public class Endpoint {
     public static final String TALK_BY_ID = "/talk/{id}";
     public static final String ASSIGN_SPEAKER_TO_TALK = "/talk/{talkId}/speaker/{userId}";
     public static final String MEETUP_BY_ID_TALK = "/meetup/{meetId}/talk";
+    public static final String MEETUP_BY_ID_SPEAKER = "/meetup/{meetId}/speaker";
 
     public static final String SIZE_PARAM = "size";
     public static final String PAGE_PARAM = "page";

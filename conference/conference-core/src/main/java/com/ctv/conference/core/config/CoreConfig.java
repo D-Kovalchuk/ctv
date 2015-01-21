@@ -24,9 +24,4 @@ public class CoreConfig {
         return new MeetupServiceImpl(meetupPersistenceAdapter, conferencePersistenceAdapter);
     }
 
-    @Bean
-    public SecurityAspect securityAspect() {
-        return new SecurityAspect();
-    }
-
 }

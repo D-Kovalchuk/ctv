@@ -30,4 +30,5 @@ public interface MeetupPersistenceAdapter {
     //todo find meet up by id then find conference by user id
     boolean isMeetupOwnedByUser(Integer meetupId, Integer userId);
 
+    List<Integer> getSpeakerPool(Integer meetupId);
 }
