@@ -27,8 +27,8 @@ public class ConferencePersistenceAdapterImpl implements ConferencePersistenceAd
     }
 
     @Override
-    public void isConferenceOwnedByUser(Integer conferenceId, Integer userId) {
-        conferenceRepository.isConferenceOwnedByUser(conferenceId, userId);
+    public boolean isConferenceOwnedByUser(Integer conferenceId, Integer userId) {
+        return conferenceRepository.isConferenceOwnedByUser(conferenceId, userId);
     }
 
     @Override

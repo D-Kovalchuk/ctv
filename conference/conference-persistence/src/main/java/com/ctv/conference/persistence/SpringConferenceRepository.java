@@ -1,6 +1,5 @@
 package com.ctv.conference.persistence;
 
-import com.ctv.conference.core.PermissionDeniedException;
 import com.ctv.conference.persistence.adapter.ConferenceRepository;
 import com.ctv.conference.persistence.adapter.dto.ConferenceDto;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -31,13 +30,11 @@ public class SpringConferenceRepository implements ConferenceRepository {
     }
 
     @Override
-    public void isConferenceOwnedByUser(Integer conferenceId, Integer userId) {
+    public boolean isConferenceOwnedByUser(Integer conferenceId, Integer userId) {
         Criteria criteria = where("_id").is(conferenceId).and("userId").is(userId);
         Query query = new Query(criteria);
         ConferenceDto conferenceDto = mongoOps.findOne(query, ConferenceDto.class);
-        if (!nonNull(conferenceDto)) {
-            throw new PermissionDeniedException("wow");
-        }
+        return nonNull(conferenceDto);
     }
 
     @Override

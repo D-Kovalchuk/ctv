@@ -1,12 +1,14 @@
 package com.ctv.conference.core;
 
+import com.ctv.shared.model.ErrorCode;
+
 /**
  * @author Dmitry Kovalchuk
  */
-public class PermissionDeniedException extends RuntimeException {
+public class PermissionDeniedException extends CoreException {
 
-    public PermissionDeniedException(String message) {
-        super(message);
+    public PermissionDeniedException(ErrorCode errorData) {
+        super(errorData);
     }
 
 }

@@ -9,7 +9,7 @@ public interface ConferenceRepository {
 
     ConferenceDto createConference(ConferenceDto conferenceDto);
 
-    void isConferenceOwnedByUser(Integer conferenceId, Integer userId);
+    boolean isConferenceOwnedByUser(Integer conferenceId, Integer userId);
 
     void archiveConference(Integer conferenceId);
 

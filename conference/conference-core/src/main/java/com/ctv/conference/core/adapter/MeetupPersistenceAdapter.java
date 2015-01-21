@@ -28,6 +28,6 @@ public interface MeetupPersistenceAdapter {
     void archiveMeetup(Meetup meetup);
 
     //todo find meet up by id then find conference by user id
-    void isMeetupOwnedByUser(Integer meetupId, Integer userId);
+    boolean isMeetupOwnedByUser(Integer meetupId, Integer userId);
 
 }

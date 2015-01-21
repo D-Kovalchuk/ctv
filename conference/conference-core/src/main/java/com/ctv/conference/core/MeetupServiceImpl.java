@@ -7,15 +7,12 @@ import com.ctv.conference.core.model.Meetup;
 import java.util.List;
 import java.util.Optional;
 
-import static com.ctv.conference.core.ConferenceErrorCode.MEETUP_ID_NOT_NULL;
-import static com.ctv.conference.core.ConferenceErrorCode.MEETUP_ID_NULL;
-import static com.ctv.conference.core.ConferenceErrorCode.MEETUP_NOT_FOUND;
+import static com.ctv.conference.core.ConferenceErrorCode.*;
 
 /**
  * @author Dmitry Kovalchuk
  */
 //todo intercept DataAccessException and propagate it
-//todo move PermissionDeniedException to this class
 public class MeetupServiceImpl implements MeetupService {
 
     private MeetupPersistenceAdapter meetupPersistenceAdapter;
@@ -32,7 +29,9 @@ public class MeetupServiceImpl implements MeetupService {
         if (meetup.getId() != null) {
             throw new DataConflictExceptions(MEETUP_ID_NULL);
         }
-        conferencePersistenceAdapter.isConferenceOwnedByUser(confId, userId);
+        if (!conferencePersistenceAdapter.isConferenceOwnedByUser(confId, userId)) {
+            throw new PermissionDeniedException(ACCESS_TO_CONFERENCE_DENIED);
+        }
         return meetupPersistenceAdapter.createMeetup(meetup, confId);
     }
 
@@ -41,7 +40,9 @@ public class MeetupServiceImpl implements MeetupService {
     public Meetup updateMeetup(Meetup meetup, Integer userId) {
         Optional.ofNullable(meetup.getId())
                 .orElseThrow(() -> new DataConflictExceptions(MEETUP_ID_NOT_NULL));
-        meetupPersistenceAdapter.isMeetupOwnedByUser(meetup.getId(), userId);
+        if (!meetupPersistenceAdapter.isMeetupOwnedByUser(meetup.getId(), userId)) {
+            throw new PermissionDeniedException(ACCESS_TO_MEETUP_DENIED);
+        }
         return meetupPersistenceAdapter.updateMeetup(meetup);
     }
 
@@ -61,7 +62,9 @@ public class MeetupServiceImpl implements MeetupService {
     @Secure
     @Override
     public void hideMeetup(Integer meetupId, Integer userId) {
-        meetupPersistenceAdapter.isMeetupOwnedByUser(meetupId, userId);
+        if (!meetupPersistenceAdapter.isMeetupOwnedByUser(meetupId, userId)) {
+            throw new PermissionDeniedException(ACCESS_TO_MEETUP_DENIED);
+        }
         Meetup meetup = findMeetup(meetupId);
         meetup.setHidden(true);
         meetupPersistenceAdapter.hideMeetup(meetup);
@@ -77,9 +80,12 @@ public class MeetupServiceImpl implements MeetupService {
     @Secure
     @Override
     public void archiveMeetup(Integer meetupId, Integer userId) {
-        meetupPersistenceAdapter.isMeetupOwnedByUser(meetupId, userId);
+        if (!meetupPersistenceAdapter.isMeetupOwnedByUser(meetupId, userId)) {
+            throw new PermissionDeniedException(ACCESS_TO_MEETUP_DENIED);
+        }
         Meetup meetup = findMeetup(meetupId);
         meetup.setDeleted(true);
         meetupPersistenceAdapter.archiveMeetup(meetup);
     }
+
 }
