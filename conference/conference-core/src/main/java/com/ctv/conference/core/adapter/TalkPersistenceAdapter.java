@@ -9,17 +9,17 @@ import java.util.List;
  */
 public interface TalkPersistenceAdapter {
 
-    Talk createTalk(Talk talk, Integer meetId, Integer userId) ;
+    Talk createTalk(Talk talk) ;
 
-    Talk getTalk(Integer id);
+    Talk findTalk(Integer id);
 
-    List<Talk> getTalks();
+    List<Talk> findTalks(Integer meetupId);
 
     Talk updateTalk(Talk talk);
 
     Talk hideTalk(Talk talk);
 
-    void archiveTalk(Integer id);
+    void archiveTalk(Talk talk);
 
     void assignSpeaker(Integer talkId, Integer userId);
 

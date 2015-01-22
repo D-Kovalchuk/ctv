@@ -28,6 +28,46 @@ public class Talk {
 
     private String format;
 
+    private Integer userId;
+
+    private Integer meetupId;
+
+    private boolean hidden;
+
+    private boolean deleted;
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
+
+    public Integer getMeetupId() {
+        return meetupId;
+    }
+
+    public void setMeetupId(Integer meetupId) {
+        this.meetupId = meetupId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     public Integer getId() {
         return id;
     }

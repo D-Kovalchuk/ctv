@@ -31,4 +31,6 @@ public interface MeetupPersistenceAdapter {
     boolean isMeetupOwnedByUser(Integer meetupId, Integer userId);
 
     List<Integer> getSpeakerPool(Integer meetupId);
+
+    boolean isUserSpeakerOfMeetup(Integer meetId, Integer userId);
 }

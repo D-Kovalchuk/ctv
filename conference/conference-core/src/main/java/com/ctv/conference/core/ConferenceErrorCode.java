@@ -15,7 +15,8 @@ public enum ConferenceErrorCode implements ErrorCode {
     MEETUP_ID_NULL("Meetup id mustn be null", 2104),
     MEETUP_NOT_FOUND("Meetup not found", 2105),
     ACCESS_TO_CONFERENCE_DENIED("Access to conference has been denied", 2106),
-    ACCESS_TO_MEETUP_DENIED("Access to meetup has been denied", 2107);
+    ACCESS_TO_MEETUP_DENIED("Access to meetup has been denied", 2107),
+    ACCESS_TO_TALK_DENIED("Access to talk has been denied", 2108);
 
 
     private final String message;
