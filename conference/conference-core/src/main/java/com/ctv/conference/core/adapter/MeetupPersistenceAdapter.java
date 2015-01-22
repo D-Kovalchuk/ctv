@@ -27,10 +27,6 @@ public interface MeetupPersistenceAdapter {
 
     void archiveMeetup(Meetup meetup);
 
-    //todo find meet up by id then find conference by user id
-    boolean isMeetupOwnedByUser(Integer meetupId, Integer userId);
-
     List<Integer> getSpeakerPool(Integer meetupId);
 
-    boolean isUserSpeakerOfMeetup(Integer meetId, Integer userId);
 }

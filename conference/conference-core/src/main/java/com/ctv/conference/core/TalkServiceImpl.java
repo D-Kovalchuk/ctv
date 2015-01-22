@@ -1,32 +1,30 @@
 package com.ctv.conference.core;
 
-import com.ctv.conference.core.adapter.MeetupPersistenceAdapter;
 import com.ctv.conference.core.adapter.TalkPersistenceAdapter;
 import com.ctv.conference.core.model.Talk;
 
 import java.util.List;
 
-import static com.ctv.conference.core.ConferenceErrorCode.*;
+import static com.ctv.conference.core.ConferenceErrorCode.CONFERENCE_ID_NULL;
+import static com.ctv.conference.core.ConferenceErrorCode.MEETUP_ID_NOT_NULL;
 
 /**
  * @author Dmitry Kovalchuk
  */
-//todo divide TalkPersistenceAdapter interface into two interfaces. first - is common functionality, second - interface validation methods
 public class TalkServiceImpl implements TalkService {
 
-    private MeetupPersistenceAdapter meetupPersistenceAdapter;
     private TalkPersistenceAdapter talkPersistenceAdapter;
-    private ValidationServiceImpl validationService;
+    private ValidationService validationService;
 
-    public TalkServiceImpl(MeetupPersistenceAdapter meetupPersistenceAdapter, TalkPersistenceAdapter talkPersistenceAdapter) {
-        this.meetupPersistenceAdapter = meetupPersistenceAdapter;
+    public TalkServiceImpl(TalkPersistenceAdapter talkPersistenceAdapter, ValidationService validationService) {
         this.talkPersistenceAdapter = talkPersistenceAdapter;
+        this.validationService = validationService;
     }
 
     @Override
     public Talk createTalk(Talk talk, Integer meetId, Integer userId) {
-        validationService.idMustBeNull(talk.getId(), MEETUP_ID_NOT_NULL);
-        validationService.validateOrganizerOrSpeaker(meetId, userId);
+        validationService.checkIdOnNull(talk.getId(), MEETUP_ID_NOT_NULL);
+        validationService.validateMeetupAccessory(meetId, userId);
         talk.setUserId(userId);
         return talkPersistenceAdapter.createTalk(talk);
     }
@@ -45,9 +43,9 @@ public class TalkServiceImpl implements TalkService {
 
     @Override
     public Talk updateTalk(Talk talk, Integer userId) {
-        validationService.idMustBeNotNull(talk.getId(), CONFERENCE_ID_NULL);
+        validationService.checkIdOnNonNull(talk.getId(), CONFERENCE_ID_NULL);
         Talk foundTalk = findTalk(talk.getId(), userId);
-        validationService.validateOrganizerOrSpeaker(foundTalk.getId(), userId);
+        validationService.validateTalkAccessory(foundTalk.getId(), userId);
         return talkPersistenceAdapter.updateTalk(talk);
     }
 
@@ -62,6 +60,7 @@ public class TalkServiceImpl implements TalkService {
     @Override
     public void archiveTalk(Integer talkId, Integer userId) {
         Talk talk = findTalk(talkId, userId);
+        validationService.validateMeetupAccessory(talk.getMeetupId(), userId);
         talk.setDeleted(true);
         talkPersistenceAdapter.archiveTalk(talk);
     }
@@ -69,9 +68,7 @@ public class TalkServiceImpl implements TalkService {
     @Override
     public void assignSpeaker(Integer talkId, Integer userId, List<Integer> speakers) {
         Talk talk = findTalk(talkId, userId);
-        speakers.forEach(e -> {
-            validationService.sopeakerOfMeetup(talk.getMeetupId(), userId);
-        });
+        speakers.forEach(e -> validationService.checkSpeakerRole(talk.getMeetupId(), userId));
         talk.setSpeakers(speakers);
         talkPersistenceAdapter.updateTalk(talk);
     }

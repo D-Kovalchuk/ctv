@@ -3,7 +3,7 @@ package com.ctv.conference.core;
 import com.ctv.conference.core.adapter.ConferencePersistenceAdapter;
 import com.ctv.conference.core.model.ConferenceModel;
 
-import static com.ctv.conference.core.ConferenceErrorCode.ACCESS_TO_CONFERENCE_DENIED;
+import static com.ctv.conference.core.ConferenceErrorCode.CONFERENCE_ID_NULL;
 import static com.ctv.conference.core.ConferenceErrorCode.CONFERENCE_NOT_FOUND;
 
 /**
@@ -12,9 +12,11 @@ import static com.ctv.conference.core.ConferenceErrorCode.CONFERENCE_NOT_FOUND;
 public class ConferenceServiceImpl implements ConferenceService {
 
     private ConferencePersistenceAdapter persistenceAdapter;
+    private ValidationService validationService;
 
-    public ConferenceServiceImpl(ConferencePersistenceAdapter persistenceAdapter) {
+    public ConferenceServiceImpl(ConferencePersistenceAdapter persistenceAdapter, ValidationService validationService) {
         this.persistenceAdapter = persistenceAdapter;
+        this.validationService = validationService;
     }
 
     @Override
@@ -27,29 +29,21 @@ public class ConferenceServiceImpl implements ConferenceService {
 
     @Override
     public void archiveConference(Integer conferenceId, Integer userId) {
-        if (!persistenceAdapter.isConferenceOwnedByUser(conferenceId, userId)) {
-            throw new PermissionDeniedException(ACCESS_TO_CONFERENCE_DENIED);
-        }
+        validationService.validateConferenceAccessory(conferenceId, userId);
         persistenceAdapter.archiveConference(conferenceId);
     }
 
     @Override
     public ConferenceModel findConference(Integer id) {
         ConferenceModel conference = persistenceAdapter.findConference(id);
-        if (conference == null) {
-            throw new ResourceNotFoundException(CONFERENCE_NOT_FOUND);
-        }
+        validationService.checkResourceOnNull(conference, CONFERENCE_NOT_FOUND);
         return conference;
     }
 
     @Override
     public ConferenceModel updateConference(ConferenceModel conference, Integer userId) {
-        if (conference.getId() == null) {
-            throw new DataConflictExceptions(ConferenceErrorCode.CONFERENCE_ID_NULL);
-        }
-        if (!persistenceAdapter.isConferenceOwnedByUser(conference.getId(), userId)) {
-            throw new PermissionDeniedException(ACCESS_TO_CONFERENCE_DENIED);
-        }
+        validationService.checkIdOnNonNull(conference.getId(), CONFERENCE_ID_NULL);
+        validationService.validateConferenceAccessory(conference.getId(), userId);
         return persistenceAdapter.updateConference(conference);
     }
 

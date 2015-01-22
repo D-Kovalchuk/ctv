@@ -1,6 +1,8 @@
 package com.ctv.conference.core
 import com.ctv.conference.core.adapter.ConferencePersistenceAdapter
+import com.ctv.conference.core.validation.ConferenceSecurityRule
 import com.ctv.conference.core.adapter.MeetupPersistenceAdapter
+import com.ctv.conference.core.validation.MeetupSecurityRule
 import com.ctv.conference.core.config.CoreTestConfig
 import com.ctv.conference.core.model.Meetup
 import com.ctv.test.Spec
@@ -32,19 +34,25 @@ class MeetupServiceImplTest extends Spec {
     @Autowired
     ConferencePersistenceAdapter conferencePersistenceAdapter
 
+    @Autowired
+    MeetupSecurityRule meetupValidation
+
+    @Autowired
+    ConferenceSecurityRule conferenceValidation
+
     Meetup meetupIdEqNull = new Meetup()
     Meetup meetupIdNotNull = new Meetup(id: MEETUP_ID)
 
     def "create meetup when meetup id == null"() {
         given:
-        when(conferencePersistenceAdapter.isConferenceOwnedByUser(CONFERENCE_ID, USER_ID)).thenReturn(true)
+        when(conferenceValidation.isConferenceOwnedByUser(CONFERENCE_ID, USER_ID)).thenReturn(true)
 
         when:
         meetupService.createMeetup(meetupIdEqNull, CONFERENCE_ID, USER_ID);
 
         then:
         mockito {
-            verify(conferencePersistenceAdapter).isConferenceOwnedByUser(CONFERENCE_ID, USER_ID);
+            verify(conferenceValidation).isConferenceOwnedByUser(CONFERENCE_ID, USER_ID);
         }
     }
 
@@ -61,7 +69,7 @@ class MeetupServiceImplTest extends Spec {
 
     def "create meetup when conference is not owned by user should throw exception"() {
         given:
-        when(conferencePersistenceAdapter.isConferenceOwnedByUser(CONFERENCE_ID, USER_ID)).thenReturn(false)
+        when(conferenceValidation.isConferenceOwnedByUser(CONFERENCE_ID, USER_ID)).thenReturn(false)
 
         when:
         meetupService.createMeetup(meetupIdEqNull, CONFERENCE_ID, USER_ID)
@@ -73,14 +81,14 @@ class MeetupServiceImplTest extends Spec {
 
     def "create meetup when conference is owned by user"() {
         given:
-        when(conferencePersistenceAdapter.isConferenceOwnedByUser(CONFERENCE_ID, USER_ID)).thenReturn(true)
+        when(conferenceValidation.isConferenceOwnedByUser(CONFERENCE_ID, USER_ID)).thenReturn(true)
 
         when:
         meetupService.createMeetup(meetupIdEqNull, CONFERENCE_ID, USER_ID)
 
         then:
         mockito {
-            verify(conferencePersistenceAdapter).isConferenceOwnedByUser(CONFERENCE_ID, USER_ID)
+            verify(conferenceValidation).isConferenceOwnedByUser(CONFERENCE_ID, USER_ID)
             verify(meetupPersistenceAdapter).createMeetup(meetupIdEqNull, CONFERENCE_ID)
         }
     }
@@ -96,21 +104,21 @@ class MeetupServiceImplTest extends Spec {
 
     def "update meetup when meetup id != null"() {
         given:
-        when(meetupPersistenceAdapter.isMeetupOwnedByUser(MEETUP_ID, USER_ID)).thenReturn(true)
+        when(meetupValidation.isMeetupOwnedByUser(MEETUP_ID, USER_ID)).thenReturn(true)
 
         when:
         meetupService.updateMeetup(meetupIdNotNull, USER_ID)
 
         then:
         mockito {
-            verify(meetupPersistenceAdapter).isMeetupOwnedByUser(MEETUP_ID, USER_ID)
+            verify(meetupValidation).isMeetupOwnedByUser(MEETUP_ID, USER_ID)
             verify(meetupPersistenceAdapter).updateMeetup(meetupIdNotNull)
         }
     }
 
     def "update meetup when user does not have permission for this operation should throw exception"() {
         given:
-        when(meetupPersistenceAdapter.isMeetupOwnedByUser(CONFERENCE_ID, USER_ID)).thenReturn(false)
+        when(meetupValidation.isMeetupOwnedByUser(CONFERENCE_ID, USER_ID)).thenReturn(false)
 
         when:
         meetupService.updateMeetup(meetupIdNotNull, USER_ID)
@@ -122,14 +130,14 @@ class MeetupServiceImplTest extends Spec {
 
     def "update meetup when user has permission for this operation"() {
         given:
-        when(meetupPersistenceAdapter.isMeetupOwnedByUser(MEETUP_ID, USER_ID)).thenReturn(true)
+        when(meetupValidation.isMeetupOwnedByUser(MEETUP_ID, USER_ID)).thenReturn(true)
 
         when:
         meetupService.updateMeetup(meetupIdNotNull, USER_ID)
 
         then:
         mockito {
-            verify(meetupPersistenceAdapter).isMeetupOwnedByUser(MEETUP_ID, USER_ID)
+            verify(meetupValidation).isMeetupOwnedByUser(MEETUP_ID, USER_ID)
             verify(meetupPersistenceAdapter).updateMeetup(meetupIdNotNull)
         }
     }
@@ -169,7 +177,7 @@ class MeetupServiceImplTest extends Spec {
 
     def "hide meetup when user does not have permission should throw exception"() {
         given:
-        when(meetupPersistenceAdapter.isMeetupOwnedByUser(CONFERENCE_ID, USER_ID)).thenReturn(false)
+        when(meetupValidation.isMeetupOwnedByUser(CONFERENCE_ID, USER_ID)).thenReturn(false)
 
         when:
         meetupService.hideMeetup(MEETUP_ID, USER_ID)
@@ -181,7 +189,7 @@ class MeetupServiceImplTest extends Spec {
 
     def "hide meetup when user has permission hidden flag should be set to true"() {
         given:
-        when(meetupPersistenceAdapter.isMeetupOwnedByUser(MEETUP_ID, USER_ID)).thenReturn(true)
+        when(meetupValidation.isMeetupOwnedByUser(MEETUP_ID, USER_ID)).thenReturn(true)
         when(meetupPersistenceAdapter.findMeetup(MEETUP_ID)).thenReturn(meetupIdNotNull);
 
         when:
@@ -190,7 +198,7 @@ class MeetupServiceImplTest extends Spec {
         then:
         mockito {
             assertThat(meetupIdNotNull.isHidden()).isTrue()
-            verify(meetupPersistenceAdapter).isMeetupOwnedByUser(MEETUP_ID, USER_ID)
+            verify(meetupValidation).isMeetupOwnedByUser(MEETUP_ID, USER_ID)
             verify(meetupPersistenceAdapter).findMeetup(MEETUP_ID)
             verify(meetupPersistenceAdapter).hideMeetup(meetupIdNotNull)
         }
@@ -198,7 +206,7 @@ class MeetupServiceImplTest extends Spec {
 
     def "hide meetup when meetup does not exists should throw exception"() {
         given:
-        when(meetupPersistenceAdapter.isMeetupOwnedByUser(MEETUP_ID, USER_ID)).thenReturn(true)
+        when(meetupValidation.isMeetupOwnedByUser(MEETUP_ID, USER_ID)).thenReturn(true)
         when(meetupPersistenceAdapter.findMeetup(MEETUP_ID)).thenReturn(null);
 
         when:
@@ -237,7 +245,7 @@ class MeetupServiceImplTest extends Spec {
 
     def "archive meetup when user does not have permission should throw exception"() {
         given:
-        when(meetupPersistenceAdapter.isMeetupOwnedByUser(CONFERENCE_ID, USER_ID)).thenReturn(false)
+        when(meetupValidation.isMeetupOwnedByUser(CONFERENCE_ID, USER_ID)).thenReturn(false)
 
         when:
         meetupService.archiveMeetup(MEETUP_ID, USER_ID)
@@ -249,7 +257,7 @@ class MeetupServiceImplTest extends Spec {
 
     def "archive meetup when meetup was not found should throw exception"() {
         given:
-        when(meetupPersistenceAdapter.isMeetupOwnedByUser(MEETUP_ID, USER_ID)).thenReturn(true)
+        when(meetupValidation.isMeetupOwnedByUser(MEETUP_ID, USER_ID)).thenReturn(true)
         when(meetupPersistenceAdapter.findMeetup(MEETUP_ID)).thenReturn(null);
 
         when:
@@ -262,7 +270,7 @@ class MeetupServiceImplTest extends Spec {
 
     def "archive meetup when meetup was found deleted flag should be set to true"() {
         given:
-        when(meetupPersistenceAdapter.isMeetupOwnedByUser(MEETUP_ID, USER_ID)).thenReturn(true)
+        when(meetupValidation.isMeetupOwnedByUser(MEETUP_ID, USER_ID)).thenReturn(true)
         when(meetupPersistenceAdapter.findMeetup(MEETUP_ID)).thenReturn(meetupIdNotNull);
 
         when:
@@ -271,27 +279,27 @@ class MeetupServiceImplTest extends Spec {
         then:
         mockito {
             assertThat(meetupIdNotNull.isDeleted()).isTrue()
-            verify(meetupPersistenceAdapter).isMeetupOwnedByUser(MEETUP_ID, USER_ID)
+            verify(meetupValidation).isMeetupOwnedByUser(MEETUP_ID, USER_ID)
             verify(meetupPersistenceAdapter).archiveMeetup(meetupIdNotNull)
         }
     }
 
     def "get speakers pool when user has permission to conference"() {
         given:
-        when(meetupPersistenceAdapter.isMeetupOwnedByUser(MEETUP_ID, USER_ID)).thenReturn(true)
+        when(meetupValidation.isMeetupOwnedByUser(MEETUP_ID, USER_ID)).thenReturn(true)
 
         when:
         meetupService.getSpeakerPool(MEETUP_ID, USER_ID)
 
         then:
         mockito {
-            verify(meetupPersistenceAdapter).isMeetupOwnedByUser(MEETUP_ID, USER_ID)
+            verify(meetupValidation).isMeetupOwnedByUser(MEETUP_ID, USER_ID)
         }
     }
 
     def "get speakers pool when user does not have permission to conference"() {
         given:
-        when(meetupPersistenceAdapter.isMeetupOwnedByUser(MEETUP_ID, USER_ID)).thenReturn(false)
+        when(meetupValidation.isMeetupOwnedByUser(MEETUP_ID, USER_ID)).thenReturn(false)
 
         when:
         meetupService.getSpeakerPool(MEETUP_ID, USER_ID)

@@ -1,5 +1,6 @@
 package com.ctv.conference.core
 import com.ctv.conference.core.adapter.ConferencePersistenceAdapter
+import com.ctv.conference.core.validation.ConferenceSecurityRule
 import com.ctv.conference.core.config.CoreTestConfig
 import com.ctv.conference.core.model.ConferenceModel
 import com.ctv.test.Spec
@@ -26,6 +27,9 @@ public class ConferenceServiceImplTest extends Spec {
     @Autowired
     ConferencePersistenceAdapter persistenceAdapter
 
+    @Autowired
+    ConferenceSecurityRule conferenceValidation
+
 
     def "create conference"() {
         given:
@@ -44,14 +48,14 @@ public class ConferenceServiceImplTest extends Spec {
 
     def "delete conference when conference is owned by user"() {
         given:
-        when(persistenceAdapter.isConferenceOwnedByUser(CONFERENCE_ID, USER_ID)).thenReturn(true)
+        when(conferenceValidation.isConferenceOwnedByUser(CONFERENCE_ID, USER_ID)).thenReturn(true)
 
         when:
         conferenceService.archiveConference(CONFERENCE_ID, USER_ID)
 
         then:
         mockito {
-            verify(persistenceAdapter).isConferenceOwnedByUser(CONFERENCE_ID, USER_ID)
+            verify(conferenceValidation).isConferenceOwnedByUser(CONFERENCE_ID, USER_ID)
             verify(persistenceAdapter).archiveConference(CONFERENCE_ID)
         }
     }
@@ -59,7 +63,7 @@ public class ConferenceServiceImplTest extends Spec {
 
     def "delete conference when conference is not owned by user"() {
         given:
-        when(persistenceAdapter.isConferenceOwnedByUser(CONFERENCE_ID, USER_ID)).thenReturn(false)
+        when(conferenceValidation.isConferenceOwnedByUser(CONFERENCE_ID, USER_ID)).thenReturn(false)
 
         when:
         conferenceService.archiveConference(CONFERENCE_ID, USER_ID)
@@ -68,7 +72,7 @@ public class ConferenceServiceImplTest extends Spec {
         PermissionDeniedException e = thrown()
         verifyErrorMessage(e, ACCESS_TO_CONFERENCE_DENIED)
         mockito {
-            verify(persistenceAdapter).isConferenceOwnedByUser(CONFERENCE_ID, USER_ID)
+            verify(conferenceValidation).isConferenceOwnedByUser(CONFERENCE_ID, USER_ID)
             verify(persistenceAdapter, never()).archiveConference(CONFERENCE_ID)
         }
     }
@@ -113,14 +117,14 @@ public class ConferenceServiceImplTest extends Spec {
     def "update conference when conference data are valid"() {
         given:
         conferenceModel.setId(CONFERENCE_ID)
-        when(persistenceAdapter.isConferenceOwnedByUser(CONFERENCE_ID, USER_ID)).thenReturn(true)
+        when(conferenceValidation.isConferenceOwnedByUser(CONFERENCE_ID, USER_ID)).thenReturn(true)
 
         when:
         conferenceService.updateConference(conferenceModel, USER_ID)
 
         then:
         mockito {
-            verify(persistenceAdapter).isConferenceOwnedByUser(CONFERENCE_ID, USER_ID)
+            verify(conferenceValidation).isConferenceOwnedByUser(CONFERENCE_ID, USER_ID)
             verify(persistenceAdapter).updateConference(conferenceModel)
         }
     }
@@ -129,7 +133,7 @@ public class ConferenceServiceImplTest extends Spec {
     def "update conference when it is not owned by user"() {
         given:
         conferenceModel.setId(CONFERENCE_ID)
-        when(persistenceAdapter.isConferenceOwnedByUser(CONFERENCE_ID, USER_ID)).thenReturn(false)
+        when(conferenceValidation.isConferenceOwnedByUser(CONFERENCE_ID, USER_ID)).thenReturn(false)
 
         when:
         conferenceService.updateConference(conferenceModel, USER_ID)
@@ -138,7 +142,7 @@ public class ConferenceServiceImplTest extends Spec {
         PermissionDeniedException e = thrown()
         verifyErrorMessage(e, ACCESS_TO_CONFERENCE_DENIED)
         mockito {
-            verify(persistenceAdapter).isConferenceOwnedByUser(CONFERENCE_ID, USER_ID)
+            verify(conferenceValidation).isConferenceOwnedByUser(CONFERENCE_ID, USER_ID)
             verify(persistenceAdapter, never()).updateConference(conferenceModel)
         }
     }

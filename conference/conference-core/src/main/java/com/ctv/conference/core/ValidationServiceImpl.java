@@ -1,13 +1,13 @@
 package com.ctv.conference.core;
 
-import com.ctv.conference.core.adapter.MeetupPersistenceAdapter;
-import com.ctv.conference.core.adapter.TalkPersistenceAdapter;
+import com.ctv.conference.core.validation.ConferenceSecurityRule;
+import com.ctv.conference.core.validation.MeetupSecurityRule;
+import com.ctv.conference.core.validation.TalkSecurityRule;
 
 import java.util.Optional;
 
-import static com.ctv.conference.core.ConferenceErrorCode.ACCESS_TO_MEETUP_DENIED;
-import static com.ctv.conference.core.ConferenceErrorCode.ACCESS_TO_TALK_DENIED;
-import static com.ctv.conference.core.ConferenceErrorCode.CONFERENCE_ID_NULL;
+import static com.ctv.conference.core.ConferenceErrorCode.*;
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 /**
@@ -15,36 +15,61 @@ import static java.util.Objects.nonNull;
  */
 public class ValidationServiceImpl implements ValidationService {
 
-    private MeetupPersistenceAdapter meetupPersistenceAdapter;
-    private TalkPersistenceAdapter talkPersistenceAdapter;
+    private MeetupSecurityRule meetupSecurityRule;
+    private TalkSecurityRule talkSecurityRule;
+    private ConferenceSecurityRule conferenceSecurityRule;
 
+    public ValidationServiceImpl(ConferenceSecurityRule conferenceSecurityRule, MeetupSecurityRule meetupSecurityRule, TalkSecurityRule talkSecurityRule) {
+        this.conferenceSecurityRule = conferenceSecurityRule;
+        this.meetupSecurityRule = meetupSecurityRule;
+        this.talkSecurityRule = talkSecurityRule;
+    }
 
-    void idMustBeNull(Integer id, ConferenceErrorCode errorCode) {
+    @Override
+    public void checkIdOnNull(Integer id, ConferenceErrorCode errorCode) {
         if (nonNull(id)) {
             throw new DataConflictExceptions(errorCode);
         }
     }
 
-    void idMustBeNotNull(Integer id, ConferenceErrorCode errorCode) {
+    @Override
+    public void checkIdOnNonNull(Integer id, ConferenceErrorCode errorCode) {
         Optional.ofNullable(id)
                 .orElseThrow(() -> new DataConflictExceptions(errorCode));
     }
 
-    void validateOrganizerOrSpeaker(Integer talkId, Integer userId) {
-        if (meetupPersistenceAdapter.isMeetupOwnedByUser(talkId, userId) || meetupPersistenceAdapter.isUserSpeakerOfMeetup(talkId, userId)) {
+    @Override
+    public void validateTalkAccessory(Integer talkId, Integer userId) {
+        if (!meetupSecurityRule.isMeetupOwnedByUser(talkId, userId) || !talkSecurityRule.isUserInSpeakerPool(talkId, userId)) {
             throw new PermissionDeniedException(ACCESS_TO_TALK_DENIED);
         }
     }
 
-    void validateMeetupAccessory(Integer meetupId, Integer userId) {
-        if (!meetupPersistenceAdapter.isMeetupOwnedByUser(meetupId, userId)) {
+    @Override
+    public void checkSpeakerRole(Integer meetupId, Integer userId) {
+        if (!talkSecurityRule.isUserInSpeakerPool(meetupId, userId)) {
+            throw new PermissionDeniedException(CONFERENCE_ID_NULL);
+        }
+    }
+
+    @Override
+    public void validateMeetupAccessory(Integer meetupId, Integer userId) {
+        if (!meetupSecurityRule.isMeetupOwnedByUser(meetupId, userId)) {
             throw new PermissionDeniedException(ACCESS_TO_MEETUP_DENIED);
         }
     }
 
-    void sopeakerOfMeetup(Integer meetupId, Integer userId) {
-        if (meetupPersistenceAdapter.isUserSpeakerOfMeetup(meetupId, userId)) {
-            throw new PermissionDeniedException(CONFERENCE_ID_NULL);
+    @Override
+    public void validateConferenceAccessory(Integer conferenceId, Integer userId) {
+        if (!conferenceSecurityRule.isConferenceOwnedByUser(conferenceId, userId)) {
+            throw new PermissionDeniedException(ACCESS_TO_CONFERENCE_DENIED);
+        }
+    }
+
+    @Override
+    public void checkResourceOnNull(Object model, ConferenceErrorCode errorCode) {
+        if (isNull(model)) {
+            throw new ResourceNotFoundException(errorCode);
         }
     }
 

@@ -1,11 +1,9 @@
 package com.ctv.conference.core;
 
-import com.ctv.conference.core.adapter.ConferencePersistenceAdapter;
 import com.ctv.conference.core.adapter.MeetupPersistenceAdapter;
 import com.ctv.conference.core.model.Meetup;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.ctv.conference.core.ConferenceErrorCode.*;
 
@@ -16,31 +14,24 @@ import static com.ctv.conference.core.ConferenceErrorCode.*;
 public class MeetupServiceImpl implements MeetupService {
 
     private MeetupPersistenceAdapter meetupPersistenceAdapter;
-    private ConferencePersistenceAdapter conferencePersistenceAdapter;
+    private ValidationService validationService;
 
-    public MeetupServiceImpl(MeetupPersistenceAdapter meetupPersistenceAdapter, ConferencePersistenceAdapter conferencePersistenceAdapter) {
+    public MeetupServiceImpl(MeetupPersistenceAdapter meetupPersistenceAdapter, ValidationService validationService) {
         this.meetupPersistenceAdapter = meetupPersistenceAdapter;
-        this.conferencePersistenceAdapter = conferencePersistenceAdapter;
+        this.validationService = validationService;
     }
 
     @Override
     public Meetup createMeetup(Meetup meetup, Integer confId, Integer userId) {
-        if (meetup.getId() != null) {
-            throw new DataConflictExceptions(MEETUP_ID_NULL);
-        }
-        if (!conferencePersistenceAdapter.isConferenceOwnedByUser(confId, userId)) {
-            throw new PermissionDeniedException(ACCESS_TO_CONFERENCE_DENIED);
-        }
+        validationService.checkIdOnNull(meetup.getId(), MEETUP_ID_NULL);
+        validationService.validateConferenceAccessory(confId, userId);
         return meetupPersistenceAdapter.createMeetup(meetup, confId);
     }
 
     @Override
     public Meetup updateMeetup(Meetup meetup, Integer userId) {
-        Optional.ofNullable(meetup.getId())
-                .orElseThrow(() -> new DataConflictExceptions(MEETUP_ID_NOT_NULL));
-        if (!meetupPersistenceAdapter.isMeetupOwnedByUser(meetup.getId(), userId)) {
-            throw new PermissionDeniedException(ACCESS_TO_MEETUP_DENIED);
-        }
+        validationService.checkIdOnNonNull(meetup.getId(), MEETUP_ID_NOT_NULL);
+        validationService.validateMeetupAccessory(meetup.getId(), userId);
         return meetupPersistenceAdapter.updateMeetup(meetup);
     }
 
@@ -52,16 +43,13 @@ public class MeetupServiceImpl implements MeetupService {
     @Override
     public Meetup findMeetup(Integer meetupId) {
         Meetup meetup = meetupPersistenceAdapter.findMeetup(meetupId);
-        Optional.ofNullable(meetup)
-                .orElseThrow(() -> new ResourceNotFoundException(MEETUP_NOT_FOUND));
+        validationService.checkResourceOnNull(meetup, MEETUP_NOT_FOUND);
         return meetup;
     }
 
     @Override
     public void hideMeetup(Integer meetupId, Integer userId) {
-        if (!meetupPersistenceAdapter.isMeetupOwnedByUser(meetupId, userId)) {
-            throw new PermissionDeniedException(ACCESS_TO_MEETUP_DENIED);
-        }
+        validationService.validateMeetupAccessory(meetupId, userId);
         Meetup meetup = findMeetup(meetupId);
         meetup.setHidden(true);
         meetupPersistenceAdapter.hideMeetup(meetup);
@@ -76,17 +64,13 @@ public class MeetupServiceImpl implements MeetupService {
 
     @Override
     public List<Integer> getSpeakerPool(Integer meetupId, Integer userId) {
-        if (!meetupPersistenceAdapter.isMeetupOwnedByUser(meetupId, userId)) {
-            throw new PermissionDeniedException(ACCESS_TO_MEETUP_DENIED);
-        }
+        validationService.validateMeetupAccessory(meetupId, userId);
         return meetupPersistenceAdapter.getSpeakerPool(meetupId);
     }
 
     @Override
     public void archiveMeetup(Integer meetupId, Integer userId) {
-        if (!meetupPersistenceAdapter.isMeetupOwnedByUser(meetupId, userId)) {
-            throw new PermissionDeniedException(ACCESS_TO_MEETUP_DENIED);
-        }
+        validationService.validateMeetupAccessory(meetupId, userId);
         Meetup meetup = findMeetup(meetupId);
         meetup.setDeleted(true);
         meetupPersistenceAdapter.archiveMeetup(meetup);
